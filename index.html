@@ -1,0 +1,2270 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NCA-GENL 模擬考 · NVIDIA Certified Associate (Generative AI & LLMs)</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
+
+:root {
+  --bg: #f3f4f6;
+  --bg-panel: #ffffff;
+  --bg-soft: #f9fafb;
+  --border: #e5e7eb;
+  --border-dark: #d1d5db;
+  --text: #111827;
+  --text-soft: #4b5563;
+  --text-faint: #9ca3af;
+  --primary: #1d4ed8;
+  --primary-hover: #1e40af;
+  --primary-soft: #dbeafe;
+  --nv: #76b900;
+  --nv-soft: #ecf6d6;
+  --warn: #d97706;
+  --warn-soft: #fef3c7;
+  --danger: #dc2626;
+  --danger-soft: #fee2e2;
+  --success: #16a34a;
+  --success-soft: #dcfce7;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang TC", "Microsoft JhengHei", Roboto, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  font-size: 15px;
+  line-height: 1.55;
+  min-height: 100vh;
+}
+
+/* ============== START SCREEN ============== */
+.start-screen {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 24px;
+}
+
+.start-card {
+  max-width: 760px;
+  width: 100%;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.08);
+  overflow: hidden;
+}
+
+.start-header {
+  background: linear-gradient(135deg, #1e293b, #0f172a);
+  color: white;
+  padding: 32px 40px;
+  position: relative;
+}
+
+.start-header::before {
+  content: '';
+  position: absolute;
+  top: 0; right: 0;
+  width: 240px; height: 100%;
+  background: linear-gradient(135deg, transparent, rgba(118, 185, 0, 0.2));
+}
+
+.start-header .nv-bar {
+  width: 60px;
+  height: 4px;
+  background: var(--nv);
+  margin-bottom: 20px;
+  border-radius: 2px;
+}
+
+.start-header h1 {
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 8px;
+  letter-spacing: -0.01em;
+}
+
+.start-header .subtitle {
+  font-size: 14px;
+  color: #94a3b8;
+  letter-spacing: 0.05em;
+}
+
+.start-body { padding: 32px 40px; }
+
+.exam-info {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-bottom: 28px;
+}
+
+.info-cell {
+  background: var(--bg-soft);
+  padding: 16px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+}
+
+.info-cell-label {
+  font-size: 11px;
+  color: var(--text-faint);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 6px;
+  font-weight: 600;
+}
+
+.info-cell-value {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.info-cell-unit {
+  font-size: 13px;
+  color: var(--text-soft);
+  font-weight: 500;
+}
+
+.instructions-title {
+  font-size: 16px;
+  font-weight: 700;
+  margin: 24px 0 12px;
+  color: var(--text);
+}
+
+.instructions-list {
+  background: var(--bg-soft);
+  border-left: 3px solid var(--primary);
+  padding: 16px 20px;
+  margin-bottom: 28px;
+  font-size: 14px;
+  border-radius: 0 6px 6px 0;
+}
+
+.instructions-list li {
+  margin-bottom: 8px;
+  list-style: none;
+  padding-left: 20px;
+  position: relative;
+  color: var(--text-soft);
+}
+
+.instructions-list li::before {
+  content: '✓';
+  position: absolute;
+  left: 0;
+  color: var(--success);
+  font-weight: 700;
+}
+
+.instructions-list li:last-child { margin-bottom: 0; }
+
+/* Blueprint table */
+.blueprint {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+  margin-bottom: 28px;
+}
+.blueprint-row {
+  display: grid;
+  grid-template-columns: 1fr 64px 1fr;
+  align-items: center;
+  gap: 12px;
+  padding: 9px 16px;
+  font-size: 13px;
+  border-bottom: 1px solid var(--border);
+}
+.blueprint-row:last-child { border-bottom: none; }
+.blueprint-row.head { background: var(--bg-soft); font-weight: 700; color: var(--text-faint); font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; }
+.blueprint-name { font-weight: 600; color: var(--text); }
+.blueprint-wt { font-weight: 700; color: var(--primary); text-align: right; font-variant-numeric: tabular-nums; }
+.blueprint-bar { height: 8px; background: var(--bg-soft); border-radius: 999px; overflow: hidden; }
+.blueprint-bar-fill { height: 100%; background: linear-gradient(90deg, var(--nv), #5a8f00); border-radius: 999px; }
+
+.btn-start {
+  width: 100%;
+  background: var(--primary);
+  color: white;
+  padding: 14px 24px;
+  border: none;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s;
+  letter-spacing: 0.02em;
+}
+
+.btn-start:hover { background: var(--primary-hover); transform: translateY(-1px); box-shadow: 0 4px 12px rgba(29, 78, 216, 0.3); }
+
+.btn-history-entry {
+  width: 100%;
+  background: white;
+  color: var(--text);
+  padding: 12px 24px;
+  border: 1px solid var(--border-dark);
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s;
+  margin-top: 10px;
+}
+.btn-history-entry:hover { border-color: var(--primary); color: var(--primary); }
+
+.mode-toggle {
+  display: flex;
+  gap: 0;
+  margin-bottom: 20px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+  background: var(--bg-soft);
+}
+
+.mode-btn {
+  flex: 1;
+  background: none;
+  border: none;
+  padding: 12px 16px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-soft);
+  transition: all 0.15s;
+}
+
+.mode-btn.active {
+  background: var(--primary);
+  color: white;
+}
+
+.mode-btn:not(.active):hover { background: var(--border); }
+
+.lang-btn {
+  flex: 1;
+  background: none;
+  border: none;
+  padding: 12px 16px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-soft);
+  transition: all 0.15s;
+}
+.lang-btn.active { background: var(--nv); color: #0f172a; }
+.lang-btn:not(.active):hover { background: var(--border); }
+
+.lang-switch {
+  background: rgba(255,255,255,0.08);
+  color: white;
+  border: 1px solid rgba(255,255,255,0.18);
+  padding: 6px 14px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.15s;
+  letter-spacing: 0.03em;
+}
+.lang-switch:hover { background: var(--nv); color: #0f172a; border-color: var(--nv); }
+
+/* ============== EXAM HEADER ============== */
+.exam-app { display: none; }
+.exam-app.active { display: block; }
+
+.exam-header {
+  background: #0f172a;
+  color: white;
+  padding: 12px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.exam-header-left {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.exam-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: #cbd5e1;
+  letter-spacing: 0.04em;
+}
+
+.exam-title .accent { color: var(--nv); }
+
+.exam-header-center {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.timer-box {
+  background: rgba(255,255,255,0.08);
+  padding: 6px 14px;
+  border-radius: 6px;
+  border: 1px solid rgba(255,255,255,0.12);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-variant-numeric: tabular-nums;
+}
+
+.timer-box.warning { border-color: var(--warn); background: rgba(217, 119, 6, 0.15); }
+.timer-box.danger { border-color: var(--danger); background: rgba(220, 38, 38, 0.15); animation: pulse 1.5s infinite; }
+
+@keyframes pulse { 50% { opacity: 0.7; } }
+
+.timer-label {
+  font-size: 10px;
+  color: #94a3b8;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.timer-value {
+  font-size: 15px;
+  font-weight: 700;
+  color: white;
+  font-family: "SF Mono", Monaco, Consolas, monospace;
+}
+
+.q-counter {
+  font-size: 13px;
+  color: #cbd5e1;
+}
+
+.q-counter .current {
+  color: white;
+  font-weight: 700;
+  font-size: 15px;
+}
+
+.btn-submit {
+  background: var(--nv);
+  color: #0f172a;
+  border: none;
+  padding: 8px 18px;
+  border-radius: 6px;
+  font-weight: 700;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.15s;
+  letter-spacing: 0.03em;
+}
+
+.btn-submit:hover { background: #8acd00; }
+
+.review-filter {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.btn-filter {
+  background: rgba(255,255,255,0.08);
+  color: #cbd5e1;
+  border: 1px solid rgba(255,255,255,0.18);
+  padding: 7px 14px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.btn-filter.active { background: var(--danger); color: white; border-color: var(--danger); }
+.btn-filter:hover:not(.active) { background: rgba(255,255,255,0.16); }
+.btn-back-results {
+  background: rgba(255,255,255,0.08);
+  color: white;
+  border: 1px solid rgba(255,255,255,0.18);
+  padding: 7px 14px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+}
+.btn-back-results:hover { background: rgba(255,255,255,0.16); }
+
+/* ============== EXAM LAYOUT ============== */
+.exam-body {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  max-width: 1400px;
+  margin: 0 auto;
+  min-height: calc(100vh - 56px);
+  gap: 0;
+}
+
+/* ============== NAVIGATOR ============== */
+.navigator {
+  background: white;
+  border-right: 1px solid var(--border);
+  padding: 24px 20px;
+  position: sticky;
+  top: 56px;
+  height: calc(100vh - 56px);
+  overflow-y: auto;
+}
+
+.nav-title {
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+  font-weight: 700;
+  margin-bottom: 12px;
+}
+
+.nav-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 6px;
+  margin-bottom: 24px;
+}
+
+.nav-cell {
+  aspect-ratio: 1;
+  background: var(--bg-soft);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-soft);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  transition: all 0.12s;
+  font-family: "SF Mono", Monaco, Consolas, monospace;
+}
+
+.nav-cell:hover { border-color: var(--primary); transform: scale(1.05); }
+.nav-cell.current { background: var(--primary); color: white; border-color: var(--primary); }
+.nav-cell.answered { background: var(--success-soft); border-color: var(--success); color: var(--success); }
+.nav-cell.answered.current { background: var(--primary); color: white; border-color: var(--primary); }
+.nav-cell.rev-correct { background: var(--success-soft); border-color: var(--success); color: var(--success); }
+.nav-cell.rev-wrong { background: var(--danger-soft); border-color: var(--danger); color: var(--danger); }
+.nav-cell.rev-correct.current, .nav-cell.rev-wrong.current { background: var(--primary); color: white; border-color: var(--primary); }
+.nav-cell.marked::after {
+  content: '';
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  width: 6px;
+  height: 6px;
+  background: var(--warn);
+  border-radius: 50%;
+}
+
+.legend {
+  border-top: 1px solid var(--border);
+  padding-top: 20px;
+  font-size: 12px;
+}
+
+.legend-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+  color: var(--text-soft);
+}
+
+.legend-dot {
+  width: 14px;
+  height: 14px;
+  border-radius: 3px;
+  border: 1px solid var(--border);
+}
+
+.legend-dot.current { background: var(--primary); border-color: var(--primary); }
+.legend-dot.answered { background: var(--success-soft); border-color: var(--success); }
+.legend-dot.unanswered { background: var(--bg-soft); }
+.legend-dot.marked { background: var(--bg-soft); position: relative; }
+.legend-dot.marked::after {
+  content: '';
+  position: absolute;
+  top: 1px;
+  right: 1px;
+  width: 5px;
+  height: 5px;
+  background: var(--warn);
+  border-radius: 50%;
+}
+
+.progress-summary {
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid var(--border);
+  font-size: 12px;
+  color: var(--text-soft);
+}
+
+.progress-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 6px;
+}
+
+.progress-row .v { font-weight: 700; color: var(--text); font-variant-numeric: tabular-nums; }
+
+/* ============== QUESTION PANEL ============== */
+.question-panel {
+  background: var(--bg);
+  padding: 32px 48px;
+  display: flex;
+  flex-direction: column;
+}
+
+.question-card {
+  background: white;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  padding: 36px 40px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.q-meta {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+  font-size: 12px;
+  flex-wrap: wrap;
+}
+
+.q-meta-num {
+  font-weight: 700;
+  color: var(--text);
+  font-family: "SF Mono", Monaco, Consolas, monospace;
+  font-size: 13px;
+}
+
+.q-meta-domain {
+  padding: 3px 10px;
+  background: var(--primary-soft);
+  color: var(--primary);
+  border-radius: 999px;
+  font-weight: 600;
+  font-size: 11px;
+  letter-spacing: 0.03em;
+}
+
+.q-meta-official {
+  padding: 3px 10px;
+  background: var(--nv-soft);
+  color: #4d7a00;
+  border-radius: 999px;
+  font-weight: 600;
+  font-size: 11px;
+  letter-spacing: 0.03em;
+}
+
+.q-meta-type {
+  padding: 3px 10px;
+  background: var(--bg-soft);
+  color: var(--text-soft);
+  border-radius: 999px;
+  font-weight: 600;
+  font-size: 11px;
+  letter-spacing: 0.03em;
+}
+
+.q-meta-type.multi { background: var(--warn-soft); color: var(--warn); }
+
+.btn-mark {
+  margin-left: auto;
+  background: white;
+  color: var(--text-soft);
+  border: 1px solid var(--border-dark);
+  padding: 6px 12px;
+  border-radius: 5px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.btn-mark:hover { border-color: var(--warn); color: var(--warn); }
+.btn-mark.active { background: var(--warn-soft); border-color: var(--warn); color: var(--warn); }
+
+.btn-mark svg { width: 12px; height: 12px; }
+
+.q-text {
+  font-size: 16px;
+  line-height: 1.65;
+  color: var(--text);
+  margin-bottom: 28px;
+  font-weight: 500;
+}
+
+.q-options { display: flex; flex-direction: column; gap: 10px; }
+
+.q-option {
+  display: flex;
+  gap: 14px;
+  padding: 14px 18px;
+  background: white;
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.12s;
+  align-items: flex-start;
+  font-size: 14.5px;
+  line-height: 1.55;
+  color: var(--text);
+}
+
+.q-option:hover { border-color: var(--primary); background: #fafbff; }
+.q-option.selected { border-color: var(--primary); background: var(--primary-soft); }
+.q-option.selected .q-checkbox { background: var(--primary); border-color: var(--primary); color: white; }
+.q-option.disabled { cursor: default; }
+.q-option.disabled:hover { background: white; border-color: var(--border); }
+
+.q-checkbox {
+  width: 22px;
+  height: 22px;
+  border: 1.5px solid var(--border-dark);
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  font-weight: 700;
+  font-size: 12px;
+  font-family: "SF Mono", Monaco, Consolas, monospace;
+  color: var(--text-faint);
+  background: white;
+  transition: all 0.12s;
+}
+
+.q-option.single .q-checkbox { border-radius: 50%; }
+
+.opt-body { flex: 1; }
+.opt-text { display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; }
+.you-picked {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--danger);
+  background: var(--danger-soft);
+  padding: 1px 8px;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+.you-picked.ok { color: var(--success); background: var(--success-soft); }
+.opt-explain {
+  margin-top: 7px;
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--text-soft);
+  padding-top: 7px;
+  border-top: 1px dashed var(--border);
+}
+
+.q-bottom {
+  padding-top: 24px;
+  margin-top: auto;
+}
+
+.q-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 24px;
+  padding-top: 20px;
+  border-top: 1px solid var(--border);
+}
+
+.btn-nav {
+  background: white;
+  color: var(--text);
+  border: 1px solid var(--border-dark);
+  padding: 10px 20px;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.15s;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn-nav:hover:not(:disabled) { border-color: var(--primary); color: var(--primary); }
+.btn-nav:disabled { opacity: 0.4; cursor: not-allowed; }
+
+.btn-nav-primary {
+  background: var(--primary);
+  color: white;
+  border-color: var(--primary);
+  margin-left: auto;
+}
+
+.btn-nav-primary:hover:not(:disabled) { background: var(--primary-hover); color: white; border-color: var(--primary-hover); }
+
+.btn-clear {
+  background: none;
+  border: none;
+  color: var(--text-soft);
+  font-size: 12px;
+  cursor: pointer;
+  text-decoration: underline;
+  padding: 4px 8px;
+}
+
+.btn-clear:hover { color: var(--danger); }
+
+.multi-hint {
+  margin-top: 10px;
+  font-size: 12px;
+  color: var(--warn);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* ============== REVIEW / EXPLAIN ============== */
+.q-option.review-correct { border-color: var(--success); background: var(--success-soft); }
+.q-option.review-correct .q-checkbox { background: var(--success); border-color: var(--success); color: white; }
+.q-option.review-wrong { border-color: var(--danger); background: var(--danger-soft); }
+.q-option.review-wrong .q-checkbox { background: var(--danger); border-color: var(--danger); color: white; }
+
+.answer-compare {
+  margin-top: 22px;
+  padding: 12px 18px;
+  background: var(--bg-soft);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-size: 13.5px;
+  font-weight: 600;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 18px;
+  align-items: center;
+}
+.answer-compare .tag { font-size: 11px; color: var(--text-faint); font-weight: 700; }
+.answer-compare .yours.wrong { color: var(--danger); }
+.answer-compare .yours.ok { color: var(--success); }
+.answer-compare .correct { color: var(--success); }
+.answer-compare .verdict {
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  padding: 2px 10px;
+  border-radius: 999px;
+}
+.answer-compare .verdict.ok { color: var(--success); background: var(--success-soft); }
+.answer-compare .verdict.bad { color: var(--danger); background: var(--danger-soft); }
+.answer-compare .verdict.none { color: var(--text-soft); background: var(--border); }
+
+.review-explain {
+  margin-top: 16px;
+  padding: 18px 22px;
+  background: linear-gradient(180deg, #f0f9ff, #ffffff);
+  border: 1px solid #bae6fd;
+  border-left: 3px solid var(--primary);
+  border-radius: 0 8px 8px 0;
+  font-size: 14px;
+  line-height: 1.7;
+  color: var(--text-soft);
+}
+
+.review-explain-title {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--primary);
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* ============== MODAL ============== */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.6);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 200;
+  padding: 24px;
+  backdrop-filter: blur(4px);
+}
+
+.modal-overlay.show { display: flex; animation: fadeIn 0.2s; }
+
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+.modal {
+  background: white;
+  border-radius: 12px;
+  padding: 32px 36px;
+  max-width: 480px;
+  width: 100%;
+  box-shadow: 0 24px 64px rgba(0,0,0,0.2);
+}
+
+.modal h2 {
+  font-size: 22px;
+  margin-bottom: 8px;
+  color: var(--text);
+}
+
+.modal p {
+  color: var(--text-soft);
+  margin-bottom: 20px;
+  font-size: 14px;
+}
+
+.modal-stats {
+  background: var(--bg-soft);
+  border-radius: 8px;
+  padding: 16px 20px;
+  margin-bottom: 24px;
+}
+
+.modal-stat {
+  display: flex;
+  justify-content: space-between;
+  padding: 6px 0;
+  font-size: 14px;
+}
+
+.modal-stat:not(:last-child) { border-bottom: 1px solid var(--border); }
+
+.modal-stat .v { font-weight: 700; font-variant-numeric: tabular-nums; }
+.modal-stat .v.danger { color: var(--danger); }
+.modal-stat .v.warn { color: var(--warn); }
+.modal-stat .v.success { color: var(--success); }
+
+.modal-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.modal-actions button {
+  flex: 1;
+  padding: 11px;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 13px;
+  cursor: pointer;
+  border: none;
+  transition: all 0.15s;
+}
+
+.btn-cancel {
+  background: var(--bg-soft);
+  color: var(--text);
+  border: 1px solid var(--border-dark) !important;
+}
+
+.btn-cancel:hover { background: var(--border); }
+
+.btn-confirm {
+  background: var(--danger);
+  color: white;
+}
+
+.btn-confirm:hover { background: #b91c1c; }
+
+/* ============== RESULTS SCREEN ============== */
+.results-screen { display: none; padding: 40px 24px; max-width: 960px; margin: 0 auto; }
+.results-screen.active { display: block; }
+
+.results-hero {
+  background: white;
+  border-radius: 12px;
+  padding: 40px;
+  text-align: center;
+  margin-bottom: 24px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+  position: relative;
+  overflow: hidden;
+}
+
+.results-hero::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 6px;
+  background: var(--results-color, var(--primary));
+}
+
+.results-score {
+  font-size: 72px;
+  font-weight: 800;
+  line-height: 1;
+  color: var(--results-color, var(--primary));
+  margin-bottom: 8px;
+  font-variant-numeric: tabular-nums;
+}
+
+.results-pct {
+  font-size: 24px;
+  color: var(--text-soft);
+  margin-bottom: 20px;
+}
+
+.results-verdict {
+  display: inline-block;
+  padding: 6px 18px;
+  border-radius: 999px;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  background: var(--results-bg, var(--primary-soft));
+  color: var(--results-color, var(--primary));
+}
+
+.results-time {
+  margin-top: 16px;
+  font-size: 13px;
+  color: var(--text-faint);
+  font-family: "SF Mono", Monaco, Consolas, monospace;
+}
+
+.domain-breakdown {
+  background: white;
+  border-radius: 12px;
+  padding: 28px 32px;
+  margin-bottom: 24px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+}
+
+.domain-breakdown h3 {
+  font-size: 14px;
+  font-weight: 700;
+  margin-bottom: 18px;
+  color: var(--text);
+}
+
+.domain-row {
+  display: grid;
+  grid-template-columns: 240px 1fr 96px;
+  align-items: center;
+  gap: 16px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.domain-row:last-child { border-bottom: none; }
+
+.domain-name { font-size: 13px; font-weight: 600; color: var(--text); }
+.domain-name .wt { font-size: 11px; color: var(--text-faint); font-weight: 600; margin-left: 6px; }
+.domain-bar {
+  height: 10px;
+  background: var(--bg-soft);
+  border-radius: 999px;
+  overflow: hidden;
+  position: relative;
+}
+
+.domain-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--primary), var(--primary-hover));
+  border-radius: 999px;
+  transition: width 0.6s ease;
+}
+.domain-bar-fill.weak { background: linear-gradient(90deg, #f59e0b, var(--danger)); }
+.domain-bar-fill.strong { background: linear-gradient(90deg, #22c55e, var(--success)); }
+
+.domain-pct {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text);
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.results-actions {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+}
+
+.results-actions button {
+  flex: 1;
+  min-width: 160px;
+  padding: 14px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  border: none;
+  transition: all 0.15s;
+}
+
+.btn-review { background: var(--primary); color: white; }
+.btn-review:hover { background: var(--primary-hover); }
+.btn-review-wrong { background: var(--danger); color: white; }
+.btn-review-wrong:hover { background: #b91c1c; }
+.btn-history { background: #0f172a; color: white; }
+.btn-history:hover { background: #1e293b; }
+
+.btn-restart {
+  background: white;
+  color: var(--text);
+  border: 1px solid var(--border-dark) !important;
+}
+
+.btn-restart:hover { border-color: var(--primary); color: var(--primary); }
+
+/* ============== HISTORY DASHBOARD ============== */
+.history-screen { display: none; padding: 40px 24px; max-width: 1000px; margin: 0 auto; }
+.history-screen.active { display: block; }
+
+.history-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.history-header h2 { font-size: 24px; font-weight: 800; color: var(--text); }
+.history-header .actions { display: flex; gap: 10px; }
+.history-header button {
+  padding: 10px 18px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 13px;
+  cursor: pointer;
+  border: 1px solid var(--border-dark);
+  background: white;
+  color: var(--text);
+  transition: all 0.15s;
+}
+.history-header .btn-clear-history { color: var(--danger); border-color: var(--danger); }
+.history-header .btn-clear-history:hover { background: var(--danger-soft); }
+.history-header .btn-back:hover { border-color: var(--primary); color: var(--primary); }
+
+.history-card {
+  background: white;
+  border-radius: 12px;
+  padding: 24px 28px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+}
+.history-card h3 { font-size: 14px; font-weight: 700; margin-bottom: 16px; color: var(--text); }
+.history-empty { text-align: center; padding: 48px 24px; color: var(--text-faint); }
+.history-empty .big { font-size: 40px; margin-bottom: 12px; }
+
+/* trend bars */
+.trend { display: flex; align-items: flex-end; gap: 10px; height: 180px; padding-top: 12px; }
+.trend-col { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 6px; height: 100%; justify-content: flex-end; min-width: 32px; }
+.trend-bar-wrap { width: 100%; height: 100%; display: flex; align-items: flex-end; justify-content: center; }
+.trend-bar { width: 70%; max-width: 46px; border-radius: 6px 6px 0 0; position: relative; transition: height 0.4s; }
+.trend-bar.pass { background: linear-gradient(180deg, #22c55e, var(--success)); }
+.trend-bar.fail { background: linear-gradient(180deg, #f59e0b, var(--danger)); }
+.trend-pct { position: absolute; top: -18px; left: 50%; transform: translateX(-50%); font-size: 11px; font-weight: 700; color: var(--text); }
+.trend-label { font-size: 10px; color: var(--text-faint); text-align: center; line-height: 1.3; }
+.trend-passline { font-size: 11px; color: var(--text-faint); margin-top: 8px; }
+
+/* attempts table */
+.attempt-row {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr 0.8fr 0.9fr 0.8fr;
+  gap: 10px;
+  padding: 10px 0;
+  font-size: 13px;
+  border-bottom: 1px solid var(--border);
+  align-items: center;
+}
+.attempt-row.head { font-weight: 700; color: var(--text-faint); font-size: 11px; letter-spacing: 0.05em; text-transform: uppercase; }
+.attempt-row .pill { font-weight: 700; padding: 2px 10px; border-radius: 999px; font-size: 11px; display: inline-block; }
+.pill.pass { color: var(--success); background: var(--success-soft); }
+.pill.fail { color: var(--danger); background: var(--danger-soft); }
+.attempt-row .v { font-variant-numeric: tabular-nums; font-weight: 600; }
+
+/* weak topics */
+.weak-row {
+  display: grid;
+  grid-template-columns: 220px 1fr 110px;
+  gap: 14px;
+  align-items: center;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 13px;
+}
+.weak-row:last-child { border-bottom: none; }
+.weak-name { font-weight: 600; }
+.weak-bar { height: 10px; background: var(--bg-soft); border-radius: 999px; overflow: hidden; }
+.weak-bar-fill { height: 100%; border-radius: 999px; background: linear-gradient(90deg, #f59e0b, var(--danger)); }
+.weak-stat { text-align: right; font-variant-numeric: tabular-nums; font-weight: 700; color: var(--danger); }
+.weak-stat .sub { color: var(--text-faint); font-weight: 500; font-size: 11px; }
+
+.missed-q {
+  padding: 12px 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 13px;
+}
+.missed-q:last-child { border-bottom: none; }
+.missed-q .count { color: var(--danger); font-weight: 700; }
+.missed-q .qtext { color: var(--text); margin-top: 4px; }
+.missed-q .dom { font-size: 11px; color: var(--text-faint); }
+
+/* ============== RESPONSIVE ============== */
+@media (max-width: 1024px) {
+  .exam-body { grid-template-columns: 1fr; }
+  .navigator {
+    position: relative;
+    top: 0;
+    height: auto;
+    border-right: none;
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-grid { grid-template-columns: repeat(10, 1fr); }
+  .question-panel { padding: 20px; }
+  .question-card { padding: 24px; }
+}
+
+@media (max-width: 640px) {
+  .exam-header {
+    flex-wrap: wrap;
+    padding: 10px 14px;
+    gap: 8px;
+  }
+  .exam-header-left { width: 100%; justify-content: space-between; }
+  .exam-header-center { width: 100%; justify-content: space-between; flex-wrap: wrap; }
+  .exam-info { grid-template-columns: repeat(2, 1fr); }
+  .start-body, .start-header { padding: 20px; }
+  .start-header h1 { font-size: 22px; }
+  .nav-grid { grid-template-columns: repeat(6, 1fr); }
+  .q-text { font-size: 15px; }
+  .q-option { font-size: 14px; padding: 12px 14px; }
+  .results-score { font-size: 56px; }
+  .domain-row { grid-template-columns: 1fr; gap: 6px; }
+  .domain-pct { text-align: left; }
+  .attempt-row { grid-template-columns: 1fr 1fr; }
+  .weak-row { grid-template-columns: 1fr; gap: 6px; }
+}
+
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border-dark); border-radius: 999px; }
+::-webkit-scrollbar-thumb:hover { background: var(--text-faint); }
+</style>
+</head>
+<body>
+
+<!-- ============== START SCREEN ============== -->
+<div class="start-screen" id="start-screen">
+  <div class="start-card">
+    <div class="start-header">
+      <div class="nv-bar"></div>
+      <h1>NVIDIA Certified Associate</h1>
+      <div class="subtitle">GENERATIVE AI & LLMs · NCA-GENL 模擬考</div>
+    </div>
+    <div class="start-body">
+
+      <div class="exam-info">
+        <div class="info-cell">
+          <div class="info-cell-label">本次題數</div>
+          <div class="info-cell-value" id="start-q-count">50</div>
+        </div>
+        <div class="info-cell">
+          <div class="info-cell-label">時間</div>
+          <div class="info-cell-value">60<span class="info-cell-unit"> 分</span></div>
+        </div>
+        <div class="info-cell">
+          <div class="info-cell-label">通過門檻</div>
+          <div class="info-cell-value">70<span class="info-cell-unit">%</span></div>
+        </div>
+        <div class="info-cell">
+          <div class="info-cell-label">題庫總數</div>
+          <div class="info-cell-value" id="start-bank-count">0</div>
+        </div>
+      </div>
+
+      <div class="instructions-title">考試說明</div>
+      <ul class="instructions-list">
+        <li>真實 NCA-GENL：<strong>50 題 / 60 分鐘 / 70% 通過</strong>，英文、線上監考（Pearson VUE OnVUE），證照效期 2 年。</li>
+        <li><strong>單選題</strong>為圓形選擇鈕；<strong>多選題</strong>為方形選擇鈕，選項上方會提示需選幾個答案。</li>
+        <li><strong>練習模式</strong>作答後會「立即」顯示逐選項解析（為什麼對、為什麼錯）；<strong>計時考試</strong>則於交卷後在複查模式呈現。</li>
+        <li>用<strong>標記複查</strong>標記不確定的題目，左側導覽列可看作答進度並快速跳題。</li>
+        <li>交卷後可看官方五大領域與細分主題的得分分析；成績會自動存入<strong>歷史紀錄</strong>，可追蹤重複答錯的題型。</li>
+      </ul>
+
+      <div class="instructions-title">官方五大領域配分（複習重點）</div>
+      <div class="blueprint" id="blueprint"></div>
+
+      <div class="instructions-title">顯示語言</div>
+      <div class="mode-toggle" style="margin-bottom: 20px;">
+        <button class="lang-btn active" data-lang="zh">🌐 繁體中文（題目＋解析）</button>
+        <button class="lang-btn" data-lang="en">🇬🇧 English（原文）</button>
+      </div>
+
+      <div class="instructions-title">出題範圍</div>
+      <div class="mode-toggle">
+        <button class="scope-btn active" data-scope="exam50">🎯 真實模擬考（隨機抽 50 題）</button>
+        <button class="scope-btn" data-scope="full">📚 全題庫複習（全部題目）</button>
+      </div>
+
+      <div class="instructions-title">作答模式</div>
+      <div class="mode-toggle">
+        <button class="mode-btn active" data-mode="exam">⏱ 計時考試（60 分，交卷後解析）</button>
+        <button class="mode-btn" data-mode="practice">📖 練習（即時解析、不計時）</button>
+      </div>
+
+      <button class="btn-start" onclick="startExam()">開始作答 →</button>
+      <button class="btn-history-entry" onclick="openHistory('start')">📊 查看歷史紀錄</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============== EXAM APP ============== -->
+<div class="exam-app" id="exam-app">
+
+  <header class="exam-header">
+    <div class="exam-header-left">
+      <div class="exam-title">NVIDIA <span class="accent">NCA-GENL</span> · 模擬考</div>
+    </div>
+    <div class="exam-header-center">
+      <button class="lang-switch" id="lang-switch" onclick="toggleLanguage()">中 / EN</button>
+      <div class="timer-box" id="timer-box">
+        <div>
+          <div class="timer-label">剩餘時間</div>
+          <div class="timer-value" id="timer">60:00</div>
+        </div>
+      </div>
+      <div class="q-counter">第 <span class="current" id="q-current">1</span> / <span id="q-total">50</span> 題</div>
+      <div class="review-filter" id="review-controls" style="display:none;">
+        <button class="btn-filter" id="btn-wrong-filter" onclick="toggleWrongOnly()">只看錯題</button>
+        <button class="btn-back-results" onclick="backToResults()">← 回成績</button>
+      </div>
+      <button class="btn-submit" id="btn-submit" onclick="confirmSubmit()">交卷</button>
+    </div>
+  </header>
+
+  <div class="exam-body">
+
+    <aside class="navigator">
+      <div class="nav-title">題目導覽</div>
+      <div class="nav-grid" id="nav-grid"></div>
+
+      <div class="legend">
+        <div class="legend-row"><div class="legend-dot current"></div>目前題目</div>
+        <div class="legend-row"><div class="legend-dot answered"></div>已作答</div>
+        <div class="legend-row"><div class="legend-dot unanswered"></div>未作答</div>
+        <div class="legend-row"><div class="legend-dot marked"></div>標記複查</div>
+      </div>
+
+      <div class="progress-summary">
+        <div class="progress-row"><span>已作答</span><span class="v" id="stat-answered">0</span></div>
+        <div class="progress-row"><span>未作答</span><span class="v" id="stat-unanswered">0</span></div>
+        <div class="progress-row"><span>已標記</span><span class="v" id="stat-marked">0</span></div>
+      </div>
+    </aside>
+
+    <main class="question-panel" id="question-panel"></main>
+
+  </div>
+
+</div>
+
+<!-- ============== SUBMIT MODAL ============== -->
+<div class="modal-overlay" id="submit-modal">
+  <div class="modal">
+    <h2>確定交卷？</h2>
+    <p>交卷後將計算成績並顯示結果，作答內容無法再修改。</p>
+    <div class="modal-stats">
+      <div class="modal-stat"><span>總題數</span><span class="v" id="m-total">0</span></div>
+      <div class="modal-stat"><span>已作答</span><span class="v success" id="m-answered">0</span></div>
+      <div class="modal-stat"><span>未作答</span><span class="v danger" id="m-unanswered">0</span></div>
+      <div class="modal-stat"><span>已標記複查</span><span class="v warn" id="m-marked">0</span></div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn-cancel" onclick="closeModal()">繼續作答</button>
+      <button class="btn-confirm" onclick="submitExam()">確定交卷</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============== RESULTS SCREEN ============== -->
+<div class="results-screen" id="results-screen">
+  <div class="results-hero" id="results-hero">
+    <div class="results-score" id="results-score">0</div>
+    <div class="results-pct" id="results-pct">0% 答對</div>
+    <div class="results-verdict" id="results-verdict">計算中...</div>
+    <div class="results-time" id="results-time">用時: --:--</div>
+  </div>
+
+  <div class="domain-breakdown">
+    <h3>📊 官方五大領域表現</h3>
+    <div id="official-domain-list"></div>
+  </div>
+
+  <div class="domain-breakdown">
+    <h3>🧩 細分主題表現</h3>
+    <div id="topic-domain-list"></div>
+  </div>
+
+  <div class="results-actions">
+    <button class="btn-review" onclick="enterReviewMode(false)">📖 逐題複查＋解析</button>
+    <button class="btn-review-wrong" onclick="enterReviewMode(true)">❌ 只複查錯題</button>
+    <button class="btn-history" onclick="openHistory('results')">📊 歷史趨勢</button>
+    <button class="btn-restart" onclick="restartExam()">🔄 重新開始</button>
+  </div>
+</div>
+
+<!-- ============== HISTORY DASHBOARD ============== -->
+<div class="history-screen" id="history-screen">
+  <div class="history-header">
+    <h2>📊 歷史紀錄與弱點分析</h2>
+    <div class="actions">
+      <button class="btn-back" id="history-back-btn" onclick="closeHistory()">← 返回</button>
+      <button class="btn-clear-history" onclick="clearHistory()">🗑 清除紀錄</button>
+    </div>
+  </div>
+  <div id="history-content"></div>
+</div>
+
+<script>
+// ==================== QUESTION BANK ====================
+const QUESTIONS = [
+/*__QBANK_START__*/
+{"d":"NVIDIA Tools","t":"single","q":"Which technology will allow you to deploy an LLM for production application?","q_zh":"下列哪個技術可讓你將 LLM 部署到生產環境應用？","o":["Git","Pandas","Falcon","Triton"],"o_zh":["Git","Pandas","Falcon","Triton"],"a":[3],"e":"記憶法：部署上線=Triton；訓練/微調=NeMo；推論加速=TensorRT-LLM。看到「deploy / production」優先想 Triton。","oe":["Git 是版本控制工具，管理程式碼歷史，與模型上線部署無關。","Pandas 是 Python 資料分析函式庫，處理表格資料，不是部署工具。","Falcon 是一個開源 LLM 的「名稱」，不是部署平台——這是經典混淆陷阱。","Triton Inference Server 是 NVIDIA 專為生產環境部署 ML 模型（含 LLM）設計的伺服器，支援多框架、動態批次、模型管理與擴展。"]},
+{"d":"NVIDIA Tools","t":"single","q":"You need to customize an LLM via prompt engineering, prompt learning, and parameter-efficient fine-tuning. Which framework helps with all of these?","q_zh":"你需要透過提示工程、提示學習和參數高效微調來客製化 LLM。哪個框架能完成以上所有任務？","o":["NVIDIA TensorRT","NVIDIA DALI","NVIDIA Triton","NVIDIA NeMo"],"o_zh":["NVIDIA TensorRT","NVIDIA DALI","NVIDIA Triton","NVIDIA NeMo"],"a":[3],"e":"關鍵字「客製化（prompt learning＋PEFT）」一律對應 NeMo——它是端到端的生成式 AI 開發框架。","oe":["TensorRT 是推論最佳化引擎，負責「加速」已訓練好的模型，不做客製化或微調。","DALI 是資料載入與影像前處理函式庫，用於電腦視覺 pipeline，與 LLM 客製化無關。","Triton 是推論伺服器，負責「部署上線」，不負責訓練或微調。","NeMo 是端到端生成式 AI 框架，同時支援 prompt engineering、prompt learning（如 prompt tuning）與 PEFT（如 LoRA），三者一次滿足。"]},
+{"d":"NVIDIA Tools","t":"multi","q":"Which of the following optimizations are provided by TensorRT? (Choose two.)","q_zh":"下列哪些最佳化由 TensorRT 提供？（選兩項）","o":["Data augmentation","Variable learning rate","Multi-Stream Execution","Layer Fusion","Residual connections"],"o_zh":["資料增強","可變學習率","多串流執行（Multi-Stream Execution）","層融合（Layer Fusion）","殘差連接"],"a":[2,3],"e":"TensorRT 是「推論期」最佳化引擎。挑選項時，凡屬「訓練」或「模型架構」的都先排除。","oe":["資料增強是「訓練前」的資料前處理手法，不是 TensorRT 的推論最佳化。","可變學習率屬於「訓練」階段的調參，與推論最佳化無關。","多串流執行讓多個推論同時平行跑，提升吞吐量，是 TensorRT 的最佳化之一。","層融合把連續運算層（如 Conv+Bias+ReLU）合併成單一 kernel，減少記憶體存取與啟動開銷。","殘差連接是「模型架構」設計（ResNet/Transformer 都有），不是 TensorRT 提供的最佳化。"]},
+{"d":"NVIDIA Tools","t":"single","q":"What is the Open Neural Network Exchange (ONNX) format used for?","q_zh":"開放神經網路交換格式（ONNX）的用途是什麼？","o":["Representing deep learning models","Reducing training time of neural networks","Compressing deep learning models","Sharing neural network literature"],"o_zh":["表示深度學習模型","減少神經網路訓練時間","壓縮深度學習模型","分享神經網路文獻"],"a":[0],"e":"ONNX＝跨框架的「模型表示標準」，重點是可移植性：A 框架訓練、B 工具推論。","oe":["ONNX 是跨框架的「模型表示標準」，PyTorch/TensorFlow 訓練的模型可匯出成 ONNX 再給其他相容工具使用。","ONNX 不參與訓練，不會加速訓練過程。","壓縮模型是量化/剪枝在做的事，ONNX 只是交換格式，不負責壓縮。","ONNX 交換的是「模型」本身，不是論文或文獻。"]},
+{"d":"NVIDIA Tools","t":"single","q":"Which NVIDIA tool would you use to optimize a large language model for low latency inference in a RAG system?","q_zh":"你會用哪個 NVIDIA 工具在 RAG 系統中將大型語言模型最佳化以達成低延遲推論？","o":["NVIDIA NeMo","TensorRT-LLM","NVIDIA AI Enterprise","NGC Catalog"],"o_zh":["NVIDIA NeMo","TensorRT-LLM","NVIDIA AI Enterprise","NGC Catalog"],"a":[1],"e":"關鍵字「low latency inference（低延遲推論）」＝TensorRT-LLM。","oe":["NeMo 用於訓練與微調 LLM，不是推論延遲最佳化工具。","TensorRT-LLM 專為 LLM 推論最佳化（量化、層融合、in-flight batching），降低延遲、提升吞吐，正是 RAG 低延遲所需。","AI Enterprise 是企業級軟體套件/支援平台，本身不是延遲最佳化引擎。","NGC Catalog 是資源庫（容器、模型），提供素材但不做最佳化。"]},
+{"d":"NVIDIA Tools","t":"single","q":"Which best describes the NeMo Guardrails platform?","q_zh":"下列何者最能描述 NeMo Guardrails 平台？","o":["Ensuring scalability and performance of LLMs in pre-training and inference.","Developing advanced ML models capable of interpreting various forms of data.","Ensuring ethical use of AI systems by monitoring and enforcing compliance with predefined rules.","Building data factories for generative AI services."],"o_zh":["確保 LLM 在預訓練與推論時的可擴展性與效能。","開發能解讀各種資料形式的進階 ML 模型。","透過監控並強制遵守預先定義的規則，確保 AI 系統的合乎倫理使用。","為生成式 AI 服務建構資料工廠。"],"a":[2],"e":"Guardrails＝護欄，看到「規則、安全、倫理、過濾輸出」就是它。","oe":["確保可擴展性與效能比較像 Triton/TensorRT 的工作，不是 Guardrails 的定位。","開發解讀多種資料的 ML 模型是一般模型開發，與 Guardrails 無關。","監控並強制遵守預定義規則、確保合乎倫理，正是 NeMo Guardrails 的核心——為 LLM 加上輸入/輸出護欄，防止有害或不當回應。","建構資料工廠與 Guardrails 的安全治理定位無關。"]},
+{"d":"NVIDIA Tools","t":"single","q":"How does the use of NVIDIA NGC containerized environments enhance reproducibility of LLM training and deployment workflows?","q_zh":"使用 NVIDIA NGC 容器化環境如何提升 LLM 訓練與部署工作流程的可重現性？","o":["Containers automatically optimize the model's hyperparameters.","Containers encapsulate dependencies and configurations, ensuring consistent execution across systems.","Containers reduce the model's memory footprint by compressing the network.","Containers enable direct access to GPU hardware without driver installation."],"o_zh":["容器會自動最佳化模型的超參數。","容器封裝依賴與設定，確保在不同系統上一致執行。","容器透過壓縮網路來減少模型記憶體佔用。","容器讓你不用安裝驅動程式就能直接存取 GPU 硬體。"],"a":[1],"e":"「可重現性（reproducibility）」的本質＝環境一致，這正是容器的看家本領。","oe":["容器不會自動調整超參數。","容器把 CUDA、函式庫、版本全部打包，讓本地、雲端、叢集跑起來都一致，這就是可重現性的來源。","容器不做模型壓縮，記憶體佔用由量化/剪枝決定。","容器仍需主機端安裝 GPU 驅動，並沒有取消這個需求。"]},
+{"d":"NVIDIA Tools","t":"single","q":"Which NVIDIA tool is best suited for optimizing LLM inference performance by converting models to a format that leverages Tensor Cores?","q_zh":"哪個 NVIDIA 工具最適合透過將模型轉換為可利用 Tensor Core 的格式來最佳化 LLM 推論效能？","o":["NVIDIA NeMo","NVIDIA TensorRT-LLM","NVIDIA Triton Inference Server","NVIDIA AI Enterprise"],"o_zh":["NVIDIA NeMo","NVIDIA TensorRT-LLM","NVIDIA Triton Inference Server","NVIDIA AI Enterprise"],"a":[1],"e":"「轉換格式以善用 Tensor Core」是編譯最佳化，屬 TensorRT-LLM。","oe":["NeMo 是訓練/微調框架，不是把模型轉成善用 Tensor Core 格式的工具。","TensorRT-LLM 把 LLM 編譯成能高效利用 Tensor Core（FP16/INT8/FP8）的格式，提升推論效能。","Triton 負責「服務」模型，最佳化引擎是 TensorRT-LLM 而非 Triton 本身。","AI Enterprise 是軟體平台，不是模型轉換工具。"]},
+{"d":"NVIDIA Tools","t":"single","q":"During the deployment of an LLM using NVIDIA AI Enterprise, which practice ensures optimal memory management?","q_zh":"在使用 NVIDIA AI Enterprise 部署 LLM 時，哪個做法能確保最佳記憶體管理？","o":["Running multiple instances on the same GPU without limits.","Utilizing NVIDIA's Multi-Instance GPU (MIG) technology.","Disabling memory sharing across processes.","Allocating all available memory to a single model instance."],"o_zh":["在同一張 GPU 上無限制地運行多個實例。","使用 NVIDIA 的 Multi-Instance GPU（MIG）技術。","停用跨程序的記憶體共享。","將所有可用記憶體分配給單一模型實例。"],"a":[1],"e":"GPU 層級的記憶體隔離與切割＝MIG。","oe":["無限制跑多個實例會互搶資源、耗盡記憶體，不是良好做法。","MIG 把單張 GPU 切成多個彼此隔離、各有專屬記憶體與算力的實例，提升使用率又互不干擾。","停用記憶體共享無助於最佳化，反而限制彈性。","把全部記憶體給單一實例會浪費資源、無法多工。"]},
+{"d":"NVIDIA Tools","t":"single","q":"Which NVIDIA tool would you use to optimize the inference performance of a large language model deployed on a Triton Inference Server?","q_zh":"你會用哪個 NVIDIA 工具來最佳化部署在 Triton Inference Server 上的大型語言模型推論效能？","o":["NeMo","TensorRT-LLM","CUDA Toolkit","DeepStream SDK"],"o_zh":["NeMo","TensorRT-LLM","CUDA Toolkit","DeepStream SDK"],"a":[1],"e":"Triton 負責「服務」，背後的推論最佳化由 TensorRT-LLM 提供，兩者常搭配。","oe":["NeMo 是訓練框架，不是推論最佳化。","TensorRT-LLM 專為 LLM 推論最佳化，並可整合進 Triton 部署。","CUDA Toolkit 是底層 GPU 運算工具，不是 LLM 推論最佳化方案。","DeepStream SDK 用於影像/視訊串流分析，與 LLM 無關。"]},
+{"d":"NVIDIA Tools","t":"single","q":"Which NVIDIA product is specifically designed to ensure a generative AI system adheres to ethical guidelines by implementing content filtering and bias mitigation?","q_zh":"哪個 NVIDIA 產品專門設計來透過內容過濾與偏見緩解，確保生成式 AI 系統符合倫理準則？","o":["NVIDIA NeMo","NVIDIA Triton Inference Server","NVIDIA AI Enterprise","NVIDIA NeMo Guardrails"],"o_zh":["NVIDIA NeMo","NVIDIA Triton Inference Server","NVIDIA AI Enterprise","NVIDIA NeMo Guardrails"],"a":[3],"e":"「內容過濾＋偏見緩解＋倫理」＝NeMo Guardrails 的招牌功能。","oe":["NeMo 是訓練/微調框架，本身不是內容過濾與偏見緩解產品。","Triton 是推論伺服器，負責部署不負責倫理過濾。","AI Enterprise 是企業軟體套件，是治理工具的集合而非專責的 guardrails 產品。","NeMo Guardrails 專責提供內容過濾、偏見緩解與安全規則，是正解。"]},
+{"d":"NVIDIA Tools","t":"single","q":"Which RAPIDS library accelerates data preparation operations by providing pandas-like functionality on GPUs?","q_zh":"哪個 RAPIDS 函式庫透過在 GPU 上提供類似 pandas 的功能來加速資料準備作業？","o":["cuML","XGBoost","cuDF","cuGraph"],"o_zh":["cuML","XGBoost","cuDF","cuGraph"],"a":[2],"e":"RAPIDS 對照：cuDF↔pandas、cuML↔scikit-learn、cuGraph↔NetworkX。","oe":["cuML 是 GPU 機器學習函式庫（對應 scikit-learn），不是 pandas 替代。","XGBoost 是梯度提升樹演算法庫，不是資料框操作工具。","cuDF 是 GPU 上的 pandas，提供幾乎一樣的 DataFrame API 但用 GPU 加速資料前處理。","cuGraph 是 GPU 圖分析函式庫（對應 NetworkX），不是資料框工具。"]},
+{"d":"NVIDIA Tools","t":"single","q":"Which tool would you use to select training data with specific keywords?","q_zh":"你會用哪個工具來篩選含有特定關鍵字的訓練資料？","o":["ActionScript","Tableau dashboard","JSON parser","Regular expression filter"],"o_zh":["ActionScript","Tableau 儀表板","JSON 解析器","正規表達式過濾器"],"a":[3],"e":"依「關鍵字/模式」篩文字＝Regex（正規表達式），NLP 資料策劃標準工具。","oe":["ActionScript 是早期 Flash 的程式語言，與資料篩選無關。","Tableau 儀表板是資料視覺化工具，用來「看」資料，不是用關鍵字篩文字。","JSON 解析器把 JSON 轉成物件，不是依關鍵字/模式篩選文字。","正規表達式過濾器用 pattern 比對挑出含特定關鍵字的文字，是標準做法。"]},
+{"d":"NVIDIA Tools","t":"single","q":"Which NVIDIA platform is best described as the operating system of the DGX data center?","q_zh":"哪個 NVIDIA 平台最適合被描述為 DGX 資料中心的作業系統？","o":["NVIDIA AI Enterprise","NGC Catalog","Base Command","NeMo Framework"],"o_zh":["NVIDIA AI Enterprise","NGC Catalog","Base Command","NeMo Framework"],"a":[2],"e":"「DGX 資料中心的作業系統」＝Base Command（叢集管理＋排程）。","oe":["AI Enterprise 是企業 AI 軟體套件，不是 DGX 的作業系統定位。","NGC Catalog 是資源庫（容器/模型），不是叢集作業系統。","Base Command 是 DGX 資料中心的作業系統，負責叢集管理、工作排程與資源調度。","NeMo Framework 是生成式 AI 開發框架，不是資料中心 OS。"]},
+{"d":"NVIDIA Tools","t":"single","q":"What is the primary purpose of NVIDIA Inference Microservices (NIM)?","q_zh":"NVIDIA Inference Microservices（NIM）的主要目的是什麼？","o":["To train large language models from scratch.","To package models and inference engines as standardized microservices.","To replace GPU drivers with managed services.","To provide a database for model embeddings."],"o_zh":["從頭訓練大型語言模型。","將模型與推論引擎封裝成標準化微服務。","用託管服務取代 GPU 驅動程式。","為模型 embedding 提供資料庫。"],"a":[1],"e":"NIM＝把「模型＋最佳化推論引擎」打包成有標準 API（多為 OpenAI 相容）的微服務，免碰底層即可整合。","oe":["從頭訓練 LLM 是 NeMo/訓練叢集的事，NIM 專注於「推論」。","NIM 把模型與推論引擎封裝成標準化微服務，提供現成 API 讓你快速整合 AI。","NIM 不是驅動程式，不會取代 GPU 驅動。","向量儲存是向量資料庫的事，不是 NIM。"]},
+{"d":"Transformer","t":"single","q":"In large language models, what is the purpose of the attention mechanism?","q_zh":"在大型語言模型中，注意力機制（attention mechanism）的目的是什麼？","o":["To measure the importance of the words in the output sequence.","To determine the order in which words are generated.","To capture the order of the words in the input sequence.","To assign weights to each word in the input sequence."],"o_zh":["衡量輸出序列中詞彙的重要性。","決定詞彙生成的順序。","捕捉輸入序列中詞彙的順序。","為輸入序列中每個詞指派權重。"],"a":[3],"e":"分工要記清楚：相關性加權＝attention；順序＝positional encoding；生成順序＝解碼策略。","oe":["方向錯了——attention 是對「輸入」序列加權，不是評估輸出序列。","決定生成順序的是解碼策略（greedy/beam/sampling），不是 attention。","輸入順序資訊由 positional encoding 負責，不是 attention。","attention 計算每個 token 對其他 token 的相關性並給予權重，讓模型聚焦最重要的部分，是正解。"]},
+{"d":"Transformer","t":"single","q":"Why do decoder-only models (like GPT) use masked (causal) self-attention?","q_zh":"為什麼 decoder-only 模型（如 GPT）要用遮罩（因果，causal）自注意力？","o":["To compress the sequence","To prevent each position from attending to future tokens, so generation depends only on past tokens","To speed up tokenization","To remove the need for positional encoding"],"o_zh":["壓縮序列","避免每個位置看到「未來」的 token，使生成只依賴先前的 token","加速斷詞","省去位置編碼的需要"],"a":[1],"e":"自迴歸生成是由左到右一個字一個字產生。若訓練時讓某位置看到未來的字＝偷看答案。causal mask 把未來位置遮掉，確保預測第 t 個字只能用前 t-1 個字。","oe":["遮罩不是為了壓縮序列。","遮掉未來 token、使每個位置只依賴過去，正是 causal mask 的目的（避免訓練時偷看答案）。","與斷詞速度無關。","它與位置編碼是兩回事，不能互相取代。"]},
+{"d":"Transformer","t":"single","q":"What is a foundation model in the context of Large Language Models (LLMs)?","q_zh":"在大型語言模型（LLM）的脈絡下，什麼是基礎模型（foundation model）？","o":["A model that sets state-of-the-art results for any GLUE benchmark task.","Any model trained on vast quantities of data at scale, intended as a starter that can be adapted to various downstream tasks.","Any model validated by an AI safety institute as foundational.","Any model based on 'Attention is All You Need' that uses RNNs and convolutions."],"o_zh":["在任何 GLUE 基準任務上達到頂尖成果的模型。","在大規模資料上訓練、作為起點可適應各種下游任務的模型。","經 AI 安全機構驗證為基礎的模型。","基於《Attention is All You Need》、使用 RNN 與卷積的模型。"],"a":[1],"e":"Foundation model＝大規模預訓練、可微調適應多種任務的「起點模型」（BERT/GPT/T5）。","oe":["在 GLUE 拿 SOTA 只是某項基準的成績，不是 foundation model 的定義。","在大規模資料上預訓練、可適應多種下游任務的起點模型，正是定義（如 BERT、GPT、T5）。","定義與是否經安全機構認證無關。","陷阱：《Attention is All You Need》正是「拋棄」RNN 與卷積、純靠 attention。"]},
+{"d":"Transformer","t":"single","q":"Which component of the Transformer architecture is primarily responsible for capturing long-range dependencies in text sequences?","q_zh":"Transformer 架構中，哪個元件主要負責捕捉文字序列中的長距離依賴關係？","o":["Feedforward Neural Network","Multi-Head Attention","Positional Encoding","Layer Normalization"],"o_zh":["前饋神經網路（Feedforward Neural Network）","多頭注意力（Multi-Head Attention）","位置編碼（Positional Encoding）","層正規化（Layer Normalization）"],"a":[1],"e":"任意兩 token 直接互看＝長距依賴，由 multi-head attention 完成。","oe":["前饋網路對每個位置獨立做非線性轉換，不負責跨 token 的長距依賴。","多頭注意力讓每個 token 直接關注序列任意位置，是捕捉長距依賴的關鍵。","位置編碼提供順序資訊，不是建立依賴關係。","層正規化穩定數值、加速收斂，與長距依賴無關。"]},
+{"d":"Transformer","t":"single","q":"What is a Tokenizer in Large Language Models (LLM)?","q_zh":"在大型語言模型（LLM）中，什麼是 Tokenizer（斷詞器）？","o":["A method to remove stop words and punctuation marks.","An algorithm that predicts the next word in a sequence.","A tool used to split text into smaller units called tokens for analysis and processing.","A technique to convert text into numerical representations."],"o_zh":["移除停用詞與標點符號的方法。","預測序列中下一個詞的演算法。","將文字切分成稱為 token 的較小單位以供分析處理的工具。","將文字轉換成數值表示的技術。"],"a":[2],"e":"順序：先 tokenize（切）→ 再 embedding（轉數值）。別把兩者搞混。","oe":["移除停用詞/標點是文字清理，不是 tokenizer 的定義。","預測下一個詞是 LLM 本身在做的事。","把文字切成 token 是 tokenizer 的工作，常見演算法有 BPE、WordPiece、SentencePiece。","把文字轉成數值是 embedding，發生在 tokenize 之後。"]},
+{"d":"Transformer","t":"single","q":"Your company upgraded from a legacy LLM to a new model that allows larger sequences and higher token limits. What is the most likely result?","q_zh":"你的公司從舊版 LLM 升級到允許更大序列與更高 token 限制的新模型。最可能的結果是什麼？","o":["Token limits are fixed for all LLMs; no benefit to upgrading.","Outputs will improve without increasing inference time overhead.","Same context lengths, but outputs will be longer and more detailed.","Outputs will improve, but you will likely incur longer inference times."],"o_zh":["所有 LLM 的 token 限制都是固定的，升級沒有好處。","輸出會改善，且不增加推論時間開銷。","脈絡長度相同，但輸出會更長更詳細。","輸出會改善，但你可能會承受更長的推論時間。"],"a":[3],"e":"更長脈絡＝品質↑、但運算↑→延遲↑，這是典型權衡。","oe":["錯，不同模型的 token 上限本來就不同。","太樂觀——更長序列必然增加運算量，不可能零成本。","錯，升級正是為了更長脈絡，長度不會相同。","輸出更好但推論時間變長，正是「品質 vs 速度」的權衡，是正解。"]},
+{"d":"Transformer","t":"single","q":"Which model architecture is most suitable for text classification and sentiment analysis tasks?","q_zh":"哪種模型架構最適合文字分類與情感分析任務？","o":["GPT (decoder-only)","BERT (encoder-only)","T5 (encoder-decoder)","RNN with LSTM"],"o_zh":["GPT（decoder-only）","BERT（encoder-only）","T5（encoder-decoder）","搭配 LSTM 的 RNN"],"a":[1],"e":"理解類任務（分類/情感）→ 雙向的 BERT；生成類任務 → GPT。","oe":["GPT 是 decoder-only，擅長「生成」而非雙向理解。","BERT 是 encoder-only，雙向看上下文，最適合分類、情感分析等理解任務。","T5 是 encoder-decoder 萬用型，可做但非最精簡選擇。","RNN+LSTM 在長序列與平行化上都輸給 Transformer，非首選。"]},
+{"d":"Transformer","t":"single","q":"What is the core design philosophy of the T5 model?","q_zh":"T5 模型的核心設計理念是什麼？","o":["A pure decoder architecture for fast generation.","Unifying all NLP tasks into a text-to-text format.","Specializing only in machine translation.","Operating without any attention mechanism."],"o_zh":["純解碼器架構以加速生成。","將所有 NLP 任務統一成 text-to-text 格式。","只專精於機器翻譯。","完全不使用注意力機制運作。"],"a":[1],"e":"T5＝Text-to-Text Transfer Transformer，輸入輸出一律是文字。","oe":["T5 是 encoder-decoder，不是純 decoder。","把所有 NLP 任務統一成 text-to-text 格式，正是 T5 的核心理念。","T5 是萬用型，不限翻譯。","T5 是 Transformer，核心就是 attention。"]},
+{"d":"Transformer","t":"single","q":"In the self-attention formula softmax(QKᵀ/√dₖ)·V, what is the purpose of dividing by √dₖ?","q_zh":"在自注意力公式 softmax(QKᵀ/√dₖ)·V 中，除以 √dₖ 的目的是什麼？","o":["To increase computational speed.","To prevent the dot product from becoming too large, which would cause softmax saturation and vanishing gradients.","To increase model parameter count.","To improve final model accuracy directly."],"o_zh":["提升運算速度。","避免點積過大，否則會造成 softmax 飽和與梯度消失。","增加模型參數量。","直接提升模型最終準確率。"],"a":[1],"e":"這是「縮放（scaling）」：dₖ 越大點積越大，不縮放會讓 softmax 飽和、梯度趨近 0。","oe":["這個除法不是為了加速。","避免點積過大造成 softmax 飽和與梯度消失，正是縮放的目的。","不影響參數量。","它穩定訓練、間接幫助，但不是「直接」提升準確率。"]},
+{"d":"Transformer","t":"single","q":"In autoregressive text generation, increasing the temperature parameter has what effect?","q_zh":"在自迴歸文字生成中，提高 temperature 參數會有什麼效果？","o":["Accelerates inference speed.","Increases output diversity and creativity.","Reduces GPU utilization.","Increases model parameter count."],"o_zh":["加速推論速度。","增加輸出的多樣性與創意。","降低 GPU 使用率。","增加模型參數量。"],"a":[1],"e":"具體：T=0 近乎貪婪最穩定，T=1 為原始分布，T=1.5 更發散。調高→分布更平→多樣性增。","oe":["temperature 與推論速度無關。","調高 temperature 讓機率分布更平、罕見詞有機會被選，多樣性與創意增加，是正解。","與 GPU 使用率無關。","與參數量無關。"]},
+{"d":"Transformer","t":"single","q":"What is the role of positional encoding in Transformer models?","q_zh":"位置編碼（positional encoding）在 Transformer 模型中的角色是什麼？","o":["To compress the input sequence.","To add 'sequence number' information to tokens, compensating for the loss of order in parallel processing.","To select the next word during generation.","To convert words to embeddings."],"o_zh":["壓縮輸入序列。","為 token 加上「序號」資訊，補回平行處理時遺失的順序。","在生成時選擇下一個詞。","將詞轉換成 embedding。"],"a":[1],"e":"Transformer 平行處理整句會遺失順序，positional encoding 補回先後位置感。","oe":["位置編碼不壓縮序列。","為 token 加上序號資訊、補回平行處理遺失的順序，是正解。","選擇下一個詞是解碼策略的事。","把詞轉成 embedding 是 embedding 層，不是位置編碼。"]},
+{"d":"Transformer","t":"single","q":"What is the primary function of Layer Normalization in deep neural networks?","q_zh":"層正規化（Layer Normalization）在深度神經網路中的主要功能是什麼？","o":["To remove unnecessary layers from the model.","To stabilize numerical values by normalizing each layer's output to mean 0 and variance 1.","To increase the learning rate.","To replace activation functions."],"o_zh":["移除模型中不必要的層。","透過將每層輸出正規化為平均 0、變異數 1 來穩定數值。","提高學習率。","取代激勵函數。"],"a":[1],"e":"把每層輸出拉回穩定範圍（平均0、變異數1），解決深層網路梯度問題、加速收斂。","oe":["Layer Norm 不會刪除層。","把每層輸出正規化為平均0、變異數1以穩定數值，是正解。","它不負責調整學習率。","它與激勵函數功能不同，不互相取代。"]},
+{"d":"Transformer","t":"single","q":"What is the role of an embedding model in a RAG implementation?","q_zh":"在 RAG 實作中，embedding 模型的角色是什麼？","o":["It generates token IDs for exact text matching.","It converts text into numerical vectors, enabling semantic search.","It compresses input data to reduce storage needs.","It summarizes input data for the retrieval component."],"o_zh":["為精確文字比對產生 token ID。","將文字轉換成數值向量，實現語意搜尋。","壓縮輸入資料以減少儲存需求。","為檢索元件摘要輸入資料。"],"a":[1],"e":"RAG 靠 embedding 把 query 與文件變成向量，用語意（而非字面）找相關內容。","oe":["產生 token ID 做精確比對是 tokenization＋關鍵字比對，不是 embedding 的語意搜尋。","把文字轉成數值向量、實現語意搜尋，正是 embedding 在 RAG 的角色。","embedding 不以壓縮為目的。","embedding 不做摘要。"]},
+{"d":"Fine-tuning","t":"single","q":"In fine-tuning a pre-trained model using NVIDIA NeMo, which method allows efficient adaptation with minimal computational resources by freezing the majority of parameters?","q_zh":"在使用 NVIDIA NeMo 微調預訓練模型時，哪種方法能透過凍結大部分參數來以最少運算資源高效適應？","o":["Gradient Accumulation","LoRA (Low-Rank Adaptation)","Mixed Precision Training","Reinforcement Learning with Human Feedback (RLHF)"],"o_zh":["梯度累積（Gradient Accumulation）","LoRA（低秩適應）","混合精度訓練（Mixed Precision Training）","基於人類回饋的強化學習（RLHF）"],"a":[1],"e":"關鍵字「凍結大部分參數＋省資源」＝PEFT 代表 LoRA。","oe":["梯度累積解決小 batch 問題，不是凍結參數高效適應。","LoRA 凍結大部分原始權重、只訓練插入的低秩矩陣，正是凍結多數參數的 PEFT 方法。","混合精度處理數值精度與速度，不涉及凍結參數。","RLHF 是對齊人類偏好的技術，不以凍結參數省資源為目的。"]},
+{"d":"Fine-tuning","t":"single","q":"Which technique is used to train a deep learning model by adjusting weights based on the error between predicted and actual outputs?","q_zh":"哪種技術透過根據預測值與實際值之間的誤差調整權重來訓練深度學習模型？","o":["Gradient Boosting","Principal Component Analysis","K-means Clustering","Backpropagation"],"o_zh":["梯度提升（Gradient Boosting）","主成分分析（PCA）","K-means 分群","反向傳播（Backpropagation）"],"a":[3],"e":"神經網路靠誤差往回傳（鏈鎖律）算梯度更新權重＝backpropagation。","oe":["梯度提升是樹模型的集成方法，不是神經網路權重更新。","PCA 是降維技術，與權重更新無關。","K-means 是非監督分群，沒有誤差反傳。","反向傳播依輸出誤差用鏈鎖律往回算梯度、更新權重，是神經網路訓練核心。"]},
+{"d":"Fine-tuning","t":"single","q":"Which technique helps prevent overfitting by randomly dropping units from the neural network during training?","q_zh":"哪種技術透過在訓練時隨機關閉神經網路中的單元來防止過度擬合？","o":["Layer Normalization","Dropout","Gradient Clipping","Batch Normalization"],"o_zh":["層正規化（Layer Normalization）","Dropout","梯度裁剪（Gradient Clipping）","批次正規化（Batch Normalization）"],"a":[1],"e":"「隨機關閉神經元防過擬合」＝Dropout，是最直接的關鍵字配對。","oe":["Layer Norm 穩定數值，不是隨機關閉神經元。","Dropout 在訓練時隨機關閉部分神經元，避免過度依賴特定路徑、防過擬合。","梯度裁剪防止梯度爆炸，不是防過擬合。","Batch Norm 對 batch 正規化以穩定訓練，不是隨機關閉的防過擬合手法。"]},
+{"d":"Fine-tuning","t":"single","q":"What is the most effective technique for reducing memory consumption during fine-tuning of LLMs in NVIDIA NeMo?","q_zh":"在 NVIDIA NeMo 中微調 LLM 時，哪種技術最能有效減少記憶體消耗？","o":["Gradient checkpointing","Full precision training","Batch normalization","Data parallelism"],"o_zh":["梯度檢查點（Gradient checkpointing）","全精度訓練","批次正規化","資料平行（Data parallelism）"],"a":[0],"e":"梯度檢查點＝用「算力換記憶體」：少存 activation、反傳時重算。","oe":["梯度檢查點只存部分 activation，反傳時再重算，用算力換記憶體，最省記憶體。","全精度（FP32）訓練反而更吃記憶體。","批次正規化與記憶體節省無關。","資料平行把工作分到多卡，但每卡記憶體用量不減。"]},
+{"d":"Fine-tuning","t":"single","q":"What is the primary advantage of mixed precision training for LLMs?","q_zh":"對 LLM 而言，混合精度訓練（mixed precision training）的主要優勢是什麼？","o":["Increased model accuracy","Reduced training time and memory usage without significantly sacrificing accuracy","Simplified model architecture","Improved model interpretability"],"o_zh":["提升模型準確率","減少訓練時間與記憶體用量，且幾乎不犧牲準確度","簡化模型架構","提升模型可解釋性"],"a":[1],"e":"FP16＋FP32 混用：省記憶體、加速，準確度幾乎不變。","oe":["混合精度不以提升準確率為目的。","減少訓練時間與記憶體用量、且幾乎不犧牲準確度，是其主要優勢。","它不改變模型架構。","與可解釋性無關。"]},
+{"d":"Fine-tuning","t":"single","q":"In generative AI using NVIDIA NeMo, which technique ensures diverse outputs from a given prompt?","q_zh":"在使用 NVIDIA NeMo 的生成式 AI 中，哪種技術能確保從給定提示產生多樣化的輸出？","o":["Beam search","Temperature sampling","Greedy decoding","Top-k sampling"],"o_zh":["波束搜尋（Beam search）","溫度取樣（Temperature sampling）","貪婪解碼（Greedy decoding）","Top-k 取樣"],"a":[1],"e":"控制多樣性最直接的旋鈕＝temperature。找最佳解的方法（beam/greedy）反而降多樣性。","oe":["Beam search 保留多條高分路徑、偏向找最佳解，多樣性低。","Temperature sampling 透過調整 temperature 控制隨機性，高→多樣，是最直接答案。","Greedy decoding 每步只挑最高機率，最沒多樣性。","Top-k 限制候選池後取樣，也能增多樣，但本題標準答案是直接控制隨機性的 temperature。"]},
+{"d":"Fine-tuning","t":"single","q":"How can NeMo be leveraged to ensure responsible AI development when fine-tuning LLMs?","q_zh":"微調 LLM 時，如何運用 NeMo 來確保負責任的 AI 開發？","o":["By using pre-built models to avoid fine-tuning.","By utilizing NeMo's RLHF capabilities to align outputs with human values.","By applying prompt injection prevention tools.","By incorporating chain-of-thought prompting."],"o_zh":["使用預建模型以避免微調。","運用 NeMo 的 RLHF 能力讓輸出對齊人類價值觀。","套用 prompt injection 防護工具。","納入思維鏈（chain-of-thought）提示。"],"a":[1],"e":"「對齊人類價值」＝RLHF。","oe":["用預建模型避免微調是迴避問題，不是負責任 AI 的做法。","用 NeMo 的 RLHF 讓輸出對齊人類價值，正是負責任 AI 的核心做法。","prompt injection 防護屬安全層面，不是價值對齊。","思維鏈增強推理，不直接做價值對齊。"]},
+{"d":"Fine-tuning","t":"single","q":"Which technique can help reduce memory usage during LLM training using NVIDIA NeMo, without significantly affecting model accuracy?","q_zh":"在使用 NVIDIA NeMo 訓練 LLM 時，哪種技術能在不顯著影響準確度下減少記憶體用量？","o":["Mixed Precision Training","Increasing batch size","Data Augmentation","Reducing model layers"],"o_zh":["混合精度訓練（Mixed Precision Training）","增加批次大小","資料增強（Data Augmentation）","減少模型層數"],"a":[0],"e":"省記憶體又不傷準確度＝混合精度（FP16/FP32）。","oe":["混合精度訓練用 FP16 減半記憶體並加速，幾乎不犧牲準確度。","增加 batch size 反而更吃記憶體。","資料增強增加資料量，與省記憶體無關。","減少層數會降低模型容量、影響準確度。"]},
+{"d":"Fine-tuning","t":"single","q":"How does instruction tuning enhance the performance of a generative AI model?","q_zh":"指令微調（instruction tuning）如何提升生成式 AI 模型的效能？","o":["By increasing the model's vocabulary size.","By providing explicit instructions that guide the model's outputs.","By reducing computational complexity.","By eliminating the need for fine-tuning."],"o_zh":["增加模型的詞彙量。","提供明確指示來引導模型輸出。","降低運算複雜度。","消除微調的需要。"],"a":[1],"e":"用大量「指令-回答」對訓練，讓模型學會「聽懂指令照做」。","oe":["instruction tuning 不改變詞彙量。","提供明確指示引導輸出，讓回應更貼近使用者期望，是正解。","不以降低運算複雜度為目的。","它本身就是一種微調，不會消除微調需求。"]},
+{"d":"Fine-tuning","t":"single","q":"Which method uses gradient accumulation in the context of training LLMs?","q_zh":"在訓練 LLM 的脈絡中，梯度累積（gradient accumulation）使用了哪種方法？","o":["It enables training with effectively larger batch sizes by accumulating gradients over multiple mini-batches before updating weights.","It reduces the number of training epochs.","It increases model parameter count.","It is used for hyperparameter tuning."],"o_zh":["透過在多個 mini-batch 累積梯度後才更新權重，實現等效更大的批次大小。","減少訓練的 epoch 數。","增加模型參數量。","用於超參數調整。"],"a":[0],"e":"GPU 記憶體不夠跑大 batch 時，累積數個 mini-batch 梯度再更新，等效大 batch。","oe":["累積多個 mini-batch 梯度後才更新權重、達等效大 batch，是正解。","與 epoch 數無關。","不改變參數量。","不是調超參數的工具。"]},
+{"d":"Fine-tuning","t":"single","q":"What is catastrophic forgetting in the context of LLM fine-tuning?","q_zh":"在 LLM 微調的脈絡中，什麼是災難性遺忘（catastrophic forgetting）？","o":["Insufficient training data.","Out-of-memory errors during training.","The model loses previously learned general capabilities after being trained on new tasks.","Failure to deploy the model."],"o_zh":["訓練資料不足。","訓練時的記憶體不足錯誤。","模型在新任務上訓練後喪失先前學到的通用能力。","模型部署失敗。"],"a":[2],"e":"學新任務時把舊的通用能力「覆蓋」掉。解法：LoRA 等 PEFT、EWC。","oe":["訓練資料不足是資料問題，不是災難性遺忘。","記憶體不足是工程錯誤，不是遺忘。","學新任務後喪失原本通用能力，正是災難性遺忘的定義。","部署失敗與遺忘無關。"]},
+{"d":"Fine-tuning","t":"single","q":"In Reinforcement Learning with Human Feedback (RLHF), what is the correct sequence of stages?","q_zh":"在基於人類回饋的強化學習（RLHF）中，正確的階段順序是？","o":["Reinforcement Learning → SFT → Reward Model","Reward Model → SFT → Reinforcement Learning","SFT (Supervised Fine-Tuning) → Reward Model Training → RL Optimization","SFT → RL → Reward Model"],"o_zh":["強化學習 → SFT → 獎勵模型","獎勵模型 → SFT → 強化學習","SFT（監督式微調）→ 訓練獎勵模型 → 強化學習最佳化","SFT → RL → 獎勵模型"],"a":[2],"e":"順序記法：先教格式(SFT)→再學人類偏好(獎勵模型)→最後用 RL 最佳化。ChatGPT 就這樣練的。","oe":["順序錯，RL 必須最後做。","順序錯，要先有 SFT 才能蒐集排序資料來訓練獎勵模型。","SFT → 訓練獎勵模型 → RL 最佳化，是正確的三階段順序。","順序錯，沒有獎勵模型，RL 無從最佳化。"]},
+{"d":"Evaluation","t":"single","q":"Which metric is commonly used to evaluate machine-translation models?","q_zh":"哪個指標常用於評估機器翻譯模型？","o":["F1 Score","BLEU score","ROUGE score","Perplexity"],"o_zh":["F1 Score","BLEU score","ROUGE score","Perplexity（困惑度）"],"a":[1],"e":"指標對照：翻譯→BLEU、摘要→ROUGE、分類→F1、語言模型→Perplexity。","oe":["F1 用於分類任務（precision/recall 的調和），不是翻譯。","BLEU 比對 n-gram 精確率，是機器翻譯的標準指標。","ROUGE 偏 recall，是摘要任務常用指標。","Perplexity 衡量語言模型不確定性，不是翻譯品質。"]},
+{"d":"Evaluation","t":"single","q":"Which metric is most suitable for assessing the performance of a RAG system in a document summarization task?","q_zh":"在文件摘要任務中，哪個指標最適合評估 RAG 系統的效能？","o":["BLEU","ROUGE","Perplexity","A/B Testing"],"o_zh":["BLEU","ROUGE","Perplexity（困惑度）","A/B 測試"],"a":[1],"e":"摘要重點是「有沒有漏掉重要資訊」→偏 recall 的 ROUGE。","oe":["BLEU 偏 precision，較適合翻譯。","ROUGE 計算生成摘要與參考摘要的 n-gram 重疊（偏 recall），最適合摘要任務。","Perplexity 衡量不確定性，不是摘要內容品質。","A/B 測試是線上版本比較，不是摘要的內容指標。"]},
+{"d":"Evaluation","t":"single","q":"BLEU score is high. What does it primarily indicate?","q_zh":"BLEU 分數很高，這主要代表什麼？","o":["The model has a richer vocabulary.","The model has stronger semantic understanding.","The model output has high n-gram overlap with reference translations.","The model has more training data."],"o_zh":["模型有更豐富的詞彙量。","模型有更強的語意理解。","模型輸出與參考翻譯有高度 n-gram 重疊。","模型有更多訓練資料。"],"a":[2],"e":"必考陷阱：BLEU 只看「字面 n-gram 重疊」，高分≠語意理解強，只是比較接近參考文本。","oe":["BLEU 不衡量詞彙量。","陷阱選項！BLEU 是字面 n-gram 比對，高分不代表語意理解更強。","輸出與參考翻譯 n-gram 重疊高，正是 BLEU 的本質。","BLEU 不反映訓練資料量。"]},
+{"d":"Evaluation","t":"single","q":"What does a lower Perplexity value indicate?","q_zh":"Perplexity（困惑度）值越低代表什麼？","o":["The model trained longer.","The model is more certain in predicting the next token.","The model has more parameters.","The model has larger training data."],"o_zh":["模型訓練得更久。","模型在預測下一個 token 時更篤定。","模型有更多參數。","模型有更大的訓練資料。"],"a":[1],"e":"Perplexity＝模型有多「困惑」，越低代表預測下一詞越篤定、越懂上下文。","oe":["不一定，perplexity 衡量的是預測表現而非訓練時長。","perplexity 越低代表預測下一個 token 越篤定，是正解。","參數更多不直接等於低 perplexity。","訓練資料更大不直接等於低 perplexity。"]},
+{"d":"Evaluation","t":"single","q":"In an imbalanced dataset (e.g., fraud detection), which metric is most appropriate?","q_zh":"在不平衡的資料集（如詐騙偵測）中，哪個指標最合適？","o":["Accuracy","F1-Score","BLEU","Perplexity"],"o_zh":["Accuracy（準確率）","F1-Score","BLEU","Perplexity（困惑度）"],"a":[1],"e":"具體：1000 筆只有 10 筆詐騙，全猜「沒詐騙」accuracy=99% 卻一個都沒抓到——所以要用 F1。","oe":["資料極不平衡時 accuracy 會騙人（全猜多數類也很高）。","F1 兼顧 precision 與 recall，不平衡資料上最能反映真實表現。","BLEU 是翻譯指標，不適用分類。","Perplexity 是語言模型指標，不適用分類。"]},
+{"d":"Evaluation","t":"single","q":"What is the GLUE benchmark used to evaluate?","q_zh":"GLUE 基準用來評估什麼？","o":["AI models on speech recognition tasks.","AI models on image recognition tasks.","AI models on a range of natural language understanding tasks.","AI models on reinforcement learning tasks."],"o_zh":["AI 模型在語音辨識任務上的表現。","AI 模型在影像辨識任務上的表現。","AI 模型在多種自然語言理解任務上的表現。","AI 模型在強化學習任務上的表現。"],"a":[2],"e":"GLUE＝General Language Understanding Evaluation，多項 NLU 任務的標準比較基準。","oe":["GLUE 不是語音辨識基準。","影像辨識是 ImageNet 等，不是 GLUE。","GLUE 評估多種自然語言理解任務（情感分析、問答、文本蘊含等），是正解。","GLUE 與強化學習無關。"]},
+{"d":"Evaluation","t":"single","q":"You have training data but no test data. What evaluation method can you use?","q_zh":"你有訓練資料但沒有測試資料。可以用什麼評估方法？","o":["Cross-validation","Randomized controlled trial","Average entropy approximation","Greedy decoding"],"o_zh":["交叉驗證（Cross-validation）","隨機對照試驗（RCT）","平均熵近似","貪婪解碼（Greedy decoding）"],"a":[0],"e":"沒有獨立測試集→把訓練資料切多 fold 輪流當驗證＝cross-validation。","oe":["交叉驗證把訓練資料切成多 fold 輪流當驗證，沒有獨立測試集時用來估泛化能力。","隨機對照試驗是實驗醫學方法，不是模型評估。","平均熵近似不是處理「沒測試集」的評估法。","貪婪解碼是生成策略，與評估無關。"]},
+{"d":"Evaluation","t":"single","q":"In evaluating a fine-tuned LLM for text classification on an imbalanced dataset, which experimental design ensures robust performance estimation?","q_zh":"在不平衡資料集上評估文字分類的微調 LLM 時，哪種實驗設計能確保穩健的效能估計？","o":["Single hold-out validation with a fixed test set.","Stratified k-fold cross-validation.","Bootstrapping with random sampling.","Grid search for hyperparameter tuning."],"o_zh":["固定測試集的單次保留驗證（hold-out）。","分層 k 折交叉驗證（Stratified k-fold cross-validation）。","隨機抽樣的拔靴法（Bootstrapping）。","用於超參數調整的網格搜尋（Grid search）。"],"a":[1],"e":"不平衡＋要穩健→每折維持類別比例的「分層」k 折交叉驗證。","oe":["單次 hold-out 可能剛好抽不到少數類，評估不穩。","分層 k 折在每折維持類別比例，不平衡資料上最具代表性，是正解。","Bootstrapping 隨機抽樣變異大，不保證類別比例。","Grid search 是調參方法，不是評估設計。"]},
+{"d":"Evaluation","t":"single","q":"What is the primary purpose of Cosine Similarity in NLP applications?","q_zh":"在 NLP 應用中，餘弦相似度（Cosine Similarity）的主要用途是什麼？","o":["To calculate gradients during backpropagation.","To measure the directional similarity between vectors.","To evaluate machine translation quality.","To quantize model parameters."],"o_zh":["在反向傳播時計算梯度。","衡量向量之間的方向相似度。","評估機器翻譯品質。","量化模型參數。"],"a":[1],"e":"用夾角衡量語意相近：重方向、不重長度，向量資料庫排序的核心。","oe":["算梯度是反向傳播，不是餘弦相似度。","衡量向量方向相似度，常用於語意搜尋的相似度排序，是正解。","評估翻譯品質是 BLEU。","與量化參數無關。"]},
+{"d":"Evaluation","t":"single","q":"What is a common approach to evaluate transformer models for translation tasks?","q_zh":"評估 Transformer 翻譯任務常見的方法是什麼？","o":["Analyzing lexical diversity of translations.","Comparing model output with human-generated translations on a standard dataset.","Evaluating tone consistency across genres.","Measuring syntactic complexity."],"o_zh":["分析翻譯的詞彙多樣性。","在標準資料集上將模型輸出與人類翻譯比較。","評估跨文體的語氣一致性。","衡量語法複雜度。"],"a":[1],"e":"翻譯評估＝在 WMT 等標準集上，與人類翻譯比對（常用 BLEU）。","oe":["詞彙多樣性不是翻譯品質的主要評估法。","在標準資料集上與人類翻譯比較（如 WMT＋BLEU），是常見方法。","語氣一致性不是標準翻譯評估。","語法複雜度不是標準翻譯評估。"]},
+{"d":"Evaluation","t":"single","q":"Which technique can be used to evaluate the quality of generated text in terms of fluency and coherence in a summarization task?","q_zh":"在摘要任務中，哪種技術可用來評估生成文字的流暢度與連貫性？","o":["BLEU","ROUGE","Perplexity","A/B testing"],"o_zh":["BLEU","ROUGE","Perplexity（困惑度）","A/B 測試"],"a":[1],"e":"摘要任務一律先想 ROUGE。","oe":["BLEU 偏翻譯（precision）。","ROUGE 評估生成與參考摘要的 n-gram 重疊，最適合摘要任務。","Perplexity 衡量不確定性，不是摘要內容品質。","A/B 測試是線上版本比較，不是內容指標。"]},
+{"d":"Evaluation","t":"single","q":"What is the standard traffic split for A/B testing when deploying a new model version?","q_zh":"部署新模型版本時，A/B 測試的標準流量分配比例是？","o":["90/10","70/30","50/50","80/20"],"o_zh":["90/10","70/30","50/50","80/20"],"a":[2],"e":"NVIDIA 考點：A/B 測試求公平比較→標準 50/50 平均分流。","oe":["90/10 偏斜分流，樣本不對等難得公平結論。","70/30 仍偏斜。","50/50 平均分流才能公平比較、得統計意義，是標準做法。","80/20 偏斜分流。"]},
+{"d":"Evaluation","t":"single","q":"What is 'data leakage' in machine learning evaluation?","q_zh":"機器學習評估中的「資料外洩（data leakage）」是什麼？","o":["Sensitive user data being exposed to the public","Information from the test set (or future data) inadvertently used during training, inflating measured performance","Losing data due to disk failure","Sending data over an unencrypted network"],"o_zh":["敏感的使用者資料被公開外洩","測試集（或未來資料）的資訊不小心在訓練時被用到，使評估表現虛高","因磁碟故障而遺失資料","透過未加密的網路傳送資料"],"a":[1],"e":"資料外洩＝模型訓練時「偷看到」本不該看到的資訊（測試集、未來資料、含答案的特徵），導致驗證分數漂亮但上線就崩。常見成因：先對整份資料正規化再切分、用未來資訊預測過去。","oe":["那是隱私/資安的個資外洩，與 ML 評估的 data leakage 不同。","測試集或未來資訊在訓練時被用到、使表現虛高，正是評估中的 data leakage。","磁碟故障遺失資料是另一回事。","網路傳輸安全與評估的 data leakage 無關。"]},
+{"d":"Prompt Engineering","t":"single","q":"When designing prompts for complex multi-step reasoning tasks, which technique is most effective?","q_zh":"為複雜的多步驟推理任務設計提示時，哪種技術最有效？","o":["Zero-shot prompting with a generic task description.","Few-shot prompting with randomly selected examples.","Chain-of-thought prompting with step-by-step reasoning examples.","Retrieval-augmented generation with external databases."],"o_zh":["使用通用任務描述的零樣本提示。","使用隨機選取範例的少樣本提示。","搭配逐步推理範例的思維鏈（Chain-of-thought）提示。","搭配外部資料庫的檢索增強生成。"],"a":[2],"e":"「複雜多步驟推理」就想 CoT——示範把問題拆解成步驟。","oe":["零樣本＋通用描述對複雜推理指引不足。","少樣本＋隨機範例有範例但缺結構化推理過程。","思維鏈＋逐步推理範例能顯著改善多步驟推理，是正解。","RAG 解決知識來源，不是教模型「怎麼推理」。"]},
+{"d":"Prompt Engineering","t":"single","q":"How does Chain-of-Thought prompting enhance language model performance?","q_zh":"思維鏈（Chain-of-Thought）提示如何提升語言模型效能？","o":["By reducing model parameters.","By providing intermediate reasoning steps.","By simplifying tokenization.","By increasing the context window size."],"o_zh":["減少模型參數。","提供中間推理步驟。","簡化斷詞。","增加 context window 大小。"],"a":[1],"e":"CoT 讓模型「先想再答」，產出中間推理步驟。","oe":["CoT 不改變參數。","提供中間推理步驟，讓輸出更有邏輯，是正解。","與 tokenization 無關。","CoT 不改變 context window 大小。"]},
+{"d":"Prompt Engineering","t":"single","q":"What is the primary method to mitigate prompt injection attacks when using NVIDIA NeMo?","q_zh":"使用 NVIDIA NeMo 時，緩解 prompt injection 攻擊的主要方法是什麼？","o":["Using complex language models","Implementing strict input validation","Increasing model size","Deploying on secure hardware"],"o_zh":["使用複雜的語言模型","實施嚴格的輸入驗證","增加模型大小","部署在安全硬體上"],"a":[1],"e":"注入攻擊在「輸入層」防——嚴格驗證輸入格式。","oe":["模型複雜度不防注入。","嚴格輸入驗證確保輸入符合預期格式，可防 prompt injection，是正解。","增加模型大小不解決注入漏洞。","安全硬體防不了軟體層的提示注入。"]},
+{"d":"Prompt Engineering","t":"single","q":"What is the ability of LLMs to learn task format and rules from in-prompt examples called?","q_zh":"LLM 從提示內範例學習任務格式與規則的能力稱為什麼？","o":["Fine-tuning","In-context learning","Backpropagation","Distillation"],"o_zh":["微調（Fine-tuning）","上下文學習（In-context learning）","反向傳播（Backpropagation）","蒸餾（Distillation）"],"a":[1],"e":"不更新權重、光看提示範例就會做＝in-context learning（few-shot 的本事）。","oe":["微調需要重新訓練、更新權重。","上下文學習不訓練，光看提示中的範例就在上下文中學會任務，是正解。","反向傳播是訓練機制，不是「看範例就會」。","蒸餾是用大模型教小模型，與此無關。"]},
+{"d":"Prompt Engineering","t":"single","q":"In a deployment using NVIDIA Triton, which strategy handles varying loads while maintaining low latency?","q_zh":"在使用 NVIDIA Triton 的部署中，哪種策略能在維持低延遲下處理變動的負載？","o":["Asynchronous execution","Dynamic batching","Model ensembling","Data caching"],"o_zh":["非同步執行","動態批次處理（Dynamic batching）","模型集成（Model ensembling）","資料快取"],"a":[1],"e":"Triton 招牌：dynamic batching 自動合批，變動負載下兼顧吞吐與低延遲。","oe":["非同步執行有幫助但不是維持低延遲的核心策略。","動態批次自動把傳入請求合批，最佳化 GPU 使用、變動負載下維持低延遲，是正解。","模型集成合多模型提升準確度，不是延遲策略。","資料快取減少重算，不是處理變動負載的主策略。"]},
+{"d":"Prompt Engineering","t":"single","q":"Which prompt engineering technique provides detailed step-by-step reasoning to improve response accuracy?","q_zh":"哪種提示工程技術提供詳細的逐步推理以提升回應準確度？","o":["Few-shot learning","Chain-of-thought","Instruction tuning","Prompt injection prevention"],"o_zh":["少樣本學習（Few-shot learning）","思維鏈（Chain-of-thought）","指令微調（Instruction tuning）","Prompt injection 防護"],"a":[1],"e":"「逐步推理」＝CoT。","oe":["少樣本只提供範例，不必然含逐步推理。","思維鏈明確展示逐步推理，提升複雜題準確度，是正解。","指令微調是訓練技術，不是提示技巧。","prompt injection 防護是安全機制，與推理無關。"]},
+{"d":"Prompt Engineering","t":"single","q":"In deploying LLMs, what is the primary concern of prompt injection prevention?","q_zh":"在部署 LLM 時，prompt injection 防護的主要考量是什麼？","o":["Maintaining high throughput","Ensuring model interpretability","Preventing malicious or unintended inputs","Maximizing model accuracy"],"o_zh":["維持高吞吐量","確保模型可解釋性","防止惡意或非預期的輸入","最大化模型準確率"],"a":[2],"e":"注入防護＝把關「進來的輸入」是否惡意或非預期。","oe":["維持高吞吐是效能考量，不是注入防護的主旨。","確保可解釋性與注入防護無關。","防止惡意或非預期輸入，正是 prompt injection prevention 的主要考量。","最大化準確率不是注入防護的目的。"]},
+{"d":"Prompt Engineering","t":"single","q":"Which describes Few-shot prompting?","q_zh":"下列何者描述了少樣本提示（Few-shot prompting）？","o":["Giving instructions without any examples.","Providing a few demonstration examples in the prompt to guide format and tone.","Training the model on a few new tasks.","Reducing the prompt length to save tokens."],"o_zh":["不給任何範例直接下指令。","在提示中提供少量示範範例以引導格式與語氣。","用少量新任務訓練模型。","縮短提示長度以節省 token。"],"a":[1],"e":"few-shot＝給幾個範例示範；zero-shot＝完全不給範例。","oe":["不給範例直接下指令是 zero-shot。","在提示中附少量範例引導格式與語氣，正是 few-shot（展現 in-context learning）。","用少量新任務訓練是訓練/微調，不是提示。","縮短提示省 token 與 few-shot 定義無關。"]},
+{"d":"RAG","t":"single","q":"What is the primary purpose of a vector database in RAG?","q_zh":"在 RAG 中，向量資料庫的主要目的是什麼？","o":["To store model weights efficiently","To manage large-scale datasets","To facilitate fast retrieval of semantically similar documents","To optimize model training speed"],"o_zh":["有效率地儲存模型權重","管理大規模資料集","促進語意相似文件的快速檢索","最佳化模型訓練速度"],"a":[2],"e":"向量資料庫＝存 embedding、做相似度搜尋的引擎。","oe":["儲存模型權重是 checkpoint 檔案的事。","管理大規模資料集太籠統，不是向量資料庫的特定用途。","存 embedding 並快速檢索語意相似文件，是向量資料庫在 RAG 的核心目的。","與訓練速度無關。"]},
+{"d":"RAG","t":"single","q":"What is the primary benefit of using RAG with LLMs?","q_zh":"在 LLM 中使用 RAG 的主要好處是什麼？","o":["Increased model size","Reduced need for pre-training","Enhanced factual accuracy","Simplified model architecture"],"o_zh":["增加模型大小","減少預訓練的需要","提升事實準確性","簡化模型架構"],"a":[2],"e":"RAG＝先查資料再回答，重點在「講有根據的事實」。","oe":["RAG 不改變模型大小。","RAG 不取代預訓練。","從外部來源取得相關資訊，提升事實準確性、降低幻覺，是主要好處。","RAG 反而多了檢索元件，不算簡化架構。"]},
+{"d":"RAG","t":"single","q":"Which method is recommended for integrating RAG with LLMs to enhance context understanding?","q_zh":"建議用哪種方法將 RAG 與 LLM 整合以增強脈絡理解？","o":["Using only pre-trained models without external data","Implementing vector databases for embedding retrieval","Increasing the model's token limit","Focusing solely on supervised fine-tuning"],"o_zh":["只使用預訓練模型而不用外部資料","實作向量資料庫進行 embedding 檢索","增加模型的 token 限制","只專注於監督式微調"],"a":[1],"e":"RAG 的核心元件就是向量資料庫＋embedding 檢索。","oe":["只用預訓練模型不接外部資料，那就不是 RAG。","實作向量資料庫做 embedding 檢索，是 RAG 的核心做法。","增加 token 限制不等於整合外部資料。","只做監督微調不利用檢索，非 RAG。"]},
+{"d":"RAG","t":"single","q":"In optimizing a RAG system with TensorRT-LLM, you encounter increased latency due to context window size. What is a potential solution?","q_zh":"在用 TensorRT-LLM 最佳化 RAG 系統時，你遇到因 context window 太大造成延遲增加。可能的解法是什麼？","o":["Decrease the number of transformer layers","Use mixed precision training","Implement chunk optimization","Switch to a larger model"],"o_zh":["減少 transformer 層數","使用混合精度訓練","實作分塊最佳化（chunk optimization）","改用更大的模型"],"a":[2],"e":"context 太長→把輸入切小塊（chunk）降低每次推論的脈絡量。","oe":["減少層數影響模型容量，不是解延遲的對策。","混合精度是訓練技術，與推論 context 過長無關。","分塊最佳化把輸入切小塊、降低每次推論的 context 大小，緩解延遲。","改用更大模型反而加劇延遲。"]},
+{"d":"RAG","t":"single","q":"What is a critical consideration when implementing RAG to ensure efficient context window management?","q_zh":"實作 RAG 以確保高效 context window 管理時，關鍵考量是什麼？","o":["Maximize the size of the context window to include as much data as possible.","Use vector embeddings to prioritize relevant information retrieval.","Focus on increasing the number of retrieval queries per request.","Minimize the context window size to reduce computational load."],"o_zh":["最大化 context window 以盡可能納入更多資料。","使用向量 embedding 來優先檢索相關資訊。","專注於增加每次請求的檢索查詢數。","最小化 context window 以降低運算負荷。"],"a":[1],"e":"把有限的 context 用在刀口上——靠 embedding 挑「最相關」的內容。","oe":["最大化 context 會資訊超載、成本高，不是高效管理。","用向量 embedding 優先檢索相關資訊，把有限 context 用在刀口上，是正解。","增加每次請求查詢數會增加延遲。","最小化 context 會遺失重要資訊。"]},
+{"d":"RAG","t":"single","q":"Which NVIDIA tool is used to build enterprise-grade RAG systems?","q_zh":"哪個 NVIDIA 工具用來建構企業級的 RAG 系統？","o":["NeMo Guardrails","NeMo Retriever","TensorRT","Triton"],"o_zh":["NeMo Guardrails","NeMo Retriever","TensorRT","Triton"],"a":[1],"e":"名字就說明用途：Retriever＝檢索器，專為企業 RAG 設計。","oe":["NeMo Guardrails 是安全護欄，不是檢索系統。","NeMo Retriever 是企業級檢索系統，把內部文件向量化、提問時找最相關內容，專為 RAG 設計。","TensorRT 是推論最佳化引擎，不負責檢索。","Triton 是推論伺服器，不負責檢索。"]},
+{"d":"RAG","t":"single","q":"What is the main purpose of using Retrieval-Augmented Generation (RAG)?","q_zh":"使用檢索增強生成（RAG）的主要目的是什麼？","o":["To accelerate model training","To reduce hallucinations and provide up-to-date information","To reduce model parameter count","To improve GPU utilization"],"o_zh":["加速模型訓練","降低幻覺並提供最新資訊","減少模型參數量","提升 GPU 使用率"],"a":[1],"e":"RAG 兩大價值：① 有根據→少幻覺 ② 補入訓練截止後的新資訊。","oe":["RAG 與訓練速度無關。","降低幻覺並提供最新資訊，是 RAG 的主要目的。","RAG 不改變參數量。","提升 GPU 使用率非 RAG 目的。"]},
+{"d":"RAG","t":"single","q":"What is a key challenge when deploying a RAG system using NVIDIA's Triton Inference Server?","q_zh":"使用 NVIDIA Triton Inference Server 部署 RAG 系統時的關鍵挑戰是什麼？","o":["Lack of support for multi-model serving","Difficulty in integrating with vector databases","Managing latency while maintaining high throughput","Limited compatibility with NVIDIA hardware"],"o_zh":["缺乏多模型服務支援","難以與向量資料庫整合","在維持高吞吐量下管理延遲","與 NVIDIA 硬體相容性有限"],"a":[2],"e":"大規模請求時，「延遲 vs 吞吐」的平衡才是真正難點。","oe":["錯，Triton 本就支援多模型服務。","Triton 可整合向量資料庫，不是主要挑戰。","在維持高吞吐下管理延遲，是大規模請求時的真正挑戰。","錯，Triton 正是為 NVIDIA 硬體最佳化。"]},
+{"d":"Optimization","t":"multi","q":"Which of the following claims are correct about quantization in deep learning? (Pick the 2 correct responses)","q_zh":"關於深度學習中的量化（quantization），下列哪些敘述正確？（選兩項）","o":["Quantization might help in saving power and reducing heat production.","It consists of removing weights whose values are zero.","It leads to a substantial loss of model accuracy.","Helps reduce memory requirements and achieve better cache utilization.","It only involves reducing the number of bits of the parameters."],"o_zh":["量化可能有助於節省電力並減少發熱。","它是移除數值為零的權重。","它會導致模型準確度大幅下降。","有助於降低記憶體需求並達成更好的 cache 使用率。","它只涉及減少參數的位元數。"],"a":[0,3],"e":"必考。量化＝用低精度數值，好處是省記憶體/省電；別跟 pruning（移除零權重）搞混，也別誤以為會大掉準確度。","oe":["量化降低運算強度，省電、減少發熱，適合 edge device。","移除數值為零的權重是剪枝（pruning），不是量化。","設計上量化不會造成大量準確度損失（INT8 通常損失極小）。","低精度資料更小，省記憶體又提升 cache 命中率。","敘述太窄——量化不只減參數位元，還包含 activation 量化等。"]},
+{"d":"Optimization","t":"single","q":"What is the primary purpose of model quantization?","q_zh":"模型量化（model quantization）的主要目的是什麼？","o":["To increase training accuracy","To increase the model's size for greater capacity","To save memory and accelerate inference","To improve training data quality"],"o_zh":["提升訓練準確率","增加模型大小以獲得更大容量","節省記憶體並加速推論","改善訓練資料品質"],"a":[2],"e":"高頻陷阱：量化是 FP32→INT8 的「縮小」，目的省記憶體、降延遲，不會提升準確率也不會變大。","oe":["量化不是為了提升準確率。","陷阱選項！量化是「縮小」不是放大模型。","把高精度數值轉低精度，省記憶體並加速推論，是量化的主要目的。","與訓練資料品質無關。"]},
+{"d":"Optimization","t":"single","q":"Which technology will allow you to optimize a large language model for inference?","q_zh":"哪個技術可讓你最佳化大型語言模型以進行推論？","o":["Pandas","NVIDIA TensorRT","Apache Spark","Scikit-learn"],"o_zh":["Pandas","NVIDIA TensorRT","Apache Spark","Scikit-learn"],"a":[1],"e":"推論最佳化＝TensorRT（量化＋層融合）。","oe":["Pandas 是資料分析，不是推論最佳化。","NVIDIA TensorRT 是推論最佳化引擎（量化、層融合），是正解。","Apache Spark 是大數據分散式運算，不是推論最佳化。","Scikit-learn 是傳統 ML 函式庫，不做 LLM 推論最佳化。"]},
+{"d":"Optimization","t":"single","q":"When using NVIDIA TensorRT-LLM, what is a common strategy to improve throughput of a generative AI model?","q_zh":"使用 NVIDIA TensorRT-LLM 時，提升生成式 AI 模型吞吐量的常見策略是什麼？","o":["Increasing batch size","Reducing the number of layers","Switching to a different model architecture","Using more training data"],"o_zh":["增加批次大小","減少層數","改用不同的模型架構","使用更多訓練資料"],"a":[0],"e":"吞吐（throughput）＝單位時間處理量，加大 batch 一次處理更多請求。","oe":["增加 batch size 同時處理更多請求、最大化硬體使用，提升吞吐，是常見策略。","減少層數會改動模型結構，非吞吐策略。","改架構不是常見的吞吐最佳化手段。","更多訓練資料與推論吞吐無關。"]},
+{"d":"Optimization","t":"single","q":"When deploying an LLM using Triton Inference Server, what is critical for managing latency effectively?","q_zh":"使用 Triton Inference Server 部署 LLM 時，有效管理延遲的關鍵是什麼？","o":["Using only CPU resources","Implementing dynamic batching strategies","Reducing the model's vocabulary size","Training exclusively on synthetic data"],"o_zh":["只使用 CPU 資源","實作動態批次處理策略","減少模型的詞彙量","只用合成資料訓練"],"a":[1],"e":"Triton 管理延遲的核心一律想 dynamic batching。","oe":["只用 CPU 反而增加延遲。","動態批次合批最佳化資源、降低延遲，是關鍵。","減少詞彙量是訓練前決定，與部署延遲無關。","只用合成資料訓練與部署延遲無關。"]},
+{"d":"Optimization","t":"single","q":"Which NVIDIA technology is best for managing memory effectively when deploying a large-scale generative AI model?","q_zh":"部署大規模生成式 AI 模型時，哪個 NVIDIA 技術最適合有效管理記憶體？","o":["NVIDIA RAPIDS","NVIDIA Triton Inference Server","NVIDIA Jetson","NVIDIA TensorRT-LLM"],"o_zh":["NVIDIA RAPIDS","NVIDIA Triton Inference Server","NVIDIA Jetson","NVIDIA TensorRT-LLM"],"a":[3],"e":"大規模模型的「記憶體＋執行」最佳化＝TensorRT-LLM。","oe":["RAPIDS 是資料處理，不是模型記憶體最佳化。","Triton 是部署服務本身，不直接最佳化記憶體。","Jetson 是邊緣裝置硬體，不是記憶體最佳化軟體。","TensorRT-LLM 為大規模生成式模型的記憶體與執行最佳化設計，是正解。"]},
+{"d":"Optimization","t":"single","q":"What is the purpose of speculative decoding in LLM inference?","q_zh":"推測解碼（speculative decoding）在 LLM 推論中的目的是什麼？","o":["To train a smaller model from scratch","To use a small fast 'draft' model to propose several tokens that the large model verifies in parallel, speeding up generation","To compress the model to INT8","To remove the attention mechanism"],"o_zh":["從頭訓練一個較小的模型","用一個小而快的「草稿」模型先提出數個 token，再由大模型平行驗證，藉此加速生成","把模型壓成 INT8","移除注意力機制"],"a":[1],"e":"自迴歸一次只生一個字、慢。推測解碼讓小模型先「猜」接下來幾個字，大模型一次平行驗證：猜中就直接採用、猜錯才回退。輸出與原模型一致，但更快。","oe":["它不是從頭訓練小模型，draft 模型是現成的小模型。","小草稿模型提議多個 token、大模型平行驗證，猜中就省一輪，是推測解碼的核心，能在不改變輸出品質下加速。","壓成 INT8 是量化，不是推測解碼。","它沒有移除注意力。"]},
+{"d":"Optimization","t":"single","q":"What is the primary use of model pruning in deep learning?","q_zh":"深度學習中模型剪枝（pruning）的主要用途是什麼？","o":["To increase the model's parameter count","To remove redundant or less important weights/neurons to reduce model size","To add more layers","To convert to ONNX format"],"o_zh":["增加模型的參數量","移除冗餘或較不重要的權重/神經元以縮小模型","增加更多層","轉換成 ONNX 格式"],"a":[1],"e":"壓縮兩招：量化（降精度）＋剪枝（移除不重要的權重/神經元）。","oe":["剪枝是「移除」不是增加參數。","移除冗餘或不重要的權重/神經元以縮小模型、加速推論，是剪枝的用途。","增加層數與剪枝相反。","轉成 ONNX 是格式轉換，不是剪枝。"]},
+{"d":"Training","t":"single","q":"What is the main consequence of the scaling law in deep learning for real-world applications?","q_zh":"在實際應用中，深度學習擴展定律（scaling law）的主要意涵是什麼？","o":["With more data, it is possible to exceed the irreducible error region.","The best performing model can be established even in the small data region.","Small and medium error regions can approach the results of the big data region.","In the power-law region, with more data it is possible to achieve better results."],"o_zh":["有更多資料就能超越不可化約誤差區域。","即使在小資料區域也能建立最佳模型。","小型與中型誤差區域能接近大資料區域的結果。","在 power-law 區域，有更多資料就能達成更好的結果。"],"a":[3],"e":"scaling law＝資料/參數/算力越多→效能越好（在 power-law 區），這是 LLM 越做越大的依據。","oe":["不可化約誤差是理論極限，無法超越。","scaling law 正好相反，資料越多通常越好。","這個敘述不準確、有誤導。","在 power-law 區內，增加資料/參數/算力能持續改善效能，是正解。"]},
+{"d":"Training","t":"single","q":"What is the function of the All-Reduce mechanism in distributed training?","q_zh":"在分散式訓練中，All-Reduce 機制的功能是什麼？","o":["Randomly turning off neurons","Synchronizing gradients across multiple GPUs and aggregating them","Converting models to ONNX format","Performing input tokenization"],"o_zh":["隨機關閉神經元","同步多張 GPU 的梯度並加總","將模型轉換成 ONNX 格式","執行輸入斷詞"],"a":[1],"e":"多卡訓練：各卡算出梯度→All-Reduce 加總平均→同步回各卡，保證一致。","oe":["隨機關閉神經元是 dropout。","同步多卡梯度並加總，確保各卡參數更新一致，是 All-Reduce 的功能。","轉成 ONNX 是格式轉換，與此無關。","輸入斷詞是前處理，與此無關。"]},
+{"d":"Training","t":"single","q":"What is the primary function of MIG (Multi-Instance GPU)?","q_zh":"MIG（Multi-Instance GPU）的主要功能是什麼？","o":["Synchronizing gradients across multiple GPUs","Partitioning a single GPU into multiple isolated instances","Quantizing model parameters","Managing DGX cluster workloads"],"o_zh":["同步多張 GPU 的梯度","將單張 GPU 分割成多個獨立實例","量化模型參數","管理 DGX 叢集工作負載"],"a":[1],"e":"MIG＝把一張大 GPU 切成多個彼此隔離的小 GPU。","oe":["同步多卡梯度是 All-Reduce。","把單張 GPU 切成多個獨立實例（各有專屬記憶體與算力），是 MIG 的定義。","量化參數與 MIG 無關。","管理 DGX 叢集工作負載是 Base Command。"]},
+{"d":"Training","t":"single","q":"Why is exploratory data analysis (EDA) essential when fine-tuning an LLM for a specific application?","q_zh":"為什麼在針對特定應用微調 LLM 時，探索性資料分析（EDA）是必要的？","o":["To select the appropriate learning rate","To uncover patterns and anomalies in the dataset","To assess required computing resources","To determine the optimum number of layers"],"o_zh":["選擇適當的學習率","發現資料集中的模式與異常","評估所需的運算資源","決定最佳的層數"],"a":[1],"e":"EDA＝先「看懂資料」：分布、離群值、缺失值，避免帶著問題資料去訓練。","oe":["選學習率是訓練階段的調參，不是 EDA 目的。","發現資料的模式（類別分布、詞頻）與異常（離群值、缺失值），是 EDA 的核心。","評估運算資源與 EDA 無關。","決定層數是模型設計，不是 EDA。"]},
+{"d":"Training","t":"single","q":"In preprocessing a multilingual dataset for fine-tuning an LLM, which technique is most effective for handling diverse scripts (Latin, Cyrillic, Devanagari)?","q_zh":"在預處理多語言資料集以微調 LLM 時，哪種技術最適合處理多元文字（拉丁、西里爾、天城文）？","o":["Normalizing all text to a single script using transliteration.","Applying Unicode normalization to standardize character encodings.","Removing all non-Latin characters to simplify input.","Converting text to phonetic representations."],"o_zh":["用音譯將所有文字正規化成單一文字系統。","套用 Unicode 正規化以標準化字元編碼。","移除所有非拉丁字元以簡化輸入。","將文字轉換成語音表示。"],"a":[1],"e":"多語言處理先做 Unicode 正規化（NFC/NFKC），讓視覺相同的字有一致編碼。","oe":["用音譯統一文字會失去原語意。","套用 Unicode 正規化標準化字元編碼，讓視覺相同的字一致表示，是正解。","移除非拉丁字會丟失大量資訊。","轉成語音表示會失真，非標準做法。"]},
+{"d":"Training","t":"single","q":"What is confidential computing?","q_zh":"什麼是機密運算（confidential computing）？","o":["A technique for securing computer hardware and software from potential threats.","A process for designing AI systems to be explainable and fair.","A technique for aligning AI output with human beliefs.","A method for interpreting various forms of data."],"o_zh":["保護電腦硬體與軟體免受潛在威脅的技術。","設計可解釋、公平 AI 系統的流程。","讓 AI 輸出對齊人類信念的技術。","解讀各種資料形式的方法。"],"a":[0],"e":"機密運算保護「使用中的資料（data in use）」，靠受信執行環境（如 H100 機密運算）讓模型權重/輸入在處理時仍加密。","oe":["保護硬體與軟體免於威脅、保護使用中資料，正是機密運算（受信執行環境）。","設計可解釋公平 AI 是 explainability/fairness。","對齊人類信念是 RLHF/對齊。","解讀多種資料是一般模型能力。"]},
+{"d":"Training","t":"single","q":"What is the function of Beam Search in text generation?","q_zh":"波束搜尋（Beam Search）在文字生成中的功能是什麼？","o":["It accelerates GPU inference.","It maintains multiple candidate paths simultaneously and selects the highest-scoring sequence.","It reduces model parameter count.","It improves training speed."],"o_zh":["加速 GPU 推論。","同時保留多條候選路徑並選出分數最高的序列。","減少模型參數量。","提升訓練速度。"],"a":[1],"e":"beam search 同時走多條路、最後挑整體最佳句；比 greedy（每步只挑一詞）品質穩。","oe":["beam search 同時跑多路徑，其實比 greedy 慢，不是加速。","同時保留多條候選路徑、選整體分數最高的序列，是 beam search 的功能。","與參數量無關。","beam search 用於生成，不是訓練。"]},
+{"d":"Trustworthy AI","t":"single","q":"Which principle of Trustworthy AI primarily concerns the ethical implications of AI's impact on society, including potential misuse and unintended consequences?","q_zh":"可信賴 AI 的哪個原則主要關注 AI 對社會影響的倫理意涵，包括潛在誤用與非預期後果？","o":["Certification","Data Privacy","Accountability","Legal Responsibility"],"o_zh":["認證（Certification）","資料隱私（Data Privacy）","問責制（Accountability）","法律責任（Legal Responsibility）"],"a":[2],"e":"「誤用、非預期後果、可追究」＝Accountability（問責）。","oe":["認證是合規流程，不是處理社會倫理影響的核心原則。","資料隱私是保護資料，不是「誤用與後果」的問責。","問責制處理 AI 的社會倫理影響、誤用與非預期後果，確保可追究，是正解。","法律責任偏法律層面，題目問的是 Trustworthy AI 原則。"]},
+{"d":"Trustworthy AI","t":"multi","q":"Which of the following principles are widely recognized for building trustworthy AI? (Choose two.)","q_zh":"下列哪些原則被廣泛認可為建構可信賴 AI 的原則？（選兩項）","o":["Conversational","Low latency","Privacy","Scalability","Nondiscrimination"],"o_zh":["對話式（Conversational）","低延遲（Low latency）","隱私（Privacy）","可擴展性（Scalability）","不歧視（Nondiscrimination）"],"a":[2,4],"e":"區分「倫理原則」與「效能/功能特性」：隱私、不歧視屬前者；低延遲、可擴展、對話式屬後者。","oe":["對話式是功能特性，不是 trustworthy 原則。","低延遲是效能考量。","隱私（保護使用者資料）是 trustworthy AI 原則。","可擴展性是效能考量。","不歧視（公平對待所有群體、避免偏見）是 trustworthy AI 原則。"]},
+{"d":"Trustworthy AI","t":"single","q":"What is the most effective strategy for reducing bias in a generative AI model deployed using NVIDIA tools?","q_zh":"對於使用 NVIDIA 工具部署的生成式 AI 模型，減少偏見最有效的策略是什麼？","o":["Implementing prompt engineering techniques to guide outputs.","Using NeMo's data augmentation tools during training.","Applying TensorRT-LLM for model optimization.","Utilizing NVIDIA AI Enterprise's ethical AI frameworks to filter outputs."],"o_zh":["實施提示工程技術來引導輸出。","在訓練時使用 NeMo 的資料增強工具。","套用 TensorRT-LLM 進行模型最佳化。","運用 NVIDIA AI Enterprise 的倫理 AI 框架過濾輸出。"],"a":[3],"e":"題問 NVIDIA 工具中「最有效減偏見」→指向 AI Enterprise 的倫理 AI 框架。","oe":["prompt engineering 引導輸出，但不本質減少偏見。","NeMo 資料增強增加多樣性，但非直接減偏見策略。","TensorRT-LLM 是效能最佳化，與偏見無關。","用 AI Enterprise 的倫理 AI 框架過濾輸出，提供完整偏見管理工具，是正解。"]},
+{"d":"Trustworthy AI","t":"single","q":"What is a common approach to mitigate bias in LLMs deployed using NVIDIA tools?","q_zh":"對於使用 NVIDIA 工具部署的 LLM，緩解偏見的常見方法是什麼？","o":["Implementing strict access controls to limit usage.","Using diverse and representative datasets during training and fine-tuning.","Reducing model size to decrease complexity.","Limiting the model's vocabulary size."],"o_zh":["實施嚴格的存取控制以限制使用。","在訓練與微調時使用多元且具代表性的資料集。","減少模型大小以降低複雜度。","限制模型的詞彙量。"],"a":[1],"e":"從源頭減偏見＝餵多元、有代表性的資料。","oe":["嚴格存取控制限制使用，不解決底層偏見。","用多元且具代表性的資料集，是從源頭減偏見的基礎方法。","減少模型大小不本質減偏見。","限制詞彙量反而妨礙準確輸出。"]},
+{"d":"Trustworthy AI","t":"single","q":"What is the purpose of content filtering in NVIDIA's responsible AI framework?","q_zh":"在 NVIDIA 的負責任 AI 框架中，內容過濾的目的是什麼？","o":["To enhance creativity of AI outputs","To ensure outputs align with user expectations","To prevent the generation of inappropriate content","To optimize model performance"],"o_zh":["提升 AI 輸出的創意","確保輸出符合使用者期望","防止生成不當內容","最佳化模型效能"],"a":[2],"e":"內容過濾＝攔截不當/有害內容。","oe":["提升創意不是內容過濾的目的。","「符合使用者期望」太籠統，非主旨。","防止生成不當或有害內容，是內容過濾的核心目的。","與內容過濾無關。"]},
+{"d":"Trustworthy AI","t":"single","q":"What is essential for ethical AI deployment in generative AI systems using NVIDIA AI Enterprise?","q_zh":"在使用 NVIDIA AI Enterprise 的生成式 AI 系統中，倫理 AI 部署的關鍵是什麼？","o":["Maximizing output diversity without constraints","Implementing bias detection and mitigation strategies","Focusing solely on accuracy and performance","Allowing unrestricted access to outputs"],"o_zh":["無限制地最大化輸出多樣性","實施偏見偵測與緩解策略","只專注於準確度與效能","允許無限制存取輸出"],"a":[1],"e":"倫理部署的關鍵動作＝偵測並緩解偏見。","oe":["無限制最大化多樣性可能導致有害輸出。","實施偏見偵測與緩解策略，確保公平無偏，是倫理部署關鍵。","只看準確度效能忽略倫理。","無限制存取輸出有濫用風險。"]},
+{"d":"Trustworthy AI","t":"single","q":"What coalition primarily promotes Content Credentials using cryptographic signatures (based on C2PA) to track content provenance?","q_zh":"哪個聯盟主要推動使用密碼學簽章（基於 C2PA）的內容憑證來追蹤內容來源？","o":["IEEE","CAI (Content Authenticity Initiative)","IETF","W3C"],"o_zh":["IEEE","CAI（內容真實性倡議聯盟）","IETF","W3C"],"a":[1],"e":"對抗深偽的「內容來源憑證」＝CAI＋C2PA 規範。","oe":["IEEE 是標準組織，不是推 content credentials 的聯盟。","CAI 用 C2PA 規範、密碼學簽章追蹤內容來源、對抗深偽，是正解。","IETF 制定網路協定（如 TCP/IP），不是 content credentials。","W3C 制定 Web 標準，不是這個聯盟。"]},
+{"d":"Trustworthy AI","t":"single","q":"What is the primary cause of LLM hallucinations?","q_zh":"LLM 幻覺（hallucination）的主因是什麼？","o":["Insufficient training data","The model predicts the next word based on probability rather than verifying facts","Lack of GPU memory","Network connectivity issues"],"o_zh":["訓練資料不足","模型根據機率預測下一個詞而非查證事實","GPU 記憶體不足","網路連線問題"],"a":[1],"e":"幻覺＝模型只算「機率最可能的下一詞」、不查證事實，所以會流暢地胡謅。常用 RAG 緩解。","oe":["訓練資料不足可能影響品質，但不是幻覺主因。","模型靠機率預測下一詞而非查證事實，正是幻覺主因。","GPU 記憶體不足是工程問題，與幻覺無關。","網路連線問題與幻覺無關。"]},
+{"d":"Trustworthy AI","t":"single","q":"What does 'model robustness' mean in the context of Trustworthy AI?","q_zh":"在可信賴 AI 的脈絡中，「模型強健性（robustness）」是什麼意思？","o":["The model has high accuracy on the training set.","The model maintains stable performance under noise, attacks, or environmental variations.","The model uses minimal GPU memory.","The model is open-source."],"o_zh":["模型在訓練集上有高準確率。","模型在雜訊、攻擊或環境變動下維持穩定表現。","模型使用最少的 GPU 記憶體。","模型是開源的。"],"a":[1],"e":"robustness＝抗壓性：遇雜訊、對抗式攻擊、環境變動仍穩定。","oe":["訓練集準確率高可能只是過擬合，不是強健性。","遇雜訊/攻擊/環境變動仍維持穩定表現，正是 robustness 的定義。","用最少 GPU 記憶體是效率，不是強健性。","開源與強健性無關。"]},
+{"d":"Trustworthy AI","t":"single","q":"What is the primary benefit of using NVIDIA AI Enterprise in a business setting?","q_zh":"在企業環境中使用 NVIDIA AI Enterprise 的主要好處是什麼？","o":["Access to exclusive NVIDIA hardware","Comprehensive support and integration with enterprise IT systems","Free access to all NVIDIA software tools","Automatic model training and deployment"],"o_zh":["取得獨家的 NVIDIA 硬體","提供完整支援並與企業 IT 系統整合","免費取得所有 NVIDIA 軟體工具","自動模型訓練與部署"],"a":[1],"e":"AI Enterprise＝企業級的支援＋IT 整合（含安全更新、相容性保證）。","oe":["AI Enterprise 是軟體平台，不含獨家硬體。","提供企業 IT 系統的完整支援與整合，便於部署管理，是主要好處。","它是付費企業方案，不是全免費。","它不會全自動訓練與部署。"]},
+{"d":"Trustworthy AI","t":"single","q":"Why is explainability important in AI systems deployed in healthcare or finance?","q_zh":"為什麼可解釋性（explainability）在醫療或金融部署的 AI 系統中很重要？","o":["It speeds up inference time.","It helps understand why the model makes specific decisions, enhancing auditability and trust.","It reduces training data requirements.","It eliminates the need for human oversight."],"o_zh":["它加速推論時間。","它幫助理解模型為何做出特定決策，提升可審計性與信任。","它減少訓練資料需求。","它消除人類監督的需要。"],"a":[1],"e":"高風險場景（醫療/金融）要能說明「為什麼這樣判」，才能審計與究責。","oe":["可解釋性與推論速度無關。","幫助理解模型為何做決策、提升可審計性與信任，是高風險場景的關鍵。","與訓練資料需求無關。","恰恰相反，仍需人類監督。"]},
+{"d":"Trustworthy AI","t":"single","q":"In the context of NVIDIA AI Enterprise, what is the role of DGX systems for deploying RAG models?","q_zh":"在 NVIDIA AI Enterprise 的脈絡中，DGX 系統部署 RAG 模型的角色是什麼？","o":["DGX systems provide automatic bias detection tools.","DGX systems have built-in vector databases.","DGX systems offer high-performance computing capabilities optimized for AI workloads.","DGX systems include pre-trained RAG models."],"o_zh":["DGX 系統提供自動偏見偵測工具。","DGX 系統內建向量資料庫。","DGX 系統提供針對 AI 工作負載最佳化的高效能運算能力。","DGX 系統內含預訓練的 RAG 模型。"],"a":[2],"e":"DGX＝高效能運算硬體，提供算力，不內含軟體模型/資料庫。","oe":["DGX 不內建自動偏見偵測工具。","DGX 不內建向量資料庫。","提供針對 AI 工作負載最佳化的高效能運算，是 DGX 的本質。","DGX 是硬體系統，不內含預訓練模型。"]},
+{"d":"Trustworthy AI","t":"single","q":"Which of these is a key consideration when collecting training data for fine-tuning a customer-facing chatbot?","q_zh":"為客戶導向聊天機器人收集微調訓練資料時，哪個是關鍵考量？","o":["Only collect data from the largest user demographic.","Ensure diversity in age, gender, language, and cultural representation to reduce bias.","Use only synthetic data.","Limit dataset to under 1000 samples."],"o_zh":["只從最大的使用者族群收集資料。","確保年齡、性別、語言、文化代表性的多樣性以減少偏見。","只使用合成資料。","將資料集限制在 1000 筆以下。"],"a":[1],"e":"面向廣大客戶→資料要涵蓋多元族群，才不會對特定群體有偏見。","oe":["只收最大族群資料會放大偏見。","確保年齡/性別/語言/文化多樣性以減偏見，是關鍵考量。","只用合成資料缺乏真實代表性。","人為限制資料量在 1000 筆以下無助於公平。"]},
+{"d":"Data Processing","t":"single","q":"What is subword tokenization best suited for?","q_zh":"子詞切分（subword tokenization）最適合用於什麼？","o":["Splitting text at sentence boundaries","Handling rare or out-of-vocabulary words by breaking them into smaller units","Removing stop words","Translating between languages"],"o_zh":["在句子邊界切分文字","透過將罕見詞或未登錄詞拆成較小單位來處理它們","移除停用詞","在語言間翻譯"],"a":[1],"e":"子詞切分介於整字與字元之間，遇生字就拆小塊，解決未登錄詞（OOV）問題。","oe":["在句子邊界切分是 sentence segmentation，不是子詞切分。","把罕見/未登錄詞拆成更小單位（BPE/WordPiece），兼顧詞彙表大小與覆蓋率，是子詞切分的強項。","移除停用詞是文字清理。","語言間翻譯與切分無關。"]},
+{"d":"Data Processing","t":"single","q":"What is lemmatization in NLP preprocessing?","q_zh":"NLP 預處理中的詞形還原（lemmatization）是什麼？","o":["Removing all punctuation","Reducing words to their dictionary root form (e.g., 'running' → 'run')","Tokenizing into subwords","Embedding words into vectors"],"o_zh":["移除所有標點符號","將詞還原成字典中的原型（如 running → run）","切分成子詞","將詞嵌入成向量"],"a":[1],"e":"lemmatization＝依字典與詞性還原成原型（running→run），比硬截字尾的 stemming 更語意正確。","oe":["移除標點是文字清理。","還原成字典原型（running→run），是 lemmatization 的定義。","切成子詞是 subword tokenization。","嵌入成向量是 embedding。"]},
+{"d":"Data Processing","t":"single","q":"Which approach is recommended for fine-tuning a pre-trained generative AI model using NeMo to handle large datasets without memory issues?","q_zh":"建議用哪種方法在使用 NeMo 微調預訓練生成式 AI 模型時處理大型資料集而不發生記憶體問題？","o":["Using full precision training throughout the process.","Implementing mixed precision training with gradient accumulation.","Loading the entire dataset into GPU memory.","Disabling all regularization techniques."],"o_zh":["全程使用全精度訓練。","結合混合精度訓練與梯度累積。","將整個資料集載入 GPU 記憶體。","停用所有正則化技術。"],"a":[1],"e":"省記憶體組合拳：混合精度（FP16）＋梯度累積（小 batch 累積成大 batch）。","oe":["全精度訓練更吃記憶體。","混合精度＋梯度累積省記憶體又能處理大資料，是正解。","把整個資料集載入 GPU 不可行。","停用正則化會過擬合。"]},
+{"d":"Data Processing","t":"single","q":"Which Python library is commonly used for NLP preprocessing tasks?","q_zh":"哪個 Python 函式庫常用於 NLP 預處理任務？","o":["NumPy","spaCy","Matplotlib","Seaborn"],"o_zh":["NumPy","spaCy","Matplotlib","Seaborn"],"a":[1],"e":"NLP 前處理（斷詞、詞性、NER）一律想 spaCy。","oe":["NumPy 是數值運算函式庫，不是 NLP 專用。","spaCy 專為 NLP 設計（斷詞、詞性標註、NER），是正解。","Matplotlib 是繪圖視覺化工具。","Seaborn 是統計視覺化工具。"]},
+{"d":"Data Processing","t":"single","q":"Which of these is NOT a typical step in Exploratory Data Analysis (EDA) for LLM fine-tuning?","q_zh":"下列何者「不是」LLM 微調的探索性資料分析（EDA）的典型步驟？","o":["Distribution analysis of class balance","Length statistics for input text","Hyperparameter tuning","Vocabulary analysis for noise and rare words"],"o_zh":["類別平衡的分布分析","輸入文字的長度統計","超參數調整","雜訊與罕見詞的詞彙分析"],"a":[2],"e":"反向題（問「不是」）。EDA＝看資料；調超參數屬「訓練」階段，不屬資料探索。","oe":["類別平衡分布分析是 EDA 步驟。","輸入文字長度統計是 EDA 步驟。","超參數調整是訓練階段的工作，不屬資料探索——本題要選的就是它。","雜訊與罕見詞的詞彙分析是 EDA 步驟。"]},
+{"d":"NVIDIA Tools","t":"single","q":"Which of the following best describes NeMo's pre-built pipelines?","q_zh":"下列何者最能描述 NeMo 的預建 pipeline？","o":["They automatically reduce model size during training.","They offer pipelines for tasks like text classification and question answering, simplifying fine-tuning.","They eliminate the need for training data.","They only work on edge devices."],"o_zh":["它們會在訓練時自動縮小模型大小。","它們提供文字分類、問答等任務的 pipeline，簡化微調流程。","它們讓你不再需要訓練資料。","它們只能在邊緣裝置上運作。"],"a":[1],"e":"NeMo 預建 pipeline＝現成的任務範本，少寫程式快速微調。","oe":["NeMo pipeline 不會自動縮小模型大小。","提供分類、問答等任務的 pipeline，簡化微調、減少開發時間，是正解。","仍需訓練資料。","可在多種環境運作，不限邊緣裝置。"]},
+{"d":"NVIDIA Tools","t":"single","q":"Which NVIDIA framework supports building conversational AI models including ASR, NLP, and TTS?","q_zh":"哪個 NVIDIA 框架支援建構包含 ASR、NLP、TTS 的對話式 AI 模型？","o":["TensorRT","NeMo","DALI","DeepStream"],"o_zh":["TensorRT","NeMo","DALI","DeepStream"],"a":[1],"e":"ASR＋NLP＋TTS 一條龍的對話 AI 工具包＝NeMo。","oe":["TensorRT 是推論最佳化，不是對話 AI 框架。","NeMo 涵蓋 ASR、NLP、TTS 的對話 AI 工具包，是正解。","DALI 是影像資料載入，不是對話 AI。","DeepStream 是視訊分析，不是對話 AI。"]},
+{"d":"NVIDIA Tools","t":"single","q":"What is the role of NGC Catalog in the NVIDIA ecosystem?","q_zh":"NGC Catalog 在 NVIDIA 生態系中扮演什麼角色？","o":["It's a hardware management tool.","It's a repository providing GPU-validated containers, pre-trained models, and SDKs.","It's a training framework only.","It's a debugging tool."],"o_zh":["它是硬體管理工具。","它是提供經 GPU 驗證的容器、預訓練模型與 SDK 的資源庫。","它只是個訓練框架。","它是除錯工具。"],"a":[1],"e":"NGC＝NVIDIA 官方的 AI「素材庫」：容器、模型、SDK 都經 GPU 驗證。","oe":["NGC 不是硬體管理工具。","提供經 GPU 驗證的容器、預訓練模型與 SDK 的資源庫，是 NGC 的角色。","NGC 是資源庫，不是訓練框架。","NGC 不是除錯工具。"]},
+{"d":"Transformer","t":"single","q":"In self-attention, what do the Query, Key, and Value vectors roughly represent?","q_zh":"在自注意力中，Query、Key、Value 三個向量大致代表什麼？","o":["Three copies of the model weights","Query = what a token is looking for; Key = what each token offers; Value = the information actually carried/retrieved","Three different loss functions","The learning rate, batch size, and epoch count"],"o_zh":["模型權重的三份副本","Query＝某 token 在找什麼；Key＝每個 token 提供什麼；Value＝實際被取出/攜帶的資訊","三種不同的損失函數","學習率、批次大小與訓練輪數"],"a":[1],"e":"用圖書館比喻：Query 是你的查詢需求，Key 是每本書的標籤，拿 Query 和各 Key 比對算出相關度（注意力權重），再依權重加總對應的 Value（書的內容）。","oe":["Q/K/V 是輸入經三組不同權重投影出來的向量，不是權重的副本。","Query=在找什麼、Key=每個 token 提供什麼、Value=實際攜帶的資訊，三者比對後加權取值，是正解。","它們不是損失函數。","那些是超參數，與 Q/K/V 無關。"]},
+{"d":"Transformer","t":"single","q":"What is multi-head attention designed to do?","q_zh":"多頭注意力（multi-head attention）的設計目的是什麼？","o":["Replace the encoder layer","Allow the model to attend to different parts of the input in parallel from different representational subspaces","Reduce the model size","Replace positional encoding"],"o_zh":["取代 encoder 層","讓模型從不同的表示子空間平行關注輸入的不同部分","縮小模型大小","取代位置編碼"],"a":[1],"e":"多頭＝多位專家平行看：一組看語法、一組看語意，最後整合。","oe":["multi-head attention 是 encoder 的一部分，不是取代它。","從不同表示子空間平行關注輸入不同部分，是 multi-head 的設計目的。","它不為縮小模型。","它與位置編碼功能不同，不互相取代。"]},
+{"d":"Fine-tuning","t":"single","q":"What is the primary advantage of using LoRA for fine-tuning LLMs in RAG applications?","q_zh":"在 RAG 應用中使用 LoRA 微調 LLM 的主要優勢是什麼？","o":["LoRA increases the model's context window size.","LoRA reduces the memory footprint during fine-tuning.","LoRA enhances multi-modal capabilities.","LoRA improves tokenization efficiency."],"o_zh":["LoRA 增加模型的 context window 大小。","LoRA 減少微調時的記憶體佔用。","LoRA 增強多模態能力。","LoRA 提升斷詞效率。"],"a":[1],"e":"LoRA 的賣點就是「省記憶體微調」。","oe":["LoRA 不改變 context window 大小。","LoRA 透過低秩自適應大幅減少微調時的記憶體佔用，是主要優勢。","與多模態能力無關。","與斷詞效率無關。"]},
+{"d":"Fine-tuning","t":"single","q":"What is the core principle of LoRA (Low-Rank Adaptation)?","q_zh":"LoRA（低秩適應）的核心原理是什麼？","o":["Update all model parameters during fine-tuning.","Insert and train two low-rank matrices alongside frozen original weights.","Randomly drop neurons during training.","Compress the model through quantization."],"o_zh":["在微調時更新所有模型參數。","在凍結的原始權重旁插入並訓練兩個低秩矩陣。","在訓練時隨機丟棄神經元。","透過量化壓縮模型。"],"a":[1],"e":"LoRA：凍結大權重，旁邊插兩個低秩小矩陣 A、B 來訓練，省算力。","oe":["更新所有參數是全量微調，與 LoRA 相反。","凍結原始權重、旁邊插入兩個低秩矩陣訓練，是 LoRA 的核心原理。","隨機丟神經元是 dropout。","量化壓縮是量化，不是 LoRA。"]},
+{"d":"Prompt Engineering","t":"single","q":"What is one effective use of NVIDIA NeMo's prompt tuning?","q_zh":"NVIDIA NeMo 的 prompt tuning 有哪一種有效用法？","o":["Updating all model parameters","Keeping model weights frozen and learning soft prompts to be prepended to the input","Removing layers from the model","Replacing the attention mechanism"],"o_zh":["更新所有模型參數","凍結模型權重，學習要加在輸入前的軟提示（soft prompt）","從模型移除層","取代注意力機制"],"a":[1],"e":"prompt tuning＝不動權重，只學一段加在輸入前的「軟提示」向量（PEFT 之一）。","oe":["prompt tuning 不更新所有參數。","凍結權重、學習加在輸入前的 soft prompt，是 prompt tuning 的定義。","與移除層無關。","不會取代注意力機制。"]},
+{"d":"Prompt Engineering","t":"single","q":"Which is true about zero-shot prompting?","q_zh":"關於零樣本提示（zero-shot prompting），下列何者正確？","o":["It requires retraining the model.","It gives instructions without providing examples, relying on the model's pretrained knowledge.","It only works on small models.","It uses external databases automatically."],"o_zh":["它需要重新訓練模型。","它不提供範例直接下指令，仰賴模型的預訓練知識。","它只在小型模型上有效。","它會自動使用外部資料庫。"],"a":[1],"e":"zero-shot＝零範例，純靠指令清晰度與模型既有知識。","oe":["zero-shot 不需要重訓模型。","不給範例直接下指令、仰賴預訓練知識，是 zero-shot 的定義。","不只小模型有效。","自動使用外部資料庫是 RAG，不是 zero-shot。"]},
+{"d":"RAG","t":"single","q":"Which Python library is commonly used for converting documents into embeddings for RAG pipelines?","q_zh":"哪個 Python 函式庫常用於將文件轉換成 RAG pipeline 的 embedding？","o":["Pandas","Sentence-Transformers","NumPy","Pillow"],"o_zh":["Pandas","Sentence-Transformers","NumPy","Pillow"],"a":[1],"e":"產生句子/文件 embedding 的常用庫＝Sentence-Transformers。","oe":["Pandas 是資料分析，不產生 embedding。","Sentence-Transformers 常用於把文件轉成 embedding，是 RAG 標配。","NumPy 是數值運算，不直接做 embedding。","Pillow 是影像處理，與文字 embedding 無關。"]},
+{"d":"RAG","t":"single","q":"What is the typical workflow of a RAG (Retrieval-Augmented Generation) system?","q_zh":"RAG（檢索增強生成）系統的典型工作流程是什麼？","o":["Generate → Retrieve → Output","Retrieve relevant documents → Augment prompt with retrieved context → Generate response","Train → Validate → Deploy","Tokenize → Embed → Train"],"o_zh":["生成 → 檢索 → 輸出","檢索相關文件 → 用檢索到的脈絡增強提示 → 生成回應","訓練 → 驗證 → 部署","斷詞 → embedding → 訓練"],"a":[1],"e":"RAG 口訣：先檢索、再把資料塞進提示、最後生成（Retrieve → Augment → Generate）。","oe":["順序錯，檢索必須在生成之前。","檢索相關文件 → 用脈絡增強提示 → 生成回應，是 RAG 標準流程。","那是 ML 開發流程，不是 RAG 推論流程。","那是訓練前處理，不是 RAG 流程。"]},
+{"d":"Evaluation","t":"single","q":"In the context of fine-tuning LLMs, which metric is most commonly used to assess the performance of a fine-tuned model on a validation set?","q_zh":"在微調 LLM 的脈絡中，哪個指標最常用來評估微調模型在驗證集上的效能？","o":["Pixel accuracy","Accuracy or task-specific metrics (e.g., F1 for classification, BLEU for translation)","Frame rate","GPU temperature"],"o_zh":["像素準確率（Pixel accuracy）","準確率或任務特定指標（如分類用 F1、翻譯用 BLEU）","幀率（Frame rate）","GPU 溫度"],"a":[1],"e":"驗證集評估＝看任務指標：分類 F1、翻譯 BLEU、摘要 ROUGE。","oe":["像素準確率是影像分割指標，與 LLM 無關。","準確率或任務特定指標（F1/BLEU/ROUGE）是微調 LLM 的標準驗證指標。","幀率是影像/視訊指標，與 LLM 無關。","GPU 溫度是硬體指標，不是模型效能。"]},
+{"d":"Transformer","t":"single","q":"What is the primary purpose of the KV cache in autoregressive LLM inference?","q_zh":"在自迴歸 LLM 推論中，KV cache（鍵值快取）的主要目的是什麼？","o":["To permanently store the model's weights on disk","To cache the Key and Value tensors of previous tokens so they are not recomputed at each step","To increase the model's context window size","To compress the model for edge devices"],"o_zh":["把模型權重永久存到磁碟","快取先前 token 的 Key 與 Value 張量，避免每一步重算","增加模型的 context window 大小","為邊緣裝置壓縮模型"],"a":[1],"e":"自迴歸是逐字生成。若每多生一個字都重算前面所有 token 的 K/V 很浪費，KV cache 把算過的 K、V 存起來重用，大幅降延遲（代價是吃顯存）。","oe":["KV cache 存在 GPU 顯存、生成結束即釋放，不是把權重存磁碟。","快取先前 token 的 K、V 張量、避免每步重算，正是 KV cache 的目的。","它不改變 context window 的上限。","壓縮模型是量化/剪枝，不是 KV cache。"]},
+{"d":"Transformer","t":"single","q":"What does 'inference-time scaling' (test-time compute) refer to in modern LLMs?","q_zh":"現代 LLM 的「推論期擴展（inference-time scaling / test-time compute）」指的是什麼？","o":["Adding more GPUs during pre-training","Spending more compute at inference (e.g., longer reasoning chains, sampling many answers) to improve answer quality","Reducing the number of tokens to save cost","Increasing the batch size during training"],"o_zh":["在預訓練時增加更多 GPU","在推論時投入更多運算（如更長的推理鏈、取樣多個答案再挑最佳）以提升答案品質","減少 token 數以節省成本","在訓練時增加批次大小"],"a":[1],"e":"傳統靠「把模型練更大」；inference-time scaling 則是「答題時多想一點」——推論時多花運算（更長 CoT、多次取樣選最佳）換取更好答案，是 2024-2026 的重要趨勢。","oe":["在預訓練增加 GPU 是訓練期擴展，不是推論期。","在推論時投入更多運算以提升品質，正是 inference-time scaling。","減少 token 是省成本，與推論期擴展相反。","那是訓練期的 batch 調整。"]},
+{"d":"Transformer","t":"single","q":"In LLM decoding, what does top-p (nucleus) sampling do?","q_zh":"在 LLM 解碼中，top-p（nucleus，核取樣）做的是什麼？","o":["Always picks the single highest-probability token","Samples from the smallest set of tokens whose cumulative probability exceeds p","Keeps exactly the k highest-probability tokens regardless of their probabilities","Removes randomness entirely"],"o_zh":["永遠挑機率最高的單一 token","從「累積機率超過 p」的最小候選集合中取樣","固定保留機率最高的 k 個 token，不管它們的機率","完全移除隨機性"],"a":[1],"e":"三個旋鈕別搞混：temperature 調分布平緩度；top-k 固定取前 k 個；top-p 取「累積機率達 p（如 0.9）」的動態候選集，候選數隨情境變化。","oe":["永遠挑最高機率是 greedy decoding。","從累積機率超過 p 的最小集合取樣，是 top-p 的定義，候選數會動態變化。","固定保留 k 個是 top-k，不是 top-p。","top-p 仍保有隨機性，不會完全移除。"]},
+{"d":"Transformer","t":"single","q":"What is a key drawback of greedy decoding in text generation?","q_zh":"在文字生成中，貪婪解碼（greedy decoding）的主要缺點是什麼？","o":["It is too slow for production use","It always picks the locally highest-probability token, which can miss a better overall sequence and produce repetitive text","It requires a vector database","It increases the model's parameter count"],"o_zh":["對生產環境而言太慢","每步只挑當下機率最高的 token，可能錯過整體更好的序列，且輸出易重複","它需要向量資料庫","它會增加模型參數量"],"a":[1],"e":"greedy 每步只看眼前最佳，像走迷宮只挑當下最寬的路，容易卡在局部最佳、輸出重複。beam search 或取樣可緩解。","oe":["greedy 是最快的解碼方式之一，速度不是缺點。","每步只挑局部最高機率、可能錯過整體更佳序列且輸出重複，是 greedy 的主要缺點。","greedy 與向量資料庫無關。","與參數量無關。"]},
+{"d":"Transformer","t":"single","q":"Why did the Transformer architecture largely replace RNNs/LSTMs for large-scale language modeling?","q_zh":"為什麼 Transformer 架構在大規模語言建模上大致取代了 RNN/LSTM？","o":["Transformers use far fewer parameters","Transformers process tokens in parallel and capture long-range dependencies better, while RNNs must process sequentially","RNNs cannot be trained on GPUs","Transformers do not need training data"],"o_zh":["Transformer 用的參數少很多","Transformer 可平行處理 token 且更能捕捉長距依賴，而 RNN 必須依序逐步處理","RNN 無法在 GPU 上訓練","Transformer 不需要訓練資料"],"a":[1],"e":"RNN 必須一個字接一個字算（無法平行），長句還會梯度消失忘掉前文。Transformer 靠 attention 一次看全句、可大規模平行訓練，才得以越做越大。","oe":["Transformer 通常參數更多，不是更少。","可平行處理＋更好捕捉長距依賴（RNN 必須依序處理），正是 Transformer 勝出的關鍵。","RNN 也能在 GPU 訓練，只是無法跨時間步平行。","Transformer 仍需大量訓練資料。"]},
+{"d":"Transformer","t":"single","q":"How do contextual embeddings (e.g., from BERT) differ from static word embeddings (e.g., Word2Vec/GloVe)?","q_zh":"上下文 embedding（如 BERT）與靜態詞向量（如 Word2Vec/GloVe）有何不同？","o":["Contextual embeddings assign the same vector to a word regardless of context","Contextual embeddings change a word's vector based on surrounding context, so 'bank' differs in 'river bank' vs 'bank account'","Static embeddings require a GPU but contextual ones do not","They are identical in practice"],"o_zh":["上下文 embedding 不管語境都給同一個詞相同向量","上下文 embedding 會依周圍語境改變詞向量，所以「bank」在「river bank」與「bank account」中不同","靜態 embedding 需要 GPU 而上下文的不用","兩者實務上完全相同"],"a":[1],"e":"Word2Vec/GloVe 是「一詞一向量」，無法分辨多義詞；BERT 等上下文 embedding 會依整句語境動態調整，river bank 與 bank account 的 bank 會得到不同向量。","oe":["一詞一向量是靜態 embedding 的特性，不是上下文的。","依語境改變詞向量、能區分多義詞，正是上下文 embedding 的特點。","兩者是否用 GPU 與此區別無關。","兩者並不相同，差別正在於是否考慮語境。"]},
+{"d":"Training","t":"single","q":"Which loss function is most commonly used to train a language model to predict the next token?","q_zh":"訓練語言模型預測下一個 token 時，最常用的損失函數是什麼？","o":["Mean Squared Error (MSE)","Cross-entropy loss","Hinge loss","Cosine distance"],"o_zh":["均方誤差（MSE）","交叉熵損失（Cross-entropy loss）","Hinge loss","餘弦距離"],"a":[1],"e":"「下一個 token 是詞表中哪一個」是分類問題（幾萬類），標準損失就是 cross-entropy：模型給正確 token 的機率越低，損失越大。","oe":["MSE 用於迴歸（連續數值），不適合分類式的下一詞預測。","交叉熵是下一詞預測（多類分類）的標準損失函數。","Hinge loss 多用於 SVM，不是語言模型常用。","餘弦距離是相似度度量，不是訓練損失。"]},
+{"d":"Fine-tuning","t":"single","q":"What is knowledge distillation in deep learning?","q_zh":"深度學習中的知識蒸餾（knowledge distillation）是什麼？","o":["Removing low-importance weights from a model","Training a smaller 'student' model to mimic a larger 'teacher' model's outputs","Converting a model to INT8 precision","Splitting training across multiple GPUs"],"o_zh":["移除模型中不重要的權重","訓練一個較小的「學生」模型去模仿較大「老師」模型的輸出","把模型轉成 INT8 精度","把訓練分散到多張 GPU"],"a":[1],"e":"蒸餾＝大模型當老師、小模型當學生，讓學生學老師的輸出分布，得到體積小但表現接近的模型。與剪枝、量化並列為模型壓縮三招。","oe":["移除不重要權重是剪枝（pruning），不是蒸餾。","訓練小的學生模型模仿大的老師模型，正是知識蒸餾。","轉 INT8 是量化，不是蒸餾。","分散到多 GPU 是分散式訓練，不是蒸餾。"]},
+{"d":"NVIDIA Tools","t":"single","q":"A developer wants to integrate a deployed LLM into an existing app with minimal code changes. Which NIM feature helps most?","q_zh":"開發者想用最少的程式改動把已部署的 LLM 整合進既有 App，NIM 的哪個特性幫助最大？","o":["NIM exposes industry-standard, often OpenAI-compatible REST APIs","NIM automatically retrains the model on app data","NIM replaces the need for any GPU","NIM stores all user data in a public dataset"],"o_zh":["NIM 提供業界標準、通常與 OpenAI 相容的 REST API","NIM 會用 App 資料自動重新訓練模型","NIM 讓你完全不需要 GPU","NIM 會把所有使用者資料存進公開資料集"],"a":[0],"e":"NIM 把模型包成微服務並提供標準 API（多與 OpenAI 相容），原本用 OpenAI SDK 的程式幾乎只要改個 endpoint 就能接上。","oe":["提供業界標準、常與 OpenAI 相容的 REST API，換 endpoint 即可整合，是正解。","NIM 是推論服務，不會自動重訓模型。","NIM 仍需 GPU 來跑推論。","NIM 不會把使用者資料公開。"]},
+{"d":"Optimization","t":"single","q":"What is the benefit of in-flight (continuous) batching in TensorRT-LLM / modern LLM serving?","q_zh":"in-flight（continuous，連續）批次處理在 TensorRT-LLM／現代 LLM 服務中的好處是什麼？","o":["It waits for all requests in a batch to finish before starting new ones","It dynamically inserts new requests into the batch as soon as others finish, keeping the GPU highly utilized","It trains multiple models at once","It removes the need for a tokenizer"],"o_zh":["它會等整批請求全部完成才開始新請求","只要有請求完成就立刻把新請求插進批次，讓 GPU 維持高使用率","它能同時訓練多個模型","它讓你不再需要 tokenizer"],"a":[1],"e":"傳統靜態批次要等整批最慢的生成完才換下一批，GPU 常閒置；in-flight batching 是「誰先生完誰先走、空位馬上補新請求」，吞吐明顯提升。","oe":["等整批全部完成是傳統靜態批次的缺點，正是 in-flight batching 要解決的。","請求一完成就補新請求進批次、維持 GPU 高使用率，是 in-flight batching 的好處。","它是推論服務技術，不是訓練多模型。","它與 tokenizer 無關。"]},
+{"d":"Optimization","t":"single","q":"PagedAttention (popularized by vLLM) primarily improves LLM serving by:","q_zh":"PagedAttention（由 vLLM 發揚光大）主要透過下列何者改善 LLM 服務？","o":["Compressing the model weights to INT4","Managing the KV cache in non-contiguous 'pages' to reduce memory waste and serve more concurrent requests","Eliminating the attention mechanism","Replacing GPUs with CPUs"],"o_zh":["把模型權重壓成 INT4","用非連續的「分頁」方式管理 KV cache，減少記憶體浪費、服務更多並行請求","移除注意力機制","用 CPU 取代 GPU"],"a":[1],"e":"KV cache 若要求連續記憶體會產生碎片浪費。PagedAttention 借作業系統「分頁」概念把 KV cache 切成小頁彈性配置，省顯存、能塞更多並行請求。","oe":["壓 INT4 是量化，不是 PagedAttention。","用分頁管理 KV cache、減少記憶體碎片、提升並行量，正是 PagedAttention 的核心。","它沒有移除注意力，反而是最佳化 attention 的 KV cache。","它仍在 GPU 上執行。"]},
+{"d":"Agentic AI","t":"single","q":"In building an agentic LLM application, what is the role of a framework like LangChain / LangGraph?","q_zh":"在建構 agentic（代理式）LLM 應用時，LangChain／LangGraph 這類框架扮演什麼角色？","o":["They train the base LLM from scratch","They orchestrate LLM calls, tool/function use, memory, and multi-step workflows","They are GPU device drivers","They are vector databases"],"o_zh":["它們從頭訓練基礎 LLM","它們協調 LLM 呼叫、工具/函式使用、記憶與多步驟流程","它們是 GPU 裝置驅動程式","它們是向量資料庫"],"a":[1],"e":"Agentic 應用不只「問一次答一次」，而是讓模型會呼叫工具、查資料、分多步完成任務。LangChain/LangGraph 就是把這些步驟串起來的「編排（orchestration）」框架。","oe":["它們不訓練基礎模型，那是 NeMo/訓練框架的事。","協調 LLM 呼叫、工具使用、記憶與多步驟流程（orchestration），正是這類框架的角色。","它們不是 GPU 驅動程式。","它們可整合向量資料庫，但本身不是向量資料庫。"]},
+{"d":"Frameworks","t":"single","q":"Which combination is most commonly used to load and fine-tune open-source LLMs in Python?","q_zh":"在 Python 中載入並微調開源 LLM，最常用的組合是？","o":["Matplotlib + Seaborn","PyTorch + Hugging Face Transformers","Apache Spark + Hadoop","Flask + Django"],"o_zh":["Matplotlib + Seaborn","PyTorch + Hugging Face Transformers","Apache Spark + Hadoop","Flask + Django"],"a":[1],"e":"PyTorch 是底層深度學習框架，Hugging Face Transformers 提供現成的預訓練模型與訓練介面，兩者是開源 LLM 開發的標配。","oe":["Matplotlib/Seaborn 是視覺化工具，不是模型訓練框架。","PyTorch（底層框架）＋Hugging Face Transformers（模型庫）是載入與微調開源 LLM 的標配。","Spark/Hadoop 是大數據處理，不是 LLM 訓練框架。","Flask/Django 是 Web 框架，不是 LLM 訓練工具。"]},
+{"d":"Optimization","t":"single","q":"What is the main advantage of FP8 precision supported on NVIDIA Hopper (H100) GPUs for LLMs?","q_zh":"NVIDIA Hopper（H100）GPU 支援的 FP8 精度，對 LLM 的主要好處是什麼？","o":["It doubles the number of model parameters","It further reduces memory and speeds up compute versus FP16, with minimal accuracy loss when handled carefully","It is only used for storing data on disk","It removes the need for Tensor Cores"],"o_zh":["它讓模型參數量加倍","相較 FP16 能進一步省記憶體、加速運算，謹慎處理下準確度損失極小","它只用於把資料存到磁碟","它讓你不再需要 Tensor Core"],"a":[1],"e":"精度越低數值越小：FP32→FP16→FP8。H100 的 Transformer Engine 支援 FP8，比 FP16 再省一半記憶體、再快一截，是大模型訓練/推論新利器。","oe":["FP8 是降精度，不會增加參數量。","相較 FP16 進一步省記憶體、加速運算且準確度損失極小，是 FP8 的主要好處。","FP8 用於運算與儲存張量，不是只存磁碟。","FP8 正是透過 Tensor Core 加速，並未取消它。"]},
+{"d":"Evaluation","t":"single","q":"In a spam classifier, what does 'recall' specifically measure?","q_zh":"在垃圾郵件分類器中，「recall（召回率）」具體衡量什麼？","o":["Of all emails predicted as spam, how many were actually spam","Of all actual spam emails, how many the model correctly caught","The total proportion of correct predictions","The model's inference speed"],"o_zh":["在所有被預測為垃圾的郵件中，實際是垃圾的比例","在所有實際的垃圾郵件中，模型正確抓到的比例","所有預測正確的整體比例","模型的推論速度"],"a":[1],"e":"Precision＝抓到的有多準（預測為正中真為正）；Recall＝該抓的抓到多少（實際為正中被抓到）。漏抓很糟時看 recall。","oe":["「預測為垃圾中實際是垃圾的比例」是 precision，不是 recall。","「實際垃圾中被正確抓到的比例」正是 recall 的定義。","整體預測正確比例是 accuracy。","推論速度與 recall 無關。"]},
+{"d":"Evaluation","t":"single","q":"What does an AUC (Area Under the ROC Curve) of 0.5 indicate for a binary classifier?","q_zh":"二元分類器的 AUC（ROC 曲線下面積）為 0.5 代表什麼？","o":["The model is perfect","The model performs no better than random guessing","The model has 50% accuracy on the training set","The model is overfitting"],"o_zh":["模型完美無缺","模型表現與隨機猜測無異","模型在訓練集上有 50% 準確率","模型過度擬合"],"a":[1],"e":"AUC 範圍 0~1：1.0＝完美區分，0.5＝跟丟銅板一樣（隨機）。越接近 1 區分力越強。","oe":["AUC=1.0 才是完美，0.5 不是。","AUC=0.5 表示與隨機猜測無異，是正解。","AUC 不等於訓練集準確率。","AUC=0.5 只說明區分力等於隨機，不直接代表過擬合。"]},
+{"d":"Evaluation","t":"single","q":"A confusion matrix is primarily used to:","q_zh":"混淆矩陣（confusion matrix）主要用來：","o":["Visualize the breakdown of true/false positives and negatives for a classifier","Tune the learning rate","Store model weights","Generate text embeddings"],"o_zh":["呈現分類器的真陽/假陽/真陰/假陰各類別數量","調整學習率","儲存模型權重","產生文字 embedding"],"a":[0],"e":"混淆矩陣是一張 2x2 表（TP/FP/FN/TN），由它可算出 precision、recall、F1，是分類評估的基礎。","oe":["呈現 TP/FP/FN/TN 的分布、並可據此算 precision/recall，是混淆矩陣的用途。","調學習率與混淆矩陣無關。","它不儲存權重。","它不產生 embedding。"]},
+{"d":"Evaluation","t":"single","q":"A model achieves 99% accuracy on training data but only 65% on validation data. This is a classic sign of:","q_zh":"模型在訓練資料達 99% 準確率，但驗證資料只有 65%。這是什麼的典型徵兆？","o":["Underfitting","Overfitting","Data leakage into the test set","Perfect generalization"],"o_zh":["欠擬合（Underfitting）","過度擬合（Overfitting）","測試集資料外洩","完美泛化"],"a":[1],"e":"訓練超高、驗證很差＝把訓練資料「背起來」卻學不到通則。99% vs 65% 的大落差就是過擬合，可用 dropout、正則化、加資料緩解。","oe":["欠擬合是訓練與驗證「都差」，不符這裡訓練很高的情況。","訓練高、驗證低的大落差，正是過擬合的典型徵兆。","資料外洩通常讓分數異常偏高，與此相反。","完美泛化應是訓練與驗證都高且接近。"]},
+{"d":"Evaluation","t":"single","q":"Which is a hyperparameter (set before training), not a learned parameter?","q_zh":"下列何者是「超參數」（訓練前設定），而非訓練學到的參數？","o":["The model's attention weight values","The learning rate","The token embeddings learned during training","The bias terms in each layer"],"o_zh":["模型的注意力權重數值","學習率（learning rate）","訓練中學到的 token embedding","各層的偏置項（bias）"],"a":[1],"e":"參數＝訓練學出來的（權重、bias、embedding）；超參數＝你事先設定的（學習率、batch size、層數），常用 grid/random/Bayesian search 調。","oe":["注意力權重是訓練學到的參數，不是超參數。","學習率是訓練前設定的超參數，是正解。","token embedding 是訓練學到的參數。","bias 是訓練學到的參數。"]},
+{"d":"Evaluation","t":"single","q":"Why is a separate test set kept untouched until the very end of model development?","q_zh":"為什麼測試集要保留到模型開發的最後才動用？","o":["To speed up training","To provide an unbiased estimate of generalization on unseen data","To increase the model's parameter count","Because the validation set is unnecessary"],"o_zh":["為了加快訓練","為了對「未見過的資料」提供無偏的泛化能力估計","為了增加模型參數量","因為驗證集是多餘的"],"a":[1],"e":"訓練集用來學、驗證集用來調參選模型、測試集只在最後看一次。反覆用測試集調整＝偷看答案，估計就不公正了。","oe":["保留測試集與訓練速度無關。","提供未見資料上的無偏泛化估計，正是保留測試集的目的。","與參數量無關。","驗證集用於調參與選模型，並非多餘。"]},
+{"d":"Evaluation","t":"single","q":"What is the 'LLM-as-a-judge' approach to evaluation?","q_zh":"評估中的「LLM-as-a-judge（用 LLM 當評審）」方法是什麼？","o":["Using a strong LLM to score or compare other models' outputs against criteria","Letting the model grade its own training loss","A hardware benchmark for GPUs","A method to compress models"],"o_zh":["用一個強大的 LLM 依準則為其他模型的輸出評分或比較","讓模型自己評自己的訓練損失","一種 GPU 硬體基準測試","一種模型壓縮方法"],"a":[0],"e":"開放式生成（摘要、對話）難用 BLEU 等自動指標衡量，於是用一個強 LLM 依評分準則替輸出打分或兩兩比較，省去大量人工。","oe":["用強 LLM 依準則替其他模型輸出評分/比較，正是 LLM-as-a-judge。","它不是評自己的訓練損失。","它與 GPU 硬體基準無關。","它與模型壓縮無關。"]},
+{"d":"Evaluation","t":"single","q":"What does the MMLU benchmark primarily measure for LLMs?","q_zh":"MMLU 基準主要衡量 LLM 的什麼能力？","o":["Image classification accuracy","Broad multitask knowledge and reasoning across 57 subjects via multiple-choice questions","Inference latency in milliseconds","GPU power consumption"],"o_zh":["影像分類準確率","透過選擇題衡量橫跨 57 個學科的廣泛多任務知識與推理","以毫秒計的推論延遲","GPU 耗電量"],"a":[1],"e":"MMLU（Massive Multitask Language Understanding）用涵蓋 57 學科（數學、法律、醫學等）的選擇題衡量 LLM 廣博知識與推理，是常見能力排行依據。","oe":["MMLU 是語言知識基準，不是影像分類。","橫跨 57 學科的多任務知識與推理選擇題，正是 MMLU 衡量的。","它不衡量推論延遲。","它不衡量耗電量。"]},
+{"d":"Evaluation","t":"single","q":"In an A/B test comparing two model versions, why is statistical significance important before declaring a winner?","q_zh":"在比較兩個模型版本的 A/B 測試中，為何要先確認統計顯著性才宣告勝者？","o":["To make the test run faster","To ensure the observed difference is unlikely due to random chance rather than a real effect","To reduce the model's size","To avoid using a control group"],"o_zh":["讓測試跑得更快","確保觀察到的差異「不太可能只是隨機波動」，而是真實效果","縮小模型大小","避免使用對照組"],"a":[1],"e":"樣本少時，A 比 B 高 1% 可能只是運氣。統計顯著性（如 p 值）幫你判斷差異是真的還是抽樣雜訊，避免換錯模型。","oe":["統計顯著性與測試速度無關。","確保差異不太可能只是隨機波動、而是真實效果，正是其重要性。","與模型大小無關。","A/B 測試本就需要對照組（A 組），不是要避免它。"]},
+{"d":"Data Processing","t":"single","q":"Which pandas structure is used to hold a 2-dimensional, labeled table of data?","q_zh":"pandas 中用來存放「二維、帶標籤」資料表的結構是哪一個？","o":["Series","DataFrame","ndarray","Tensor"],"o_zh":["Series","DataFrame","ndarray","Tensor"],"a":[1],"e":"pandas 兩大結構：Series 是一維（單欄），DataFrame 是二維表格（多欄、有列/欄標籤），前處理最常用 DataFrame。","oe":["Series 是一維（單欄）資料。","DataFrame 是二維、帶列/欄標籤的資料表，是正解。","ndarray 是 NumPy 的多維陣列，沒有欄標籤。","Tensor 是 PyTorch/TensorFlow 的張量，不是 pandas 結構。"]},
+{"d":"Data Processing","t":"single","q":"Which Python libraries are most commonly used for data visualization?","q_zh":"哪些 Python 函式庫最常用於資料視覺化？","o":["Matplotlib and Seaborn","spaCy and NLTK","Triton and TensorRT","Flask and FastAPI"],"o_zh":["Matplotlib 與 Seaborn","spaCy 與 NLTK","Triton 與 TensorRT","Flask 與 FastAPI"],"a":[0],"e":"Matplotlib 是 Python 繪圖基礎庫，Seaborn 建在其上做統計圖更美更快。視覺化一律想這兩個。","oe":["Matplotlib（基礎繪圖）與 Seaborn（統計圖）是資料視覺化標配。","spaCy/NLTK 是 NLP 函式庫，不是視覺化。","Triton/TensorRT 是部署與推論最佳化，不是視覺化。","Flask/FastAPI 是 Web 框架，不是視覺化。"]},
+{"d":"Data Processing","t":"single","q":"What is a common technique for handling missing numerical values in a dataset?","q_zh":"處理資料集中數值型缺失值的常見技術是什麼？","o":["Always delete the entire dataset","Imputation, e.g., filling with the column's mean or median","Converting them to text","Increasing the learning rate"],"o_zh":["一律刪除整個資料集","填補（imputation），例如用該欄的平均數或中位數填入","把它們轉成文字","提高學習率"],"a":[1],"e":"缺失值常用「填補（imputation）」：數值欄可填平均數或中位數（偏態資料用中位數較穩），或用模型預測；很少直接丟掉整個資料集。","oe":["刪除整個資料集太極端，浪費大量可用資料。","用平均數/中位數等填補（imputation），是處理缺失值的常見做法。","把數值轉成文字不解決缺失問題。","學習率是訓練超參數，與缺失值處理無關。"]},
+{"d":"Data Processing","t":"single","q":"Which visualization is particularly useful for spotting outliers in a numerical column?","q_zh":"哪種視覺化特別適合用來找出數值欄位中的離群值（outliers）？","o":["Box plot (box-and-whisker)","Pie chart","Word cloud","Confusion matrix"],"o_zh":["盒鬚圖（box plot）","圓餅圖","文字雲","混淆矩陣"],"a":[0],"e":"盒鬚圖用四分位數畫出分布，超出鬚線（通常 1.5 倍 IQR）的點會被標成離群值，最適合一眼抓異常。","oe":["盒鬚圖以四分位數呈現分布、超出鬚線的點即離群值，最適合找 outlier。","圓餅圖呈現類別占比，不適合找離群值。","文字雲呈現詞頻，與數值離群無關。","混淆矩陣是分類評估工具，不是找離群值的。"]},
+{"d":"Data Processing","t":"single","q":"What is the difference between min-max normalization and z-score standardization?","q_zh":"min-max 正規化與 z-score 標準化的差別是什麼？","o":["They are the same operation","Min-max rescales values to a fixed range (e.g., 0 to 1); z-score centers data to mean 0 and standard deviation 1","Min-max only works on text data","Z-score increases the number of features"],"o_zh":["兩者是相同運算","min-max 把數值縮放到固定範圍（如 0 到 1）；z-score 把資料中心化為平均 0、標準差 1","min-max 只能用於文字資料","z-score 會增加特徵數量"],"a":[1],"e":"特徵縮放兩招：min-max 壓到 [0,1] 固定區間（受極值影響大）；z-score 減平均除標準差→平均0標準差1（對離群值較穩健）。","oe":["兩者不是相同運算，公式與結果都不同。","min-max 縮放到固定範圍、z-score 中心化為平均0標準差1，正是兩者差別。","min-max 用於數值資料，不是文字。","z-score 只是縮放數值，不會增加特徵數。"]},
+{"d":"Data Processing","t":"single","q":"Why is one-hot encoding used for categorical features like 'color = {red, green, blue}'?","q_zh":"為什麼像「color = {紅, 綠, 藍}」這種類別特徵要用 one-hot 編碼？","o":["To compress the data","To represent categories as binary vectors so the model doesn't assume a false numeric order","To translate the data to another language","To remove the feature entirely"],"o_zh":["為了壓縮資料","把類別表示成二元向量，避免模型誤以為類別間有數值大小順序","把資料翻譯成另一種語言","為了完全移除該特徵"],"a":[1],"e":"若把紅=1、綠=2、藍=3，模型會誤以為「藍>綠>紅」。one-hot 把每類變成獨立 0/1 欄位（紅=[1,0,0]…），消除假順序。","oe":["one-hot 通常會增加欄位數，不是壓縮。","把類別變成二元向量、避免模型誤判數值順序，正是 one-hot 的目的。","它與語言翻譯無關。","它是表示類別，不是移除特徵。"]},
+{"d":"Data Processing","t":"single","q":"Why is deduplication an important step when preparing a large text corpus for LLM training?","q_zh":"為大型文字語料準備 LLM 訓練資料時，為什麼「去重（deduplication）」是重要步驟？","o":["It makes the files larger","Duplicate data can bias the model, waste compute, and increase memorization/overfitting","It translates the text","It encrypts the data"],"o_zh":["它會讓檔案變大","重複資料會使模型產生偏差、浪費運算，並增加死背/過擬合的風險","它會翻譯文字","它會加密資料"],"a":[1],"e":"語料若大量重複（同段被爬很多次），模型會過度看重那些內容、更易逐字背誦，也浪費算力。去重提升資料品質與泛化。","oe":["去重會讓資料變小，不是變大。","重複資料造成偏差、浪費算力、增加死背/過擬合，所以要去重。","去重不是翻譯。","去重不是加密。"]},
+{"d":"Data Processing","t":"single","q":"Before training on user-generated text, removing names, emails, and phone numbers is an example of:","q_zh":"在用使用者產生的文字訓練前，移除姓名、email、電話號碼，這屬於下列何者？","o":["Feature scaling","PII (personally identifiable information) scrubbing for privacy","Hyperparameter tuning","Quantization"],"o_zh":["特徵縮放","為隱私而清除 PII（個人可識別資訊）","超參數調整","量化"],"a":[1],"e":"PII＝可識別個人身分的資訊（姓名、email、電話、身分證號）。訓練前清除/遮蔽 PII 是隱私與合規的重要前處理。","oe":["特徵縮放是把數值縮放到某範圍，與移除個資無關。","移除姓名/email/電話正是清除 PII（個資）以保護隱私。","超參數調整與資料清理無關。","量化是降低數值精度，與移除個資無關。"]},
+{"d":"Data Processing","t":"single","q":"A histogram of a feature is primarily used to:","q_zh":"某特徵的直方圖（histogram）主要用來：","o":["Show the distribution/frequency of values across bins","Store the model's weights","Measure inference latency","Encode categorical variables"],"o_zh":["呈現數值落在各區間（bin）的分布/頻率","儲存模型權重","衡量推論延遲","編碼類別變數"],"a":[0],"e":"直方圖把數值切成多個區間、數每區間幾筆，用來看資料分布長相（常態、偏態、雙峰），是 EDA 必備。","oe":["呈現數值在各區間的分布/頻率，正是直方圖的用途。","它不儲存權重。","它不衡量延遲。","編碼類別變數是 one-hot 等，不是直方圖。"]},
+{"d":"Data Processing","t":"single","q":"In EDA, what does a correlation coefficient close to +1 between two numerical features indicate?","q_zh":"在 EDA 中，兩個數值特徵的相關係數接近 +1 代表什麼？","o":["They are unrelated","They have a strong positive linear relationship (as one increases, the other tends to increase)","One causes the other","They must be removed"],"o_zh":["兩者無關","兩者有強正線性關係（一個增加，另一個傾向增加）","其中一個是另一個的成因","必須移除它們"],"a":[1],"e":"相關係數範圍 -1~+1：+1 強正相關、-1 強負相關、0 無線性關係。注意：相關不等於因果。","oe":["接近 +1 表示強相關，不是無關。","接近 +1 表示強正線性關係，正是其含義。","相關不等於因果，不能因高相關就斷定誰導致誰。","高相關可考慮共線性處理，但不是「必須移除」。"]},
+{"d":"Data Processing","t":"single","q":"In classic NLP preprocessing, what are 'stop words'?","q_zh":"在傳統 NLP 前處理中，「停用詞（stop words）」是什麼？","o":["Words that stop the model from training","Very common words (e.g., 'the', 'is', 'and') often removed because they carry little distinctive meaning","Misspelled words","The last word of each sentence"],"o_zh":["會讓模型停止訓練的詞","非常常見的詞（如 the、is、and），因攜帶辨識性意義少而常被移除","拼錯的字","每個句子的最後一個詞"],"a":[1],"e":"停用詞是頻率極高但資訊量低的詞（the、is、的、了）。傳統 TF-IDF/關鍵字分析常移除；但 Transformer 通常不移除，因其有助理解語法。","oe":["停用詞不會讓模型停止訓練，名稱只是慣例。","非常常見、辨識性意義低的詞（the/is/and）常被移除，正是停用詞。","拼錯的字是另一個問題（拼字修正）。","句子最後一個詞與停用詞無關。"]},
+{"d":"Data Processing","t":"single","q":"How does stemming differ from lemmatization?","q_zh":"stemming（詞幹提取）與 lemmatization（詞形還原）有何不同？","o":["They are identical","Stemming crudely chops word endings (may yield non-words), while lemmatization uses vocabulary/grammar to return a valid root","Stemming requires a GPU","Lemmatization only works on numbers"],"o_zh":["兩者完全相同","stemming 粗略地砍字尾（可能產生非真實單字），lemmatization 依字典與文法還原成有效原型","stemming 需要 GPU","lemmatization 只能用於數字"],"a":[1],"e":"stemming 規則砍字尾（studies→studi，可能不是真字），快但粗；lemmatization 查字典＋詞性還原（studies→study，是真字），準但慢。","oe":["兩者不同：一個粗砍字尾、一個查字典還原。","stemming 粗砍字尾可能產生非真字，lemmatization 依字典文法還原成有效原型，正是差別。","stemming 是規則運算，不需 GPU。","lemmatization 用於文字，不是只用於數字。"]},
+{"d":"Data Processing","t":"single","q":"You plot the class distribution of a labeled dataset and find 95% class A, 5% class B. What is the main concern?","q_zh":"你畫出標註資料的類別分布，發現 95% 是 A 類、5% 是 B 類。主要的隱憂是什麼？","o":["The dataset is too small","Class imbalance, which can bias the model toward predicting the majority class","The features are normalized","There are too many columns"],"o_zh":["資料集太小","類別不平衡，會使模型偏向預測多數類","特徵已經正規化","欄位太多"],"a":[1],"e":"95/5 是典型「類別不平衡」。模型若只顧 accuracy 會傾向全猜 A（也有 95%）卻抓不到 B。對策：重抽樣、加權損失、用 F1 評估。","oe":["分布圖看的是比例，不直接說明資料量大小。","95% vs 5% 是類別不平衡，會讓模型偏向預測多數類，是主要隱憂。","特徵是否正規化與此分布無關。","欄位數與類別不平衡是不同議題。"]},
+{"d":"Trustworthy AI","t":"single","q":"What is the primary goal of 'red-teaming' an LLM?","q_zh":"對 LLM 進行「紅隊測試（red-teaming）」的主要目的是什麼？","o":["To improve the model's response speed","To deliberately probe the model with adversarial inputs to find safety/harmful-output vulnerabilities","To increase the model's accuracy on benchmarks","To reduce the model's memory usage"],"o_zh":["提升模型的回應速度","刻意用對抗性輸入測試模型，找出安全性/有害輸出的漏洞","提升模型在基準上的準確率","降低模型的記憶體用量"],"a":[1],"e":"陷阱題：red-teaming 是「安全/風險」導向，不是「提升效能」。團隊扮攻擊者用刁鑽/惡意提示誘導模型出包，藉此找出並修補有害輸出風險。","oe":["red-teaming 與回應速度無關。","刻意用對抗性輸入找出安全/有害輸出漏洞，正是 red-teaming 的目的。","陷阱選項！red-teaming 是為安全，不是為提升基準準確率。","與記憶體用量無關。"]},
+{"d":"Trustworthy AI","t":"single","q":"What does differential privacy provide when training models on sensitive data?","q_zh":"在敏感資料上訓練模型時，差分隱私（differential privacy）提供什麼？","o":["Faster training","A mathematical guarantee that the output reveals little about any single individual's data, typically by adding calibrated noise","Higher model accuracy","Automatic data labeling"],"o_zh":["更快的訓練","一個數學保證：輸出幾乎透露不出任何單一個體的資料，通常透過加入校準過的雜訊達成","更高的模型準確率","自動資料標註"],"a":[1],"e":"差分隱私在訓練中加入「校準過的雜訊」，提供數學保證：有沒有某筆個人資料，模型結果幾乎看不出差別（常與準確度有取捨）。","oe":["差分隱私不為加速訓練，加雜訊反而可能略增成本。","透過加校準雜訊、數學上保證輸出幾乎不洩漏單一個體資料，正是差分隱私。","它通常以少量準確度換取隱私，不是提升準確率。","它與自動標註無關。"]},
+{"d":"Trustworthy AI","t":"single","q":"What is the purpose of a 'model card' in responsible AI?","q_zh":"在負責任 AI 中，「模型卡（model card）」的目的是什麼？","o":["To store the model's weights","To document a model's intended use, training data, performance, and limitations for transparency","To accelerate inference","To encrypt the model"],"o_zh":["儲存模型權重","為透明度而記錄模型的預期用途、訓練資料、效能與限制","加速推論","加密模型"],"a":[1],"e":"模型卡像一份「產品說明書」：記錄用途、訓練資料、評估結果、已知限制與偏見，讓使用者知道何時該用、何時別用，提升透明與問責。","oe":["模型卡是文件，不是儲存權重的檔案。","記錄預期用途、訓練資料、效能與限制以提升透明度，正是模型卡的目的。","它與推論加速無關。","它不加密模型。"]},
+/*__QBANK_END__*/
+];
+
+// ==================== OFFICIAL DOMAIN MAPPING ====================
+// 官方五大領域與配分（依 NVIDIA NCA-GENL 考試藍圖）
+const OFFICIAL_DOMAINS = [
+  { key: "Core ML & AI",        name: "Core Machine Learning & AI Knowledge", zh: "核心機器學習與 AI 知識", wt: 30 },
+  { key: "Software Development", name: "Software Development",                  zh: "軟體開發（NVIDIA 工具/部署）", wt: 24 },
+  { key: "Experimentation",     name: "Experimentation",                       zh: "實驗與評估", wt: 22 },
+  { key: "Data Analysis & Viz", name: "Data Analysis & Visualization",         zh: "資料分析與視覺化", wt: 14 },
+  { key: "Trustworthy AI",      name: "Trustworthy AI",                        zh: "可信賴 AI", wt: 10 },
+];
+// 細分主題標籤 → 官方領域
+const TOPIC_TO_DOMAIN = {
+  "Transformer": "Core ML & AI",
+  "Fine-tuning": "Core ML & AI",
+  "Training": "Core ML & AI",
+  "NVIDIA Tools": "Software Development",
+  "Optimization": "Software Development",
+  "RAG": "Software Development",
+  "Evaluation": "Experimentation",
+  "Prompt Engineering": "Experimentation",
+  "Data Processing": "Data Analysis & Viz",
+  "Trustworthy AI": "Trustworthy AI",
+  "Agentic AI": "Software Development",
+  "Frameworks": "Software Development",
+};
+function officialDomainOf(q) { return TOPIC_TO_DOMAIN[q.d] || "Core ML & AI"; }
+
+// HTML escape for any rendered content (defensive; content is trusted but avoids breakage on < & > ")
+function esc(s) { return String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c])); }
+
+// 穩定 id：以英文題幹 q 雜湊產生（耐重排/抽樣）
+function hashStr(s) {
+  let h = 5381;
+  for (let i = 0; i < s.length; i++) h = ((h << 5) + h + s.charCodeAt(i)) | 0;
+  return (h >>> 0).toString(36);
+}
+QUESTIONS.forEach(q => { q.id = hashStr(q.q); });
+const Q_BY_ID = {};
+QUESTIONS.forEach(q => { Q_BY_ID[q.id] = q; });
+
+// ==================== APP STATE ====================
+const TOTAL_TIME = 60 * 60; // 60 minutes
+const EXAM50_SIZE = 50;
+const HIST_KEY = 'nca_genl_history_v1';
+
+let state = {
+  mode: 'exam',        // 'exam' (timer) | 'practice' (no timer, instant feedback)
+  scope: 'exam50',     // 'exam50' (random 50) | 'full' (all)
+  lang: 'zh',
+  current: 0,
+  answers: {},
+  marked: {},
+  activeQuestions: [],
+  startTime: null,
+  endTime: null,
+  timeRemaining: TOTAL_TIME,
+  submitted: false,
+  timerInterval: null,
+  reviewMode: false,
+  reviewWrongOnly: false,
+};
+
+const elStartScreen = document.getElementById('start-screen');
+const elExamApp = document.getElementById('exam-app');
+const elResultsScreen = document.getElementById('results-screen');
+const elHistoryScreen = document.getElementById('history-screen');
+const elQPanel = document.getElementById('question-panel');
+const elNavGrid = document.getElementById('nav-grid');
+const elTimer = document.getElementById('timer');
+const elTimerBox = document.getElementById('timer-box');
+const elQTotal = document.getElementById('q-total');
+const elQCurrent = document.getElementById('q-current');
+const elSubmitModal = document.getElementById('submit-modal');
+
+// ==================== TOGGLES ====================
+document.querySelectorAll('.mode-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    state.mode = btn.dataset.mode;
+  });
+});
+document.querySelectorAll('.scope-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.scope-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    state.scope = btn.dataset.scope;
+    updateStartCount();
+  });
+});
+document.querySelectorAll('.lang-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    state.lang = btn.dataset.lang;
+  });
+});
+
+function toggleLanguage() {
+  state.lang = state.lang === 'zh' ? 'en' : 'zh';
+  renderQuestion();
+}
+
+function updateStartCount() {
+  const el = document.getElementById('start-q-count');
+  el.textContent = state.scope === 'exam50' ? Math.min(EXAM50_SIZE, QUESTIONS.length) : QUESTIONS.length;
+}
+
+// ==================== BLUEPRINT TABLE ====================
+function buildBlueprint() {
+  const el = document.getElementById('blueprint');
+  let html = '<div class="blueprint-row head"><div>領域</div><div style="text-align:right">配分</div><div></div></div>';
+  OFFICIAL_DOMAINS.forEach(d => {
+    html += `<div class="blueprint-row">
+      <div class="blueprint-name">${d.zh}<div style="font-size:11px;color:var(--text-faint);font-weight:500">${d.name}</div></div>
+      <div class="blueprint-wt">${d.wt}%</div>
+      <div class="blueprint-bar"><div class="blueprint-bar-fill" style="width:${d.wt * 3.33}%"></div></div>
+    </div>`;
+  });
+  el.innerHTML = html;
+}
+
+// ==================== STRATIFIED SAMPLING ====================
+function shuffle(arr) {
+  const a = arr.slice();
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function buildActiveQuestions() {
+  if (state.scope === 'full') {
+    return shuffle(QUESTIONS);
+  }
+  // stratified by official domain weighting
+  const target = Math.min(EXAM50_SIZE, QUESTIONS.length);
+  const byDomain = {};
+  OFFICIAL_DOMAINS.forEach(d => { byDomain[d.key] = []; });
+  QUESTIONS.forEach(q => { byDomain[officialDomainOf(q)].push(q); });
+  const picked = [];
+  const usedIds = new Set();
+  OFFICIAL_DOMAINS.forEach(d => {
+    const want = Math.round(target * d.wt / 100);
+    const pool = shuffle(byDomain[d.key]);
+    pool.slice(0, want).forEach(q => { picked.push(q); usedIds.add(q.id); });
+  });
+  // top up / trim to exactly target
+  if (picked.length < target) {
+    const rest = shuffle(QUESTIONS.filter(q => !usedIds.has(q.id)));
+    for (const q of rest) { if (picked.length >= target) break; picked.push(q); usedIds.add(q.id); }
+  }
+  return shuffle(picked).slice(0, target);
+}
+
+// ==================== START EXAM ====================
+function startExam() {
+  state.activeQuestions = buildActiveQuestions();
+  state.current = 0;
+  state.answers = {};
+  state.marked = {};
+  state.submitted = false;
+  state.reviewMode = false;
+  state.reviewWrongOnly = false;
+  state.startTime = Date.now();
+  state.timeRemaining = TOTAL_TIME;
+
+  elStartScreen.style.display = 'none';
+  elResultsScreen.classList.remove('active');
+  elHistoryScreen.classList.remove('active');
+  elExamApp.classList.add('active');
+  document.getElementById('review-controls').style.display = 'none';
+  document.getElementById('btn-submit').style.display = '';
+
+  elQTotal.textContent = state.activeQuestions.length;
+  buildNavigator();
+  renderQuestion();
+
+  if (state.mode === 'exam') { elTimerBox.style.display = ''; startTimer(); }
+  else { elTimerBox.style.display = 'none'; }
+}
+
+// ==================== TIMER ====================
+function startTimer() {
+  if (state.timerInterval) clearInterval(state.timerInterval);
+  state.timerInterval = setInterval(() => {
+    state.timeRemaining--;
+    updateTimerDisplay();
+    if (state.timeRemaining <= 0) {
+      clearInterval(state.timerInterval);
+      alert('時間到！系統將自動交卷。');
+      submitExam();
+    }
+  }, 1000);
+  updateTimerDisplay();
+}
+
+function updateTimerDisplay() {
+  const mm = String(Math.floor(state.timeRemaining / 60)).padStart(2, '0');
+  const ss = String(state.timeRemaining % 60).padStart(2, '0');
+  elTimer.textContent = `${mm}:${ss}`;
+  elTimerBox.classList.remove('warning', 'danger');
+  if (state.timeRemaining <= 300) elTimerBox.classList.add('danger');
+  else if (state.timeRemaining <= 600) elTimerBox.classList.add('warning');
+}
+
+// ==================== NAVIGATOR ====================
+function buildNavigator() {
+  elNavGrid.innerHTML = '';
+  state.activeQuestions.forEach((_, i) => {
+    const cell = document.createElement('div');
+    cell.className = 'nav-cell';
+    cell.textContent = i + 1;
+    cell.dataset.idx = i;
+    cell.addEventListener('click', () => { state.current = i; renderQuestion(); });
+    elNavGrid.appendChild(cell);
+  });
+  refreshNavigator();
+}
+
+function isCorrect(q, sel) {
+  return sel && sel.length === q.a.length && sel.every(s => q.a.includes(s));
+}
+
+// 在「只看錯題」複查時，判斷某方向是否還有錯題（用來決定上/下一題按鈕是否停用）
+function hasWrongInDirection(from, dir) {
+  for (let i = from + dir; i >= 0 && i < state.activeQuestions.length; i += dir) {
+    if (!isCorrect(state.activeQuestions[i], state.answers[i] || [])) return true;
+  }
+  return false;
+}
+
+function refreshNavigator() {
+  let answered = 0, marked = 0;
+  Array.from(elNavGrid.children).forEach((cell, i) => {
+    cell.classList.remove('current', 'answered', 'marked', 'rev-correct', 'rev-wrong');
+    const q = state.activeQuestions[i];
+    const sel = state.answers[i] || [];
+    if (state.reviewMode) {
+      if (sel.length > 0 && isCorrect(q, sel)) cell.classList.add('rev-correct');
+      else if (sel.length > 0) cell.classList.add('rev-wrong');
+    } else {
+      if (sel.length > 0) { cell.classList.add('answered'); }
+    }
+    if (sel.length > 0) answered++;
+    if (state.marked[i]) { cell.classList.add('marked'); marked++; }
+    if (i === state.current) cell.classList.add('current');
+  });
+  document.getElementById('stat-answered').textContent = answered;
+  document.getElementById('stat-unanswered').textContent = state.activeQuestions.length - answered;
+  document.getElementById('stat-marked').textContent = marked;
+  elQCurrent.textContent = state.current + 1;
+}
+
+// ==================== QUESTION RENDER ====================
+function renderQuestion() {
+  const idx = state.current;
+  const q = state.activeQuestions[idx];
+  const selected = state.answers[idx] || [];
+  const isMarked = state.marked[idx];
+  const isMulti = q.t === 'multi';
+  const zh = state.lang === 'zh';
+  const qText = zh && q.q_zh ? q.q_zh : q.q;
+  const qOpts = zh && q.o_zh ? q.o_zh : q.o;
+
+  // committed：練習模式達到應選答案數 → 鎖定不可改、同時顯示逐選項解析
+  const committed = selected.length === q.a.length;
+  const showExplain = state.reviewMode || (state.mode === 'practice' && committed && !state.submitted);
+  const lockOptions = state.reviewMode || (state.mode === 'practice' && committed && !state.submitted);
+
+  const optsHtml = qOpts.map((opt, i) => {
+    const isSelected = selected.includes(i);
+    const isAns = q.a.includes(i);
+    let classes = ['q-option', isMulti ? 'multi' : 'single'];
+    if (isSelected && !showExplain) classes.push('selected');
+    if (showExplain) {
+      if (isAns) classes.push('review-correct');
+      else if (isSelected) classes.push('review-wrong');
+    }
+    if (lockOptions) classes.push('disabled');
+    const letter = String.fromCharCode(65 + i);
+    const symbol = showExplain
+      ? (isAns ? '✓' : (isSelected ? '✗' : letter))
+      : (isSelected ? (isMulti ? '✓' : '●') : letter);
+
+    let pickedBadge = '';
+    if (showExplain && isSelected) {
+      pickedBadge = `<span class="you-picked ${isAns ? 'ok' : ''}">← 你選這個</span>`;
+    }
+    let oeHtml = '';
+    if (showExplain && q.oe && q.oe[i]) {
+      const mark = isAns ? '✓ ' : '✗ ';
+      oeHtml = `<div class="opt-explain">${mark}${esc(q.oe[i])}</div>`;
+    }
+    const a11y = lockOptions ? '' : ' role="button" tabindex="0"';
+    return `
+      <div class="${classes.join(' ')}" data-opt="${i}"${a11y}>
+        <div class="q-checkbox">${symbol}</div>
+        <div class="opt-body">
+          <div class="opt-text"><span>${letter}. ${esc(opt)}</span>${pickedBadge}</div>
+          ${oeHtml}
+        </div>
+      </div>
+    `;
+  }).join('');
+
+  const userCorrect = isCorrect(q, selected);
+  const correctLetters = q.a.map(i => String.fromCharCode(65 + i)).join(', ');
+  const yourLetters = selected.length ? selected.map(i => String.fromCharCode(65 + i)).join(', ') : '—';
+
+  let compareHtml = '';
+  if (showExplain) {
+    let verdict;
+    if (selected.length === 0) verdict = '<span class="verdict none">○ 未作答</span>';
+    else if (userCorrect) verdict = '<span class="verdict ok">✓ 答對</span>';
+    else verdict = '<span class="verdict bad">✗ 答錯</span>';
+    compareHtml = `
+      <div class="answer-compare">
+        ${verdict}
+        <span><span class="tag">你的答案</span> <span class="yours ${selected.length===0?'':(userCorrect?'ok':'wrong')}">${yourLetters}</span></span>
+        <span><span class="tag">正解</span> <span class="correct">${correctLetters}</span></span>
+      </div>`;
+  }
+
+  const reviewHtml = showExplain && q.e ? `
+    <div class="review-explain">
+      <div class="review-explain-title">💡 ${zh ? '整體原理／記憶點' : 'Key idea'}</div>
+      <div>${esc(q.e)}</div>
+    </div>` : '';
+
+  const multiHintHtml = isMulti && !showExplain ? `
+    <div class="multi-hint">⚡ ${zh ? '多選題：請選擇 ' + q.a.length + ' 個答案' : 'Multi-select: choose ' + q.a.length + ' answers'}</div>
+  ` : '';
+
+  const officialDom = OFFICIAL_DOMAINS.find(d => d.key === officialDomainOf(q));
+  const showClear = !showExplain && selected.length > 0;
+
+  let prevDisabled = idx === 0;
+  let nextDisabled = idx === state.activeQuestions.length - 1;
+  if (state.reviewMode && state.reviewWrongOnly) {
+    prevDisabled = !hasWrongInDirection(idx, -1);
+    nextDisabled = !hasWrongInDirection(idx, 1);
+  }
+
+  elQPanel.innerHTML = `
+    <div class="question-card">
+      <div class="q-meta">
+        <span class="q-meta-num">第 ${idx + 1} / ${state.activeQuestions.length} 題</span>
+        <span class="q-meta-official">${officialDom ? esc(officialDom.zh) : ''}</span>
+        <span class="q-meta-domain">${esc(q.d)}</span>
+        <span class="q-meta-type ${isMulti ? 'multi' : ''}">${isMulti ? '多選題' : '單選題'}</span>
+        ${!state.reviewMode ? `<button class="btn-mark ${isMarked ? 'active' : ''}" onclick="toggleMark()">
+          <svg viewBox="0 0 16 16" fill="currentColor"><path d="M3 1.5A.5.5 0 013.5 1h9a.5.5 0 01.5.5v13.5l-5-3-5 3V1.5z"/></svg>
+          ${isMarked ? '已標記' : '標記複查'}
+        </button>` : ''}
+      </div>
+      <div class="q-text">${esc(qText)}</div>
+      <div class="q-options">${optsHtml}</div>
+      ${multiHintHtml}
+      ${compareHtml}
+      ${reviewHtml}
+      <div class="q-actions">
+        <button class="btn-nav" onclick="prevQuestion()" ${prevDisabled ? 'disabled' : ''}>← 上一題</button>
+        ${showClear ? `<button class="btn-clear" onclick="clearAnswer()">清除作答</button>` : ''}
+        <button class="btn-nav btn-nav-primary" onclick="nextQuestion()" ${nextDisabled ? 'disabled' : ''}>下一題 →</button>
+      </div>
+    </div>
+  `;
+
+  if (!lockOptions) {
+    elQPanel.querySelectorAll('.q-option').forEach(o => {
+      const handler = () => selectOption(+o.dataset.opt, isMulti);
+      o.addEventListener('click', handler);
+      o.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); handler(); }
+      });
+    });
+  }
+
+  refreshNavigator();
+}
+
+function selectOption(opt, isMulti) {
+  const idx = state.current;
+  const q = state.activeQuestions[idx];
+  // 練習模式：一旦達到應選答案數即鎖定，不允許反悔
+  if (state.mode === 'practice' && !state.submitted && (state.answers[idx] || []).length === q.a.length) return;
+  let current = state.answers[idx] || [];
+  if (isMulti) {
+    if (current.includes(opt)) current = current.filter(x => x !== opt);
+    else current = [...current, opt].sort((a, b) => a - b);
+  } else {
+    current = [opt];
+  }
+  state.answers[idx] = current;
+  // 練習模式：剛達到提交門檻且答錯 → 自動標記複查，方便日後回頭看
+  if (state.mode === 'practice' && !state.submitted && current.length === q.a.length && !isCorrect(q, current)) {
+    state.marked[idx] = true;
+  }
+  renderQuestion();
+}
+
+function clearAnswer() {
+  delete state.answers[state.current];
+  renderQuestion();
+}
+
+function toggleMark() {
+  if (state.marked[state.current]) delete state.marked[state.current];
+  else state.marked[state.current] = true;
+  renderQuestion();
+}
+
+function nextQuestion() {
+  const n = state.activeQuestions.length;
+  if (state.reviewMode && state.reviewWrongOnly) {
+    for (let i = state.current + 1; i < n; i++) {
+      if (!isCorrect(state.activeQuestions[i], state.answers[i] || [])) { state.current = i; renderQuestion(); return; }
+    }
+    return;
+  }
+  if (state.current < n - 1) { state.current++; renderQuestion(); }
+}
+
+function prevQuestion() {
+  if (state.reviewMode && state.reviewWrongOnly) {
+    for (let i = state.current - 1; i >= 0; i--) {
+      if (!isCorrect(state.activeQuestions[i], state.answers[i] || [])) { state.current = i; renderQuestion(); return; }
+    }
+    return;
+  }
+  if (state.current > 0) { state.current--; renderQuestion(); }
+}
+
+// ==================== SUBMIT ====================
+function confirmSubmit() {
+  const answered = Object.keys(state.answers).filter(k => state.answers[k].length > 0).length;
+  const marked = Object.keys(state.marked).length;
+  document.getElementById('m-total').textContent = state.activeQuestions.length;
+  document.getElementById('m-answered').textContent = answered;
+  document.getElementById('m-unanswered').textContent = state.activeQuestions.length - answered;
+  document.getElementById('m-marked').textContent = marked;
+  elSubmitModal.classList.add('show');
+}
+
+function closeModal() { elSubmitModal.classList.remove('show'); }
+
+function submitExam() {
+  closeModal();
+  if (state.timerInterval) clearInterval(state.timerInterval);
+  state.submitted = true;
+  state.endTime = Date.now();
+  const stats = computeStats();
+  saveAttempt(stats);
+  showResults(stats);
+}
+
+// ==================== RESULTS ====================
+function computeStats() {
+  let correct = 0;
+  const official = {}; const topic = {};
+  OFFICIAL_DOMAINS.forEach(d => { official[d.key] = { total: 0, correct: 0 }; });
+  state.activeQuestions.forEach((q, i) => {
+    const sel = state.answers[i] || [];
+    const ok = isCorrect(q, sel);
+    if (ok) correct++;
+    const od = officialDomainOf(q);
+    official[od].total++; if (ok) official[od].correct++;
+    if (!topic[q.d]) topic[q.d] = { total: 0, correct: 0 };
+    topic[q.d].total++; if (ok) topic[q.d].correct++;
+  });
+  return { correct, official, topic };
+}
+
+function showResults(stats) {
+  elExamApp.classList.remove('active');
+  elHistoryScreen.classList.remove('active');
+  elResultsScreen.classList.add('active');
+
+  const { correct, official, topic } = stats || computeStats();
+  const total = state.activeQuestions.length;
+  const pct = Math.round(correct / total * 100);
+  const passed = pct >= 70;
+  const color = pct >= 85 ? '#16a34a' : (pct >= 70 ? '#1d4ed8' : (pct >= 50 ? '#d97706' : '#dc2626'));
+  const bg = pct >= 85 ? '#dcfce7' : (pct >= 70 ? '#dbeafe' : (pct >= 50 ? '#fef3c7' : '#fee2e2'));
+
+  const hero = document.getElementById('results-hero');
+  hero.style.setProperty('--results-color', color);
+  hero.style.setProperty('--results-bg', bg);
+  document.getElementById('results-score').textContent = `${correct}/${total}`;
+  document.getElementById('results-pct').textContent = `${pct}% 答對`;
+  document.getElementById('results-verdict').textContent = passed ? 'PASS · 通過' : 'FAIL · 未通過';
+
+  const timeUsed = state.mode === 'exam'
+    ? TOTAL_TIME - state.timeRemaining
+    : Math.floor((state.endTime - state.startTime) / 1000);
+  document.getElementById('results-time').textContent =
+    `用時: ${String(Math.floor(timeUsed/60)).padStart(2,'0')}:${String(timeUsed%60).padStart(2,'0')}`;
+
+  // official domains
+  const offEl = document.getElementById('official-domain-list');
+  offEl.innerHTML = '';
+  OFFICIAL_DOMAINS.forEach(d => {
+    const s = official[d.key];
+    if (s.total === 0) return;
+    const dPct = Math.round(s.correct / s.total * 100);
+    const cls = dPct >= 70 ? 'strong' : (dPct < 50 ? 'weak' : '');
+    const row = document.createElement('div');
+    row.className = 'domain-row';
+    row.innerHTML = `
+      <div class="domain-name">${d.zh}<span class="wt">配分 ${d.wt}%</span></div>
+      <div class="domain-bar"><div class="domain-bar-fill ${cls}" style="width:${dPct}%"></div></div>
+      <div class="domain-pct">${s.correct}/${s.total} · ${dPct}%</div>`;
+    offEl.appendChild(row);
+  });
+
+  // topics
+  const topEl = document.getElementById('topic-domain-list');
+  topEl.innerHTML = '';
+  Object.entries(topic).sort((a, b) => b[1].total - a[1].total).forEach(([d, s]) => {
+    const dPct = Math.round(s.correct / s.total * 100);
+    const cls = dPct >= 70 ? 'strong' : (dPct < 50 ? 'weak' : '');
+    const row = document.createElement('div');
+    row.className = 'domain-row';
+    row.innerHTML = `
+      <div class="domain-name">${d}</div>
+      <div class="domain-bar"><div class="domain-bar-fill ${cls}" style="width:${dPct}%"></div></div>
+      <div class="domain-pct">${s.correct}/${s.total} · ${dPct}%</div>`;
+    topEl.appendChild(row);
+  });
+}
+
+// ==================== REVIEW MODE ====================
+function enterReviewMode(wrongOnly) {
+  state.reviewMode = true;
+  state.reviewWrongOnly = !!wrongOnly;
+  elResultsScreen.classList.remove('active');
+  elHistoryScreen.classList.remove('active');
+  elExamApp.classList.add('active');
+  if (state.timerInterval) clearInterval(state.timerInterval);
+  elTimerBox.style.display = 'none';
+  document.getElementById('btn-submit').style.display = 'none';
+  document.getElementById('review-controls').style.display = '';
+  const fb = document.getElementById('btn-wrong-filter');
+  fb.classList.toggle('active', state.reviewWrongOnly);
+
+  // jump to first relevant question
+  state.current = 0;
+  if (state.reviewWrongOnly) {
+    const firstWrong = state.activeQuestions.findIndex((q, i) => !isCorrect(q, state.answers[i] || []));
+    state.current = firstWrong >= 0 ? firstWrong : 0;
+  }
+  renderQuestion();
+}
+
+function toggleWrongOnly() {
+  state.reviewWrongOnly = !state.reviewWrongOnly;
+  document.getElementById('btn-wrong-filter').classList.toggle('active', state.reviewWrongOnly);
+  if (state.reviewWrongOnly && isCorrect(state.activeQuestions[state.current], state.answers[state.current] || [])) {
+    const firstWrong = state.activeQuestions.findIndex((q, i) => !isCorrect(q, state.answers[i] || []));
+    if (firstWrong >= 0) state.current = firstWrong;
+  }
+  renderQuestion();
+}
+
+function backToResults() {
+  state.reviewMode = false;
+  state.reviewWrongOnly = false;
+  elExamApp.classList.remove('active');
+  document.getElementById('review-controls').style.display = 'none';
+  document.getElementById('btn-submit').style.display = '';
+  showResults();
+}
+
+function restartExam() {
+  if (!confirm('確定要重新開始嗎？目前作答將會清除。')) return;
+  if (state.timerInterval) clearInterval(state.timerInterval);
+  state.reviewMode = false;
+  state.reviewWrongOnly = false;
+  state.submitted = false;
+  elResultsScreen.classList.remove('active');
+  elExamApp.classList.remove('active');
+  elHistoryScreen.classList.remove('active');
+  elStartScreen.style.display = 'flex';
+  document.getElementById('btn-submit').style.display = '';
+  document.getElementById('review-controls').style.display = 'none';
+  elTimerBox.style.display = '';
+  elTimerBox.classList.remove('warning', 'danger');
+}
+
+// ==================== HISTORY (localStorage) ====================
+function loadHistory() {
+  try { return JSON.parse(localStorage.getItem(HIST_KEY)) || []; }
+  catch (e) { return []; }
+}
+function saveHistory(arr) {
+  try { localStorage.setItem(HIST_KEY, JSON.stringify(arr)); } catch (e) {}
+}
+function saveAttempt(stats) {
+  const { correct } = stats || computeStats();
+  const total = state.activeQuestions.length;
+  const timeUsed = state.mode === 'exam' ? TOTAL_TIME - state.timeRemaining : Math.floor((state.endTime - state.startTime) / 1000);
+  const items = state.activeQuestions.map((q, i) => ({
+    id: q.id, d: q.d, ok: isCorrect(q, state.answers[i] || [])
+  }));
+  const rec = {
+    ts: Date.now(),
+    mode: state.mode,
+    scope: state.scope,
+    total, correct,
+    pct: Math.round(correct / total * 100),
+    passed: Math.round(correct / total * 100) >= 70,
+    timeUsed,
+    items,
+  };
+  const hist = loadHistory();
+  hist.push(rec);
+  const MAX_ATTEMPTS = 100;
+  saveHistory(hist.length > MAX_ATTEMPTS ? hist.slice(-MAX_ATTEMPTS) : hist);
+}
+
+function clearHistory() {
+  if (!confirm('確定清除所有歷史紀錄？此動作無法復原。')) return;
+  saveHistory([]);
+  renderHistory();
+}
+
+let historyReturnTo = 'start';
+function openHistory(from) {
+  historyReturnTo = from || 'start';
+  elStartScreen.style.display = 'none';
+  elExamApp.classList.remove('active');
+  elResultsScreen.classList.remove('active');
+  elHistoryScreen.classList.add('active');
+  renderHistory();
+}
+function closeHistory() {
+  elHistoryScreen.classList.remove('active');
+  if (historyReturnTo === 'results') { elResultsScreen.classList.add('active'); }
+  else { elStartScreen.style.display = 'flex'; }
+}
+
+function fmtDate(ts) {
+  const d = new Date(ts);
+  const p = n => String(n).padStart(2, '0');
+  return `${d.getFullYear()}/${p(d.getMonth()+1)}/${p(d.getDate())} ${p(d.getHours())}:${p(d.getMinutes())}`;
+}
+
+function renderHistory() {
+  const el = document.getElementById('history-content');
+  const hist = loadHistory();
+  if (hist.length === 0) {
+    el.innerHTML = `<div class="history-card"><div class="history-empty">
+      <div class="big">📭</div>
+      <div>還沒有任何作答紀錄。</div>
+      <div style="font-size:13px;margin-top:6px">完成一次模擬考後，這裡會顯示成績趨勢與重複答錯的題型分析。</div>
+    </div></div>`;
+    return;
+  }
+
+  // ---- trend (last up to 12 attempts) ----
+  const recent = hist.slice(-12);
+  let trendHtml = '<div class="history-card"><h3>📈 成績趨勢（最近 ' + recent.length + ' 次）</h3><div class="trend">';
+  recent.forEach((r, i) => {
+    const h = Math.max(4, r.pct);
+    trendHtml += `<div class="trend-col">
+      <div class="trend-bar-wrap"><div class="trend-bar ${r.passed ? 'pass' : 'fail'}" style="height:${h}%"><span class="trend-pct">${r.pct}%</span></div></div>
+      <div class="trend-label">#${hist.length - recent.length + i + 1}<br>${new Date(r.ts).getMonth()+1}/${new Date(r.ts).getDate()}</div>
+    </div>`;
+  });
+  trendHtml += '</div><div class="trend-passline">— 綠色＝通過(≥70%)，橘紅＝未通過 —</div></div>';
+
+  // ---- attempts table ----
+  let attemptsHtml = '<div class="history-card"><h3>📋 歷次作答（共 ' + hist.length + ' 次）</h3>';
+  attemptsHtml += `<div class="attempt-row head"><div>時間</div><div>模式 / 範圍</div><div>得分</div><div>結果</div><div>用時</div></div>`;
+  hist.slice().reverse().forEach(r => {
+    const scopeTxt = r.scope === 'exam50' ? '隨機50題' : '全題庫';
+    const modeTxt = r.mode === 'exam' ? '計時' : '練習';
+    attemptsHtml += `<div class="attempt-row">
+      <div>${fmtDate(r.ts)}</div>
+      <div>${modeTxt} · ${scopeTxt}</div>
+      <div class="v">${r.correct}/${r.total} (${r.pct}%)</div>
+      <div><span class="pill ${r.passed ? 'pass' : 'fail'}">${r.passed ? '通過' : '未通過'}</span></div>
+      <div class="v">${String(Math.floor(r.timeUsed/60)).padStart(2,'0')}:${String(r.timeUsed%60).padStart(2,'0')}</div>
+    </div>`;
+  });
+  attemptsHtml += '</div>';
+
+  // ---- aggregate wrong analysis ----
+  const offAgg = {}; OFFICIAL_DOMAINS.forEach(d => offAgg[d.key] = { total: 0, wrong: 0 });
+  const topAgg = {};
+  const qWrong = {}; // id -> wrong count
+  hist.forEach(r => {
+    (r.items || []).forEach(it => {
+      const od = TOPIC_TO_DOMAIN[it.d] || "Core ML & AI";
+      offAgg[od].total++; if (!it.ok) offAgg[od].wrong++;
+      if (!topAgg[it.d]) topAgg[it.d] = { total: 0, wrong: 0 };
+      topAgg[it.d].total++; if (!it.ok) topAgg[it.d].wrong++;
+      if (!it.ok) qWrong[it.id] = (qWrong[it.id] || 0) + 1;
+    });
+  });
+
+  function weakBlock(title, aggObj, nameFn) {
+    let rows = Object.entries(aggObj)
+      .filter(([k, s]) => s.total > 0)
+      .map(([k, s]) => ({ k, rate: s.wrong / s.total, wrong: s.wrong, total: s.total }))
+      .sort((a, b) => b.rate - a.rate);
+    let html = `<div class="history-card"><h3>${title}</h3>`;
+    rows.forEach(r => {
+      const pct = Math.round(r.rate * 100);
+      html += `<div class="weak-row">
+        <div class="weak-name">${nameFn(r.k)}</div>
+        <div class="weak-bar"><div class="weak-bar-fill" style="width:${pct}%"></div></div>
+        <div class="weak-stat">${pct}% 錯<div class="sub">${r.wrong}/${r.total} 題</div></div>
+      </div>`;
+    });
+    html += '</div>';
+    return html;
+  }
+
+  const offNames = {}; OFFICIAL_DOMAINS.forEach(d => offNames[d.key] = d.zh);
+  const weakOffHtml = weakBlock('🎯 各官方領域累積答錯率（高→低，越上面越該補）', offAgg, k => offNames[k] || k);
+  const weakTopHtml = weakBlock('🧩 各細分主題累積答錯率', topAgg, k => k);
+
+  // ---- top missed questions ----
+  let missedHtml = '<div class="history-card"><h3>🔁 最常答錯的題目（依累積答錯次數）</h3>';
+  const missed = Object.entries(qWrong).sort((a, b) => b[1] - a[1]).slice(0, 10);
+  if (missed.length === 0) {
+    missedHtml += '<div style="color:var(--text-faint);font-size:13px">目前沒有答錯的題目，太強了！</div>';
+  } else {
+    missed.forEach(([id, cnt]) => {
+      const q = Q_BY_ID[id];
+      if (!q) return;
+      const txt = state.lang === 'zh' && q.q_zh ? q.q_zh : q.q;
+      missedHtml += `<div class="missed-q">
+        <span class="count">答錯 ${cnt} 次</span> <span class="dom">· ${esc(q.d)}</span>
+        <div class="qtext">${esc(txt)}</div>
+      </div>`;
+    });
+  }
+  missedHtml += '</div>';
+
+  el.innerHTML = trendHtml + weakOffHtml + weakTopHtml + missedHtml + attemptsHtml;
+}
+
+// ==================== INIT ====================
+function init() {
+  buildBlueprint();
+  document.getElementById('start-bank-count').textContent = QUESTIONS.length;
+  updateStartCount();
+}
+init();
+
+// Keyboard shortcuts
+document.addEventListener('keydown', (e) => {
+  if (!elExamApp.classList.contains('active')) return;
+  if (e.target.tagName === 'INPUT') return;
+  if (e.key === 'ArrowLeft') prevQuestion();
+  if (e.key === 'ArrowRight') nextQuestion();
+  if (e.key === 'm' && !state.reviewMode) toggleMark();
+});
+</script>
+
+</body>
+</html>
