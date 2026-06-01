@@ -227,7 +227,7 @@ body {
   background: var(--bg-soft);
 }
 
-.mode-btn {
+.mode-btn, .scope-btn {
   flex: 1;
   background: none;
   border: none;
@@ -239,12 +239,12 @@ body {
   transition: all 0.15s;
 }
 
-.mode-btn.active {
+.mode-btn.active, .scope-btn.active {
   background: var(--primary);
   color: white;
 }
 
-.mode-btn:not(.active):hover { background: var(--border); }
+.mode-btn:not(.active):hover, .scope-btn:not(.active):hover { background: var(--border); }
 
 .lang-btn {
   flex: 1;
