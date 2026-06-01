@@ -1713,7 +1713,9 @@ function startExam() {
 function startTimer() {
   if (state.timerInterval) clearInterval(state.timerInterval);
   state.timerInterval = setInterval(() => {
-    state.timeRemaining--;
+    // 以真實時鐘推算剩餘時間，避免分頁/手機背景被瀏覽器節流時計時失準（原本每 tick 累減會少算）
+    const elapsed = Math.floor((Date.now() - state.startTime) / 1000);
+    state.timeRemaining = Math.max(0, TOTAL_TIME - elapsed);
     updateTimerDisplay();
     if (state.timeRemaining <= 0) {
       clearInterval(state.timerInterval);
@@ -2005,6 +2007,7 @@ function confirmSubmit() {
 function closeModal() { elSubmitModal.classList.remove('show'); }
 
 function submitExam() {
+  if (state.submitted) return;  // 防重複交卷：避免重複觸發存進重複的歷史紀錄
   closeModal();
   if (state.timerInterval) clearInterval(state.timerInterval);
   state.submitted = true;
@@ -2149,8 +2152,10 @@ function restartExam() {
 
 // ==================== HISTORY (localStorage) ====================
 function loadHistory() {
-  try { return JSON.parse(localStorage.getItem(HIST_KEY)) || []; }
-  catch (e) { return []; }
+  try {
+    const parsed = JSON.parse(localStorage.getItem(HIST_KEY));
+    return Array.isArray(parsed) ? parsed : [];  // 格式對但結構錯（如 {} 或字串）也視為空，避免 push/陣列方法炸掉
+  } catch (e) { return []; }
 }
 function saveHistory(arr) {
   try { localStorage.setItem(HIST_KEY, JSON.stringify(arr)); } catch (e) {}
