@@ -1236,24 +1236,24 @@ body {
 
       <div class="instructions-title">顯示語言</div>
       <div class="mode-toggle" style="margin-bottom: 20px;">
-        <button class="lang-btn active" data-lang="zh">🌐 繁體中文（題目＋解析）</button>
-        <button class="lang-btn" data-lang="en">🇬🇧 English（原文）</button>
+        <button class="lang-btn active" data-lang="zh">繁體中文（題目＋解析）</button>
+        <button class="lang-btn" data-lang="en">English（原文）</button>
       </div>
 
       <div class="instructions-title">出題範圍</div>
       <div class="mode-toggle">
-        <button class="scope-btn active" data-scope="exam50">🎯 真實模擬考（隨機抽 50 題）</button>
-        <button class="scope-btn" data-scope="full">📚 全題庫複習（全部題目）</button>
+        <button class="scope-btn active" data-scope="exam50">真實模擬考（隨機抽 50 題）</button>
+        <button class="scope-btn" data-scope="full">全題庫複習（全部題目）</button>
       </div>
 
       <div class="instructions-title">作答模式</div>
       <div class="mode-toggle">
-        <button class="mode-btn active" data-mode="exam">⏱ 計時考試（60 分，交卷後解析）</button>
-        <button class="mode-btn" data-mode="practice">📖 練習（即時解析、不計時）</button>
+        <button class="mode-btn active" data-mode="exam">計時考試（60 分，交卷後解析）</button>
+        <button class="mode-btn" data-mode="practice">練習（即時解析、不計時）</button>
       </div>
 
       <button class="btn-start" onclick="startExam()">開始作答 →</button>
-      <button class="btn-history-entry" onclick="openHistory('start')">📊 查看歷史紀錄</button>
+      <button class="btn-history-entry" onclick="openHistory('start')">查看歷史紀錄</button>
     </div>
   </div>
 </div>
@@ -1336,30 +1336,30 @@ body {
   </div>
 
   <div class="domain-breakdown">
-    <h3>📊 官方五大領域表現</h3>
+    <h3>官方五大領域表現</h3>
     <div id="official-domain-list"></div>
   </div>
 
   <div class="domain-breakdown">
-    <h3>🧩 細分主題表現</h3>
+    <h3>細分主題表現</h3>
     <div id="topic-domain-list"></div>
   </div>
 
   <div class="results-actions">
-    <button class="btn-review" onclick="enterReviewMode(false)">📖 逐題複查＋解析</button>
-    <button class="btn-review-wrong" onclick="enterReviewMode(true)">❌ 只複查錯題</button>
-    <button class="btn-history" onclick="openHistory('results')">📊 歷史趨勢</button>
-    <button class="btn-restart" onclick="restartExam()">🔄 重新開始</button>
+    <button class="btn-review" onclick="enterReviewMode(false)">逐題複查＋解析</button>
+    <button class="btn-review-wrong" onclick="enterReviewMode(true)">只複查錯題</button>
+    <button class="btn-history" onclick="openHistory('results')">歷史趨勢</button>
+    <button class="btn-restart" onclick="restartExam()">重新開始</button>
   </div>
 </div>
 
 <!-- ============== HISTORY DASHBOARD ============== -->
 <div class="history-screen" id="history-screen">
   <div class="history-header">
-    <h2>📊 歷史紀錄與弱點分析</h2>
+    <h2>歷史紀錄與弱點分析</h2>
     <div class="actions">
       <button class="btn-back" id="history-back-btn" onclick="closeHistory()">← 返回</button>
-      <button class="btn-clear-history" onclick="clearHistory()">🗑 清除紀錄</button>
+      <button class="btn-clear-history" onclick="clearHistory()">清除紀錄</button>
     </div>
   </div>
   <div id="history-content"></div>
@@ -1856,12 +1856,12 @@ function renderQuestion() {
 
   const reviewHtml = showExplain && q.e ? `
     <div class="review-explain">
-      <div class="review-explain-title">💡 ${zh ? '整體原理／記憶點' : 'Key idea'}</div>
+      <div class="review-explain-title">${zh ? '整體原理／記憶點' : 'Key idea'}</div>
       <div>${esc(q.e)}</div>
     </div>` : '';
 
   const multiHintHtml = isMulti && !showExplain ? `
-    <div class="multi-hint">⚡ ${zh ? '多選題：請選擇 ' + q.a.length + ' 個答案，選好後按「確認作答」才公布' : 'Multi-select: choose ' + q.a.length + ' answers, then press Confirm'}</div>
+    <div class="multi-hint">${zh ? '多選題：請選擇 ' + q.a.length + ' 個答案，選好後按「確認作答」才公布' : 'Multi-select: choose ' + q.a.length + ' answers, then press Confirm'}</div>
   ` : '';
 
   // 多選題在練習模式：選滿應選數量才能按「確認作答」，按下後才公布答案
@@ -2210,7 +2210,6 @@ function renderHistory() {
   const hist = loadHistory();
   if (hist.length === 0) {
     el.innerHTML = `<div class="history-card"><div class="history-empty">
-      <div class="big">📭</div>
       <div>還沒有任何作答紀錄。</div>
       <div style="font-size:13px;margin-top:6px">完成一次模擬考後，這裡會顯示成績趨勢與重複答錯的題型分析。</div>
     </div></div>`;
@@ -2219,7 +2218,7 @@ function renderHistory() {
 
   // ---- trend (last up to 12 attempts) ----
   const recent = hist.slice(-12);
-  let trendHtml = '<div class="history-card"><h3>📈 成績趨勢（最近 ' + recent.length + ' 次）</h3><div class="trend">';
+  let trendHtml = '<div class="history-card"><h3>成績趨勢（最近 ' + recent.length + ' 次）</h3><div class="trend">';
   recent.forEach((r, i) => {
     const h = Math.max(4, r.pct);
     trendHtml += `<div class="trend-col">
@@ -2230,7 +2229,7 @@ function renderHistory() {
   trendHtml += '</div><div class="trend-passline">— 綠色＝通過(≥70%)，橘紅＝未通過 —</div></div>';
 
   // ---- attempts table ----
-  let attemptsHtml = '<div class="history-card"><h3>📋 歷次作答（共 ' + hist.length + ' 次）</h3>';
+  let attemptsHtml = '<div class="history-card"><h3>歷次作答（共 ' + hist.length + ' 次）</h3>';
   attemptsHtml += `<div class="attempt-row head"><div>時間</div><div>模式 / 範圍</div><div>得分</div><div>結果</div><div>用時</div></div>`;
   hist.slice().reverse().forEach(r => {
     const scopeTxt = r.scope === 'exam50' ? '隨機50題' : '全題庫';
@@ -2278,11 +2277,11 @@ function renderHistory() {
   }
 
   const offNames = {}; OFFICIAL_DOMAINS.forEach(d => offNames[d.key] = d.zh);
-  const weakOffHtml = weakBlock('🎯 各官方領域累積答錯率（高→低，越上面越該補）', offAgg, k => offNames[k] || k);
-  const weakTopHtml = weakBlock('🧩 各細分主題累積答錯率', topAgg, k => k);
+  const weakOffHtml = weakBlock('各官方領域累積答錯率（高→低，越上面越該補）', offAgg, k => offNames[k] || k);
+  const weakTopHtml = weakBlock('各細分主題累積答錯率', topAgg, k => k);
 
   // ---- top missed questions ----
-  let missedHtml = '<div class="history-card"><h3>🔁 最常答錯的題目（依累積答錯次數）</h3>';
+  let missedHtml = '<div class="history-card"><h3>最常答錯的題目（依累積答錯次數）</h3>';
   const missed = Object.entries(qWrong).sort((a, b) => b[1] - a[1]).slice(0, 10);
   if (missed.length === 0) {
     missedHtml += '<div style="color:var(--text-faint);font-size:13px">目前沒有答錯的題目，太強了！</div>';
