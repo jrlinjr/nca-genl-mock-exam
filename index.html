@@ -742,6 +742,28 @@ body {
   gap: 6px;
 }
 
+.btn-confirm-ans {
+  margin-top: 12px;
+  width: 100%;
+  padding: 11px 16px;
+  background: var(--nv);
+  color: #1a2e05;
+  border: 1px solid var(--nv);
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: filter 0.15s;
+}
+.btn-confirm-ans:hover:not(:disabled) { filter: brightness(0.94); }
+.btn-confirm-ans:disabled {
+  background: var(--bg-soft);
+  color: var(--text-faint);
+  border-color: var(--border);
+  cursor: not-allowed;
+  font-weight: 600;
+}
+
 /* ============== REVIEW / EXPLAIN ============== */
 .q-option.review-correct { border-color: var(--success); background: var(--success-soft); }
 .q-option.review-correct .q-checkbox { background: var(--success); border-color: var(--success); color: white; }
@@ -1554,6 +1576,7 @@ let state = {
   current: 0,
   answers: {},
   marked: {},
+  confirmed: {},       // 練習模式：多選題按下「確認作答」後才公布答案
   activeQuestions: [],
   startTime: null,
   endTime: null,
@@ -1664,6 +1687,7 @@ function startExam() {
   state.current = 0;
   state.answers = {};
   state.marked = {};
+  state.confirmed = {};
   state.submitted = false;
   state.reviewMode = false;
   state.reviewWrongOnly = false;
@@ -1768,10 +1792,13 @@ function renderQuestion() {
   const qText = zh && q.q_zh ? q.q_zh : q.q;
   const qOpts = zh && q.o_zh ? q.o_zh : q.o;
 
-  // committed：練習模式達到應選答案數 → 鎖定不可改、同時顯示逐選項解析
-  const committed = selected.length === q.a.length;
-  const showExplain = state.reviewMode || (state.mode === 'practice' && committed && !state.submitted);
-  const lockOptions = state.reviewMode || (state.mode === 'practice' && committed && !state.submitted);
+  // 練習模式公布答案的時機：
+  //   單選題 → 一選就公布（即時解析）
+  //   多選題 → 必須按下「確認作答」後才公布，讓你選滿、檢查、反悔
+  const practiceRevealed = state.mode === 'practice' && !state.submitted &&
+    (isMulti ? !!state.confirmed[idx] : selected.length === q.a.length);
+  const showExplain = state.reviewMode || practiceRevealed;
+  const lockOptions = state.reviewMode || practiceRevealed;
 
   const optsHtml = qOpts.map((opt, i) => {
     const isSelected = selected.includes(i);
@@ -1834,7 +1861,18 @@ function renderQuestion() {
     </div>` : '';
 
   const multiHintHtml = isMulti && !showExplain ? `
-    <div class="multi-hint">⚡ ${zh ? '多選題：請選擇 ' + q.a.length + ' 個答案' : 'Multi-select: choose ' + q.a.length + ' answers'}</div>
+    <div class="multi-hint">⚡ ${zh ? '多選題：請選擇 ' + q.a.length + ' 個答案，選好後按「確認作答」才公布' : 'Multi-select: choose ' + q.a.length + ' answers, then press Confirm'}</div>
+  ` : '';
+
+  // 多選題在練習模式：選滿應選數量才能按「確認作答」，按下後才公布答案
+  const showConfirm = isMulti && state.mode === 'practice' && !state.submitted && !state.reviewMode && !state.confirmed[idx];
+  const confirmReady = selected.length === q.a.length;
+  const confirmBtnHtml = showConfirm ? `
+    <button class="btn-confirm-ans" onclick="confirmAnswer()" ${confirmReady ? '' : 'disabled'}>
+      ${confirmReady
+        ? (zh ? '✓ 確認作答' : '✓ Confirm answer')
+        : (zh ? `已選 ${selected.length} / ${q.a.length}，請再選 ${q.a.length - selected.length} 個` : `Selected ${selected.length} / ${q.a.length}`)}
+    </button>
   ` : '';
 
   const officialDom = OFFICIAL_DOMAINS.find(d => d.key === officialDomainOf(q));
@@ -1862,6 +1900,7 @@ function renderQuestion() {
       <div class="q-text">${esc(qText)}</div>
       <div class="q-options">${optsHtml}</div>
       ${multiHintHtml}
+      ${confirmBtnHtml}
       ${compareHtml}
       ${reviewHtml}
       <div class="q-actions">
@@ -1888,8 +1927,11 @@ function renderQuestion() {
 function selectOption(opt, isMulti) {
   const idx = state.current;
   const q = state.activeQuestions[idx];
-  // 練習模式：一旦達到應選答案數即鎖定，不允許反悔
-  if (state.mode === 'practice' && !state.submitted && (state.answers[idx] || []).length === q.a.length) return;
+  // 練習模式答案公布後鎖定：單選＝選了就鎖；多選＝按下確認後才鎖（確認前可自由增刪、反悔）
+  if (state.mode === 'practice' && !state.submitted) {
+    if (isMulti) { if (state.confirmed[idx]) return; }
+    else if ((state.answers[idx] || []).length === q.a.length) return;
+  }
   let current = state.answers[idx] || [];
   if (isMulti) {
     if (current.includes(opt)) current = current.filter(x => x !== opt);
@@ -1898,10 +1940,22 @@ function selectOption(opt, isMulti) {
     current = [opt];
   }
   state.answers[idx] = current;
-  // 練習模式：剛達到提交門檻且答錯 → 自動標記複查，方便日後回頭看
-  if (state.mode === 'practice' && !state.submitted && current.length === q.a.length && !isCorrect(q, current)) {
+  // 單選練習模式：選了即視為提交，答錯自動標記複查
+  if (state.mode === 'practice' && !state.submitted && !isMulti && current.length === q.a.length && !isCorrect(q, current)) {
     state.marked[idx] = true;
   }
+  renderQuestion();
+}
+
+// 多選題（練習模式）：選滿應選數量後按「確認作答」才公布答案
+function confirmAnswer() {
+  const idx = state.current;
+  const q = state.activeQuestions[idx];
+  if (state.mode !== 'practice' || state.submitted) return;
+  const sel = state.answers[idx] || [];
+  if (sel.length !== q.a.length) return;            // 必須選滿才可確認
+  state.confirmed[idx] = true;
+  if (!isCorrect(q, sel)) state.marked[idx] = true; // 答錯自動標記複查
   renderQuestion();
 }
 
